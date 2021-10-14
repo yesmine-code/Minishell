@@ -13,25 +13,27 @@
 
 #include "minishell.h"
 
-int execute_cmd(char **cmd)
+int execute_cmd(t_command com)
 {
 	char* env[] = { NULL }; //todo
 	char *str;
+	char **arg;
 
-	str = ft_strtrim(*cmd, " \t\r\f\v\n");
-	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
+	arg = ft_split(com.args, ' ');
+	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 	{
 		ft_pwd();
 	}
 	else
 	{
-		execve(*cmd, cmd , env);
+		execve(arg[0], arg , env);
 	}
+	free(arg);
 	return 0; //todo
 }
 
 
-int pipe_cmd(char **commands)
+int pipe_cmd(t_command com, int is_previous, int is_coming)
 {
 	int i;
 	int old_pipe[2];
@@ -44,50 +46,45 @@ int pipe_cmd(char **commands)
 	i = 0;
 	ft_memset(old_pipe, 0x00, sizeof(old_pipe));
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
-	while (commands[i] != NULL)
+	
+	if (is_coming)
+		pipe(new_pipe);
+	cpid = fork();  
+	if(cpid == 0) //child
 	{
-		com_tab = split_cmd(commands[i]);
-
-		if (commands[i + 1] != NULL)
-			pipe(new_pipe);
-		cpid = fork();  
-		if(cpid == 0) //child
+		if (is_previous) // if there is a previous command
 		{
-			if (i > 0 && commands[i - 1] != NULL) // if there is a previous command
-			{
-				dup2(old_pipe[0], 0);
-				close(old_pipe[0]);
-				close(old_pipe[1]);
-			}
-			if (commands[i + 1] != NULL) // if there is a coming command
-			{
-				close(new_pipe[0]);
-				dup2(new_pipe[1], 1);
-				close(new_pipe[1]);
-			}
-			execute_cmd(com_tab);
-			exit(EXIT_SUCCESS);
+			dup2(old_pipe[0], 0);
+			close(old_pipe[0]);
+			close(old_pipe[1]);
 		}
-		else if (cpid > 0) //parent
+		if (is_coming) // if there is a coming command
 		{
-			if (i > 0 && commands[i - 1] != NULL) //previous command
-			{
-				close(old_pipe[0]);
-				close(old_pipe[1]);
-			}
-			if (commands[i + 1] != NULL) //comming command
-			{
-				old_pipe[0] = new_pipe[0];
-				old_pipe[1] = new_pipe[1];
-			}
+			close(new_pipe[0]);
+			dup2(new_pipe[1], 1);
+			close(new_pipe[1]);
 		}
-		else
-		{
-			perror("creating fork failed");
-			return (-1);
-		}
-		waitpid(cpid, &child_status, 0);
-		i++;
+		execute_cmd(com);
+		exit(EXIT_SUCCESS);
 	}
+	else if (cpid > 0) //parent
+	{
+		if (is_previous) //previous command
+		{
+			close(old_pipe[0]);
+			close(old_pipe[1]);
+		}
+		if (is_coming) //comming command
+		{
+			old_pipe[0] = new_pipe[0];
+			old_pipe[1] = new_pipe[1];
+		}
+	}
+	else
+	{
+		perror("creating fork failed");
+		return (-1);
+	}
+	waitpid(cpid, &child_status, 0);
 	return 0;
 }

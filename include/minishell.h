@@ -43,10 +43,16 @@ typedef struct s_command
 int	char_numb(char *str, char c, int two);
 int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
-int pipe_cmd(char **commands);
+int pipe_cmd(t_command com, int is_previous, int is_coming);
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
+t_command get_cmd(char *command);
+void parse_cmd(char *command, t_command *com_struct);
+void ft_free_cmd(t_command *com);
+
+
+
 
 
 

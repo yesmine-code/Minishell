@@ -12,18 +12,81 @@
 
 #include "minishell.h"
 
-int word_alpha(char *str)
+char *get_word(char *command, int *i)
+{
+	int tmp;
+
+	while (ft_isspace(command[*i]) == 1)
+			*i = *i + 1;
+	tmp = *i;
+	while (ft_isspace(command[*i]) == 0 && command[*i] != '\0')
+		*i = *i + 1;
+	return (ft_substr(command, tmp, *i - tmp));
+}
+
+void parse_cmd(char *command, t_command *com_struct)
 {
 	int i;
-	i = 0;
+	int j;
+	int k;
+	int n;
+	int m;
+	int tmp;
+	char *args;
+	char *cmd;
 
-	while (str[i] != '\0')
+	i = 0;
+	j = 0;
+	k = 0;
+	m = 0;
+	n = 0;
+	while (command[i] != '\0')
 	{
-		if (ft_isalpha(str[i]) == 0)
-			return (0);
-		i++;
+		if (command[i] == '<' && command[i + 1] != '<')
+		{
+			i++;
+			com_struct->inputfiles[j] = get_word(command, &i);	
+			j++;
+		}
+		else if (command[i] ==  '<' && command [i + 1] == '<')
+		{
+			i += 2;
+			com_struct->read_from_shell[k] = get_word(command, &i);
+			k++;
+		}
+		else if (command[i] ==  '>' && command [i + 1] != '>')
+		{
+			i++;
+			com_struct->outputfiles[m] = get_word(command, &i);	
+			m++;
+		}
+		else if (command[i] ==  '>' && command [i + 1] == '>')
+		{
+			i += 2;
+			com_struct->output_files_append[n] = get_word(command, &i);	
+			n++;
+		}
+/*		else if (com_struct->com == NULL && ft_isalpha(command[i]) == 1 && (i == 0 || command[i - 1] == ' '))
+		{
+			tmp = i;
+			i++;
+			while (ft_isalpha(command[i]) == 1)
+				i++;
+			cmd = ft_substr(command, tmp, i - tmp + 1);
+			com_struct->com = cmd;
+		}*/
+		else if (ft_isspace(command[i]) == 0)
+		{
+			char *str;
+			args = com_struct->args;
+			str = ft_strjoin(args, get_word(command, &i));
+			args = ft_strjoin(str, " ");
+			free(str);
+			free(com_struct->args);
+			com_struct->args = args;
+		}
+		i++;	
 	}
-	return (1);
 }
 
 void cmd_init(char *command, t_command *com_struct)
@@ -32,28 +95,42 @@ void cmd_init(char *command, t_command *com_struct)
 	com_struct->out_file_num = char_numb(command, '>', 0);
 	com_struct->in_file_num = char_numb(command, '<', 0);
 	com_struct->expected_words_num = char_numb(command, '<', 1);
-	com_struct->inputfiles = malloc(sizeof(char *) * (com_struct->in_file_num + 1));
-	com_struct->outputfiles = malloc(sizeof(char *) * (com_struct->out_file_num + 1));
-	com_struct->read_from_shell = malloc(sizeof(char *) * (com_struct->expected_words_num + 1));
-	com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
+	if (com_struct->in_file_num == 0)
+		com_struct->inputfiles = NULL;
+	else
+		com_struct->inputfiles = malloc(sizeof(char *) * (com_struct->in_file_num + 1));
+	if (com_struct->out_file_num == 0)
+		com_struct->outputfiles = NULL;
+	else
+		com_struct->outputfiles = malloc(sizeof(char *) * (com_struct->out_file_num + 1));
+	if (com_struct->expected_words_num == 0)
+		com_struct->read_from_shell = NULL;
+	else	
+		com_struct->read_from_shell = malloc(sizeof(char *) * (com_struct->expected_words_num + 1));
+	if (com_struct->out_file_app_num == 0)
+		com_struct->output_files_append = NULL;
+	else
+		com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
+	com_struct->com = NULL;
+	com_struct->args = ft_strdup("");
 }
 
 t_command get_cmd(char *command)
 {
 	t_command com_struct;
 	char *com_trim;
+	int tmp;
+	char *cmd;
 	int i;
 	
 	i = 0;
 	cmd_init(command, &com_struct);
-	com_trim = ft_strtrim(command, " \t\r\f\v\n")
-	while (com_trim[i] != '\0')
-	{
-		if (com_trim[i])
-
-
-	}
+	com_trim = ft_strtrim(command, " \t\r\f\v\n");
+	parse_cmd(com_trim, &com_struct);
+	return com_struct;	
 }
+
+
 int	char_numb(char *str, char c, int two)
 {
 	int	i;
