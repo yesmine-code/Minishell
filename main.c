@@ -76,6 +76,12 @@ int main(void)
 		else
 		{
 			commands = ft_split(tmp, '|');
+			int *old_pipe[2];
+
+			old_pipe[0] = malloc(sizeof(int));
+			old_pipe[1] = malloc(sizeof(int));
+			ft_memset(*old_pipe, 0x00, sizeof(*old_pipe));
+
 			int previous;
 			int coming;
 
@@ -85,11 +91,12 @@ int main(void)
 				coming = (commands[i + 1] == NULL) ? 0 : 1;
 				com_struct = get_cmd(commands[i]);
 			//	print_cmd(com_struct);
-				pipe_cmd(com_struct, previous, coming);
+				pipe_cmd(com_struct, previous, coming, old_pipe);
 				ft_free_cmd(&com_struct);
 				i++;
 			}
-			
+			free(old_pipe[0]);
+			free(old_pipe[1]);	
 		}
 	}
 

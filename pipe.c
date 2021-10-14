@@ -33,10 +33,9 @@ int execute_cmd(t_command com)
 }
 
 
-int pipe_cmd(t_command com, int is_previous, int is_coming)
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[])
 {
 	int i;
-	int old_pipe[2];
 	int new_pipe[2];
 	int child_status;
 
@@ -44,7 +43,6 @@ int pipe_cmd(t_command com, int is_previous, int is_coming)
 	pid_t cpid;
 	pid_t tpid;
 	i = 0;
-	ft_memset(old_pipe, 0x00, sizeof(old_pipe));
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	
 	if (is_coming)
@@ -54,9 +52,9 @@ int pipe_cmd(t_command com, int is_previous, int is_coming)
 	{
 		if (is_previous) // if there is a previous command
 		{
-			dup2(old_pipe[0], 0);
-			close(old_pipe[0]);
-			close(old_pipe[1]);
+			dup2(*old_pipe[0], 0);
+			close(*old_pipe[0]);
+			close(*old_pipe[1]);
 		}
 		if (is_coming) // if there is a coming command
 		{
@@ -71,13 +69,13 @@ int pipe_cmd(t_command com, int is_previous, int is_coming)
 	{
 		if (is_previous) //previous command
 		{
-			close(old_pipe[0]);
-			close(old_pipe[1]);
+			close(*old_pipe[0]);
+			close(*old_pipe[1]);
 		}
 		if (is_coming) //comming command
 		{
-			old_pipe[0] = new_pipe[0];
-			old_pipe[1] = new_pipe[1];
+			*old_pipe[0] = new_pipe[0];
+			*old_pipe[1] = new_pipe[1];
 		}
 	}
 	else

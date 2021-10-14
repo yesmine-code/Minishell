@@ -43,7 +43,7 @@ typedef struct s_command
 int	char_numb(char *str, char c, int two);
 int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
-int pipe_cmd(t_command com, int is_previous, int is_coming);
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[]);
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
