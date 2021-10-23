@@ -1,0 +1,4 @@
+ls "-l"
+ls " -l"
+echo " 'hello" 'ls'  "'-l'"
+echo " 'hello" 'ls'  '"-l"'

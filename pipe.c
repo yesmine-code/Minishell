@@ -13,27 +13,95 @@
 
 #include "minishell.h"
 
-int execute_cmd(t_command com)
+char **create_tab(t_command com)
 {
-	char* env[] = { NULL }; //todo
+	char **tab;
+	int i;
+	int j;
+	int tmp;
+
+	i = 0;
+	j = 0;
+	tab = malloc(sizeof(char *) * (char_numb(com.args, ' ', 0) + 2));
+	while (com.args[i] != '\0')
+	{
+		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\'))
+		{
+			tmp = i;
+			i++;
+			while (com.args[i] != '\0' && (com.args[i] != '\"' || com.args[i - 1] == '\\'))
+				i++;
+			tab[j] = ft_substr(com.args, tmp, i - tmp + 1);
+			j++;
+		}
+		else if (com.args[i] == '\'' )
+		{
+			tmp = i;
+			i++;
+			while (com.args[i] != '\0' && com.args[i] != '\'')
+				i++;
+			tab[j] = ft_substr(com.args, tmp, i - tmp + 1);
+			j++;
+		}
+		else if (ft_isspace(com.args[i]) == 0)
+		{
+			tmp = i;
+			while (ft_isspace(com.args[i]) == 0 && com.args[i] != '\0' || is_it_between_quotes(com.args, i) == 1 )
+				i++;
+			tab[j] = ft_substr(com.args, tmp, i - tmp);
+			j++;
+		}
+		i++;
+
+	}
+	tab[j] = NULL;
+	i = 0;
+	char *c_tmp;
+	while (tab[i]!= NULL)
+	{
+		c_tmp = substitute_env_var(tab[i]);
+		if (tab[i] != NULL)
+			free(tab[i]);
+		
+		tab[i] = c_tmp;
+		ft_delete_quotes(tab[i]);
+		i++;		
+	}
+	return (tab);
+}
+
+int execute_cmd(t_command com, char **env)
+{
+	//char* env[] = getenv(); //todo
 	char *str;
 	char **arg;
+	char *full_cmd;
+	int ret;
 
-	arg = ft_split(com.args, ' ');
+	ret = 0;
+
+	arg = create_tab(com);
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 	{
 		ft_pwd();
 	}
 	else
 	{
-		execve(arg[0], arg , env);
+		full_cmd = find_cmd_path(arg[0]);
+		if (full_cmd != NULL)
+		{
+			arg[0] = full_cmd;
+			execve(arg[0], arg , env);
+		}
+		else
+			ret = -1;
 	}
 	free(arg);
-	return 0; //todo
+	return ret; //todo
 }
 
 
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[])
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env)
 {
 	int i;
 	int new_pipe[2];
@@ -62,7 +130,7 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[])
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
-		execute_cmd(com);
+		execute_cmd(com, env);
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) //parent
@@ -84,5 +152,11 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[])
 		return (-1);
 	}
 	waitpid(cpid, &child_status, 0);
-	return 0;
+	while (com.args[i] != '\0')
+	{
+		if (com.args[i] == '$' && com.args[i + 1] != '\0'&& com.args[i + 1] == '?')
+			printf("$? = %d\n", WEXITSTATUS(last_child_status));
+		i++;
+	}
+	return child_status;
 }

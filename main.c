@@ -48,14 +48,18 @@ void print_cmd(t_command com)
 
 }
 
-int main(void)
+int main(int ac, char **av, char **env)
 {
 	char *str;
 	char *tmp;
 	char **commands;
 	t_command com_struct;
+	int last_child_status;
+	int child_status;
 	int i;
-
+	
+	last_child_status = 0;
+	child_status = 0;
 	while (1)
 	{
 		i = 0;
@@ -75,7 +79,7 @@ int main(void)
 		}
 		else
 		{
-			commands = ft_split(tmp, '|');
+			commands = ft_mini_split(tmp, '|');
 			int *old_pipe[2];
 
 			old_pipe[0] = malloc(sizeof(int));
@@ -91,10 +95,11 @@ int main(void)
 				coming = (commands[i + 1] == NULL) ? 0 : 1;
 				com_struct = get_cmd(commands[i]);
 			//	print_cmd(com_struct);
-				pipe_cmd(com_struct, previous, coming, old_pipe);
+				child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env);
 				ft_free_cmd(&com_struct);
 				i++;
 			}
+			last_child_status = child_status;
 			free(old_pipe[0]);
 			free(old_pipe[1]);	
 		}

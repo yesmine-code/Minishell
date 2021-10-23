@@ -32,14 +32,16 @@ void parse_cmd(char *command, t_command *com_struct)
 	int n;
 	int m;
 	int tmp;
-	char *args;
 	char *cmd;
+	int offset;
 
 	i = 0;
 	j = 0;
 	k = 0;
 	m = 0;
 	n = 0;
+	offset = 0;
+	com_struct->args = malloc(sizeof(char *) * (ft_strlen(command) + 1));
 	while (command[i] != '\0')
 	{
 		if (command[i] == '<' && command[i + 1] != '<')
@@ -66,24 +68,10 @@ void parse_cmd(char *command, t_command *com_struct)
 			com_struct->output_files_append[n] = get_word(command, &i);	
 			n++;
 		}
-/*		else if (com_struct->com == NULL && ft_isalpha(command[i]) == 1 && (i == 0 || command[i - 1] == ' '))
+		else
 		{
-			tmp = i;
-			i++;
-			while (ft_isalpha(command[i]) == 1)
-				i++;
-			cmd = ft_substr(command, tmp, i - tmp + 1);
-			com_struct->com = cmd;
-		}*/
-		else if (ft_isspace(command[i]) == 0)
-		{
-			char *str;
-			args = com_struct->args;
-			str = ft_strjoin(args, get_word(command, &i));
-			args = ft_strjoin(str, " ");
-			free(str);
-			free(com_struct->args);
-			com_struct->args = args;
+			com_struct->args[offset] = command[i];
+			offset++;			
 		}
 		i++;	
 	}
@@ -112,7 +100,7 @@ void cmd_init(char *command, t_command *com_struct)
 	else
 		com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
 	com_struct->com = NULL;
-	com_struct->args = ft_strdup("");
+	com_struct->args = NULL;
 }
 
 t_command get_cmd(char *command)
@@ -130,6 +118,21 @@ t_command get_cmd(char *command)
 	return com_struct;	
 }
 
+void ft_skip_quotes(char *str, int *i)
+{
+	if (str[*i] == '\"' && (*i == 0 || str[*i - 1] != '\\'))
+	{
+		*i = *i + 1;
+		while ((str[*i] != '\"' || str[*i - 1] == '\\') && str[*i] != '\0')
+			*i = *i + 1;;
+	}
+	if (str[*i] == '\'')
+	{
+		*i = *i + 1;
+		while (str[*i] != '\'' && str[*i] != '\0')
+			*i = *i + 1;
+	}
+}
 
 int	char_numb(char *str, char c, int two)
 {
@@ -142,6 +145,7 @@ int	char_numb(char *str, char c, int two)
 	i = 0;
 	while (str[i] != '\0')
 	{
+		ft_skip_quotes(str, &i);
 		if (str[i] == c)
 		{
 			if (str[i + 1] != c)

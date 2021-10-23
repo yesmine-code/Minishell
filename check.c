@@ -12,14 +12,50 @@
 
 #include "minishell.h"
 
+int check_inclosed_quotes(char *str)
+{
+	int i;
+	int quotes_num;
+	int double_quotes_num;
+
+	i = 0;
+	double_quotes_num = 0;
+	quotes_num = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\"' && (i == 0 || str[i - 1] != '\\'))
+		{
+			double_quotes_num++;
+			i++;
+			while (str[i] != '\0' && (str[i] != '\"' || str[i - 1] == '\\'))
+				i++;
+			if (str[i] == '\0')
+				return (1);
+			double_quotes_num++;
+		}
+		if (str[i] == '\'' )
+		{
+			quotes_num++;
+			i++;
+			while (str[i] != '\0' && str[i] != '\'')
+				i++;
+			if (str[i] == '\0')
+				return (1);
+			quotes_num++;
+		}
+		i++;
+	}
+	if (quotes_num % 2 != 0 || double_quotes_num % 2 != 0)
+		return (1);
+	return (0);
+}
+
 int	check_syntax_errors(char *str)
 {
 	int i;
 
 	i = ft_strlen(str);
-	if (char_numb(str, '\'', 0) % 2 != 0)
-		return (1);
-	if (char_numb(str, '"', 0) % 2 != 0)
+	if (check_inclosed_quotes(str) == 1)
 		return (1);
 	if (str[0] == '|')
 		return (1);

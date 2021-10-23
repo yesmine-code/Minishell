@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+void ft_free_tab(char **str)
+{
+	int i;
+
+	i = 0;
+	if (str != NULL)
+	{
+		while (str[i] != NULL)
+		{
+			free(str[i]);
+			i++;
+		}
+		free (str);
+	}
+}
+
 void ft_free_cmd(t_command *com)
 {
 	if (com->com != NULL)
