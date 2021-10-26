@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/08 10:10:02 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/26 19:30:45 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ int execute_cmd(t_command com, char **env)
 	arg = create_tab(com);
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 	{
-		ft_pwd();
+		ret = ft_pwd();
+	}
+	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
+	{
+		ret = ft_cd(arg[1]);
 	}
 	else
 	{

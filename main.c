@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/09/27 10:46:33 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/25 23:11:54 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int main(int ac, char **av, char **env)
 	int last_child_status;
 	int child_status;
 	int i;
-	
+
 	last_child_status = 0;
 	child_status = 0;
 	while (1)
@@ -80,28 +80,35 @@ int main(int ac, char **av, char **env)
 		else
 		{
 			commands = ft_mini_split(tmp, '|');
-			int *old_pipe[2];
-
-			old_pipe[0] = malloc(sizeof(int));
-			old_pipe[1] = malloc(sizeof(int));
-			ft_memset(*old_pipe, 0x00, sizeof(*old_pipe));
-
-			int previous;
-			int coming;
-
-			while (commands[i] != NULL)
+			if(ft_mini_count(tmp, '|') == 1)
 			{
-				previous = (i == 0) ? 0 : 1;
-				coming = (commands[i + 1] == NULL) ? 0 : 1;
-				com_struct = get_cmd(commands[i]);
-			//	print_cmd(com_struct);
-				child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env);
-				ft_free_cmd(&com_struct);
-				i++;
+				handle_single_cmd(*commands, env);
 			}
-			last_child_status = child_status;
-			free(old_pipe[0]);
-			free(old_pipe[1]);	
+			else
+			{
+				int *old_pipe[2];
+
+				old_pipe[0] = malloc(sizeof(int));
+				old_pipe[1] = malloc(sizeof(int));
+				ft_memset(*old_pipe, 0x00, sizeof(*old_pipe));
+
+				int previous;
+				int coming;
+
+				while (commands[i] != NULL)
+				{
+					previous = (i == 0) ? 0 : 1;
+					coming = (commands[i + 1] == NULL) ? 0 : 1;
+					com_struct = get_cmd(commands[i]);
+				//	print_cmd(com_struct);
+					child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env);
+					ft_free_cmd(&com_struct);
+					i++;
+				}
+				last_child_status = child_status;
+				free(old_pipe[0]);
+				free(old_pipe[1]);	
+			}
 		}
 	}
 
