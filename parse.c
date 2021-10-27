@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 13:20:37 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/16 13:20:41 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/26 21:35:00 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ char *substitute_env_var(char *com)
 	{
 		if (com[i] == '$')
 		{
-			printf("hi");
+			//printf("hi");
 			i++;
 			tmp = i;
 			while (ft_isalnum(com[i]) == 1)
@@ -214,7 +214,7 @@ char *substitute_env_var(char *com)
 			env = ft_substr(com, tmp, i - tmp);
 			char_to_extract = char_to_extract + ft_strlen(env) + 1;
 			str[j] = getenv(env);
-			printf("%s", str[j]);
+			//printf("%s", str[j]);
 			j++;
 		}
 		i++;
