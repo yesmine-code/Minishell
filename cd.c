@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/27 20:52:18 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/27 23:17:27 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,21 @@ int ft_cd(char **arg)
 {
     DIR* d;
     errno = 0;
+    char *default_dir;
+    int ret;
 
     if (arg[1] == NULL)
-        return (-1);
+    {
+        default_dir = ft_strjoin("/home/", getenv("USER"));
+        ret = chdir(default_dir);
+        free(default_dir);
+        return (ret);
+    }
     d = opendir(arg[1]);
     if(d == NULL)
     {
         perror("cd ");
         return (-1);
     }
-    
     return chdir(arg[1]);
 }

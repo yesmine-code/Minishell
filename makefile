@@ -6,13 +6,13 @@
 #    By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/27 10:45:55 by ybesbes           #+#    #+#              #
-#    Updated: 2021/10/26 19:54:42 by mrahmani         ###   ########.fr        #
+#    Updated: 2021/10/27 22:43:30 by mrahmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= minishell
 
-SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c handle_single_cmd.c echo.c
+SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c handle_single_cmd.c echo.c env.c
 
 INCLUDES	=	include
 
