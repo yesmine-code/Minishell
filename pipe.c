@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/27 20:54:13 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/27 21:16:39 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ int execute_cmd(t_command com, char **env)
 
 	arg = create_tab(com);
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
-	{
 		ret = ft_pwd();
-	}
 	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
 	{
 		ret = ft_cd(arg);
 	}
+	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
+		ret = ft_echo(arg);
 	else
 	{
 		full_cmd = find_cmd_path(arg[0]);

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/27 20:52:36 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/27 21:17:01 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_command get_cmd(char *command);
 int handle_single_cmd(char* cmd, char **env);
 int execute_cmd(t_command com, char **env);
 int ft_cd(char **dir);
+int ft_echo(char **arg);
 
 
 
