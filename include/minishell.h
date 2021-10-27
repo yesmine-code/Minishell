@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/09/27 10:48:07 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/27 20:52:36 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ int		is_it_between_quotes(char *str, int pos);
 void	ft_delete_quotes(char *com);
 char *substitute_env_var(char *com);
 int		is_it_between_simple_quotes(char *str, int pos);
-
+int		ft_mini_count(char *s, char c);
+t_command get_cmd(char *command);
+int handle_single_cmd(char* cmd, char **env);
+int execute_cmd(t_command com, char **env);
+int ft_cd(char **dir);
 
 
 

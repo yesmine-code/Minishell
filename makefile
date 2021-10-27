@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+         #
+#    By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/27 10:45:55 by ybesbes           #+#    #+#              #
-#    Updated: 2021/09/27 10:46:08 by ybesbes          ###   ########.fr        #
+#    Updated: 2021/10/25 23:06:51 by mrahmani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= minishell
 
-SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c
+SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c handle_single_cmd.c
 
 INCLUDES	=	include
 
