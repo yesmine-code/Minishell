@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/25 23:05:39 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/27 20:52:36 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		ft_mini_count(char *s, char c);
 t_command get_cmd(char *command);
 int handle_single_cmd(char* cmd, char **env);
 int execute_cmd(t_command com, char **env);
-int ft_cd(char *dir);
+int ft_cd(char **dir);
 
 
 

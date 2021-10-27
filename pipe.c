@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/26 19:30:45 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/27 20:54:13 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int execute_cmd(t_command com, char **env)
 	}
 	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
 	{
-		ret = ft_cd(arg[1]);
+		ret = ft_cd(arg);
 	}
 	else
 	{

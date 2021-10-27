@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/04 10:46:24 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/27 21:04:57 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void parse_cmd(char *command, t_command *com_struct)
 		}
 		i++;	
 	}
+	com_struct->args[offset] = '\0';
 }
 
 void cmd_init(char *command, t_command *com_struct)
