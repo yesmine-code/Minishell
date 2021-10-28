@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/27 23:17:27 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:56:20 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int ft_cd(char **arg)
 {
-    DIR* d;
+    DIR *d;
     errno = 0;
     char *default_dir;
     int ret;
@@ -31,10 +31,16 @@ int ft_cd(char **arg)
         return (ret);
     }
     d = opendir(arg[1]);
-    if(d == NULL)
+    if (d == NULL)
     {
         perror("cd ");
         return (-1);
     }
-    return chdir(arg[1]);
+    ret = chdir(arg[1]);
+    if (ret < 0)
+    {
+        perror("cd ");
+        return (-1);
+    }
+    return (ret);
 }
