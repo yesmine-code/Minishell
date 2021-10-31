@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/27 22:24:25 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/10/31 17:13:59 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env)
+int execute_cmd(t_command com)
 {
 	// char* env[] = getenv(); //todo
 	char *str;
@@ -88,8 +88,8 @@ int execute_cmd(t_command com, char **env)
 	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
 		ret = ft_echo(arg);
 	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
-		ret = ft_env(env);
-/*	else
+		ret = ft_env(com.env);
+	else
 	{
 		full_cmd = find_cmd_path(arg[0]);
 		if (full_cmd != NULL)
@@ -99,7 +99,7 @@ int execute_cmd(t_command com, char **env)
 		}
 		else
 			ret = -1;
-	}*/
+	}
 	free(arg);
 	return ret; // todo
 }
@@ -133,7 +133,7 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
-		execute_cmd(com, env);
+		execute_cmd(com);
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent
