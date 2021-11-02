@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/08 10:10:02 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/31 17:13:59 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -34,7 +33,7 @@ char **create_tab(t_command com)
 			tab[j] = ft_substr(com.args, tmp, i - tmp + 1);
 			j++;
 		}
-		else if (com.args[i] == '\'' )
+		else if (com.args[i] == '\'')
 		{
 			tmp = i;
 			i++;
@@ -46,33 +45,32 @@ char **create_tab(t_command com)
 		else if (ft_isspace(com.args[i]) == 0)
 		{
 			tmp = i;
-			while (ft_isspace(com.args[i]) == 0 && com.args[i] != '\0' || is_it_between_quotes(com.args, i) == 1 )
+			while (ft_isspace(com.args[i]) == 0 && com.args[i] != '\0' || is_it_between_quotes(com.args, i) == 1)
 				i++;
 			tab[j] = ft_substr(com.args, tmp, i - tmp);
 			j++;
 		}
 		i++;
-
 	}
 	tab[j] = NULL;
 	i = 0;
 	char *c_tmp;
-	while (tab[i]!= NULL)
+	while (tab[i] != NULL)
 	{
 		c_tmp = substitute_env_var(tab[i]);
 		if (tab[i] != NULL)
 			free(tab[i]);
-		
+
 		tab[i] = c_tmp;
 		ft_delete_quotes(tab[i]);
-		i++;		
+		i++;
 	}
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env)
+int execute_cmd(t_command com)
 {
-	//char* env[] = getenv(); //todo
+	// char* env[] = getenv(); //todo
 	char *str;
 	char **arg;
 	char *full_cmd;
@@ -82,24 +80,29 @@ int execute_cmd(t_command com, char **env)
 
 	arg = create_tab(com);
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
+		ret = ft_pwd();
+	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
 	{
-		ft_pwd();
+		ret = ft_cd(arg);
 	}
+	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
+		ret = ft_echo(arg);
+	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
+		ret = ft_env(com.env);
 	else
 	{
 		full_cmd = find_cmd_path(arg[0]);
 		if (full_cmd != NULL)
 		{
 			arg[0] = full_cmd;
-			execve(arg[0], arg , env);
+			execve(arg[0], arg, env);
 		}
 		else
 			ret = -1;
 	}
 	free(arg);
-	return ret; //todo
+	return ret; // todo
 }
-
 
 int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env)
 {
@@ -112,11 +115,11 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 	pid_t tpid;
 	i = 0;
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
-	
+
 	if (is_coming)
 		pipe(new_pipe);
-	cpid = fork();  
-	if(cpid == 0) //child
+	cpid = fork();
+	if (cpid == 0) // child
 	{
 		if (is_previous) // if there is a previous command
 		{
@@ -130,17 +133,17 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
-		execute_cmd(com, env);
+		execute_cmd(com);
 		exit(EXIT_SUCCESS);
 	}
-	else if (cpid > 0) //parent
+	else if (cpid > 0) // parent
 	{
-		if (is_previous) //previous command
+		if (is_previous) // previous command
 		{
 			close(*old_pipe[0]);
 			close(*old_pipe[1]);
 		}
-		if (is_coming) //comming command
+		if (is_coming) // comming command
 		{
 			*old_pipe[0] = new_pipe[0];
 			*old_pipe[1] = new_pipe[1];
@@ -154,7 +157,7 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 	waitpid(cpid, &child_status, 0);
 	while (com.args[i] != '\0')
 	{
-		if (com.args[i] == '$' && com.args[i + 1] != '\0'&& com.args[i + 1] == '?')
+		if (com.args[i] == '$' && com.args[i + 1] != '\0' && com.args[i + 1] == '?')
 			printf("$? = %d\n", WEXITSTATUS(last_child_status));
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/09/27 10:48:07 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/31 17:09:54 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@
 # include <sys/wait.h>
 
 
-
+typedef struct  s_env
+{
+	char *var;
+	struct s_env *next;
+} t_env;
 typedef struct s_command
 {
+	t_env *env;
 	char	*com;
 	char	*args;
 	int		out_file_num;
@@ -47,7 +52,7 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
-t_command get_cmd(char *command);
+t_command get_cmd(char *command, char **env);
 void parse_cmd(char *command, t_command *com_struct);
 void ft_free_cmd(t_command *com);
 char **get_paths();
@@ -61,13 +66,14 @@ int		is_it_between_quotes(char *str, int pos);
 void	ft_delete_quotes(char *com);
 char *substitute_env_var(char *com);
 int		is_it_between_simple_quotes(char *str, int pos);
-
-
-
-
-
-
-
-
+int		ft_mini_count(char *s, char c);
+//t_command get_cmd(char *command);
+int handle_single_cmd(char* cmd, char **env);
+int execute_cmd(t_command com);
+int ft_cd(char **dir);
+int ft_echo(char **arg);
+//int ft_env(char **env);
+int ft_env(t_env *env);
+int init_env(t_command *com, char **env_);
 
 #endif

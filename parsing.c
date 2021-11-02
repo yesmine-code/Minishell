@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/04 10:46:24 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/10/31 16:22:58 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *get_word(char *command, int *i)
 	int tmp;
 
 	while (ft_isspace(command[*i]) == 1)
-			*i = *i + 1;
+		*i = *i + 1;
 	tmp = *i;
 	while (ft_isspace(command[*i]) == 0 && command[*i] != '\0')
 		*i = *i + 1;
@@ -47,34 +47,35 @@ void parse_cmd(char *command, t_command *com_struct)
 		if (command[i] == '<' && command[i + 1] != '<')
 		{
 			i++;
-			com_struct->inputfiles[j] = get_word(command, &i);	
+			com_struct->inputfiles[j] = get_word(command, &i);
 			j++;
 		}
-		else if (command[i] ==  '<' && command [i + 1] == '<')
+		else if (command[i] == '<' && command[i + 1] == '<')
 		{
 			i += 2;
 			com_struct->read_from_shell[k] = get_word(command, &i);
 			k++;
 		}
-		else if (command[i] ==  '>' && command [i + 1] != '>')
+		else if (command[i] == '>' && command[i + 1] != '>')
 		{
 			i++;
-			com_struct->outputfiles[m] = get_word(command, &i);	
+			com_struct->outputfiles[m] = get_word(command, &i);
 			m++;
 		}
-		else if (command[i] ==  '>' && command [i + 1] == '>')
+		else if (command[i] == '>' && command[i + 1] == '>')
 		{
 			i += 2;
-			com_struct->output_files_append[n] = get_word(command, &i);	
+			com_struct->output_files_append[n] = get_word(command, &i);
 			n++;
 		}
 		else
 		{
 			com_struct->args[offset] = command[i];
-			offset++;			
+			offset++;
 		}
-		i++;	
+		i++;
 	}
+	com_struct->args[offset] = '\0';
 }
 
 void cmd_init(char *command, t_command *com_struct)
@@ -93,7 +94,7 @@ void cmd_init(char *command, t_command *com_struct)
 		com_struct->outputfiles = malloc(sizeof(char *) * (com_struct->out_file_num + 1));
 	if (com_struct->expected_words_num == 0)
 		com_struct->read_from_shell = NULL;
-	else	
+	else
 		com_struct->read_from_shell = malloc(sizeof(char *) * (com_struct->expected_words_num + 1));
 	if (com_struct->out_file_app_num == 0)
 		com_struct->output_files_append = NULL;
@@ -103,19 +104,20 @@ void cmd_init(char *command, t_command *com_struct)
 	com_struct->args = NULL;
 }
 
-t_command get_cmd(char *command)
+t_command get_cmd(char *command, char **env)
 {
 	t_command com_struct;
 	char *com_trim;
 	int tmp;
 	char *cmd;
 	int i;
-	
+
 	i = 0;
 	cmd_init(command, &com_struct);
+	init_env(&com_struct, env);
 	com_trim = ft_strtrim(command, " \t\r\f\v\n");
 	parse_cmd(com_trim, &com_struct);
-	return com_struct;	
+	return com_struct;
 }
 
 void ft_skip_quotes(char *str, int *i)
@@ -124,7 +126,8 @@ void ft_skip_quotes(char *str, int *i)
 	{
 		*i = *i + 1;
 		while ((str[*i] != '\"' || str[*i - 1] == '\\') && str[*i] != '\0')
-			*i = *i + 1;;
+			*i = *i + 1;
+		;
 	}
 	if (str[*i] == '\'')
 	{
@@ -134,10 +137,10 @@ void ft_skip_quotes(char *str, int *i)
 	}
 }
 
-int	char_numb(char *str, char c, int two)
+int char_numb(char *str, char c, int two)
 {
-	int	i;
-	int	r;
+	int i;
+	int r;
 	int rd;
 
 	r = 0;
@@ -165,12 +168,12 @@ int	char_numb(char *str, char c, int two)
 
 char **read_from_input(char *str)
 {
-	int	input_double_num;
+	int input_double_num;
 	char **input_double;
 	char *tmp;
-	int	i;
+	int i;
 	int j;
-	int	k;
+	int k;
 
 	i = 0;
 	k = 0;
@@ -180,7 +183,7 @@ char **read_from_input(char *str)
 		return (NULL);
 	tmp = NULL;
 	input_double[input_double_num] = 0;
-	while(str[i] != '\0' && k < input_double_num )
+	while (str[i] != '\0' && k < input_double_num)
 	{
 		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '\0')
 		{
@@ -202,5 +205,5 @@ char **read_from_input(char *str)
 		else
 			i++;
 	}
-	return 	(input_double);
+	return (input_double);
 }
