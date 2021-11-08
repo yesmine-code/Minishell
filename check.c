@@ -21,7 +21,7 @@ int check_inclosed_quotes(char *str)
 	i = 0;
 	double_quotes_num = 0;
 	quotes_num = 0;
-	while (str[i] != '\0')
+	while (str != NULL && str[i] != '\0')
 	{
 		if (str[i] == '\"' && (i == 0 || str[i - 1] != '\\'))
 		{
@@ -57,27 +57,36 @@ int	check_syntax_errors(char *str)
 	i = ft_strlen(str);
 	if (check_inclosed_quotes(str) == 1)
 		return (1);
-	if (str[0] == '|')
+	if (str != NULL && str[0] == '|')
 		return (1);
-	if (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>')
+	if (str != NULL && (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>'))
 		return (1);
 	return (0);
 }
 
 int is_builtin(char *str)
 {
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("cd"))
 		return(1);
-	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("pwd"))
 		return(1);
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "export", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("export"))
 		return(1);
-	if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "env", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("env"))
 		return(1);
-	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("echo"))
 		return(1);
-	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("unset"))
 		return(1);
 	return (0);
+}
+
+int is_a_real_builtin(char *str)
+{
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
+		return(0);
+	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
+		return(0);
+	return (1);
 }
 

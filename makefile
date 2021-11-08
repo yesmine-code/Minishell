@@ -12,7 +12,7 @@
 
 NAME	 	= minishell
 
-SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c handle_single_cmd.c echo.c env.c
+SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c echo.c env.c
 
 INCLUDES	=	include
 

@@ -46,28 +46,7 @@ void print_cmd(t_command com)
 	}
 	printf("\n----------------\n");
 }
-// int main(int ac, char **av, char **env)
-// {
-// 	t_command com;
-// 	char **command;
-// 	char *str;
-// 	char *tmp;
-// 	int i;
 
-// 	// init_env(&com, env);
-// 	// ft_env1(com.env);
-// 	while (1)
-// 	{
-// 		i = 0;
-// 		str = readline("minishell->");
-// 		add_history(str);
-// 		tmp = ft_strtrim(str, " \t\r\f\v\n");
-// 		free(str);
-// 		command = ft_mini_split(tmp, '|');
-// 		com = get_cmd(*command, env);
-// 		execute_cmd(com);
-// 	}
-// }
 int main(int ac, char **av, char **env)
 {
 	char *str;
@@ -87,7 +66,7 @@ int main(int ac, char **av, char **env)
 		add_history(str);
 		tmp = ft_strtrim(str, " \t\r\f\v\n");
 		free(str);
-		if (ft_strncmp(tmp, "exit", ft_strlen(tmp)) == 0)
+		if (ft_strncmp(tmp, "exit", ft_strlen(tmp)) == 0 && ft_strlen(tmp) == ft_strlen("exit")) 
 		{
 			free(tmp);
 			exit(EXIT_SUCCESS);
@@ -100,13 +79,7 @@ int main(int ac, char **av, char **env)
 		else
 		{
 			commands = ft_mini_split(tmp, '|');
-			if (ft_mini_count(tmp, '|') == 1)
-			{
-				com_struct = get_cmd(*commands, env);
-				execute_cmd(com_struct);
-			}
-			else
-			{
+	
 				int *old_pipe[2];
 
 				old_pipe[0] = malloc(sizeof(int));
@@ -116,20 +89,31 @@ int main(int ac, char **av, char **env)
 				int previous;
 				int coming;
 
+				previous = 0;
 				while (commands[i] != NULL)
 				{
-					previous = (i == 0) ? 0 : 1;
 					coming = (commands[i + 1] == NULL) ? 0 : 1;
 					com_struct = get_cmd(commands[i], env);
 					//	print_cmd(com_struct);
-					child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env);
-					ft_free_cmd(&com_struct);
+					if(is_a_real_builtin(com_struct.com) == 1)
+					{
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1);
+					}
+					else if (i == 0 && commands[i + 1] == NULL)
+						execute_cmd(com_struct, env);
+					else
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0);
 					i++;
+					previous = 1;
+					ft_free_cmd(&com_struct);
 				}
 				last_child_status = child_status;
-				free(old_pipe[0]);
-				free(old_pipe[1]);
-			}
+				if(is_builtin(com_struct.com) == 0)
+				{
+					free(old_pipe[0]);
+					free(old_pipe[1]);
+				}
+			
 		}
 	}
 }

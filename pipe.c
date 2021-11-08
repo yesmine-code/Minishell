@@ -50,7 +50,8 @@ char **create_tab(t_command com)
 			tab[j] = ft_substr(com.args, tmp, i - tmp);
 			j++;
 		}
-		i++;
+		else
+			i++;
 	}
 	tab[j] = NULL;
 	i = 0;
@@ -68,9 +69,8 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
-int execute_cmd(t_command com)
+int execute_cmd(t_command com, char **env)
 {
-	// char* env[] = getenv(); //todo
 	char *str;
 	char **arg;
 	char *full_cmd;
@@ -79,12 +79,11 @@ int execute_cmd(t_command com)
 	ret = 0;
 
 	arg = create_tab(com);
+
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 		ret = ft_pwd();
 	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
-	{
 		ret = ft_cd(arg);
-	}
 	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
 		ret = ft_echo(arg);
 	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
@@ -104,7 +103,7 @@ int execute_cmd(t_command com)
 	return ret; // todo
 }
 
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env)
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute)
 {
 	int i;
 	int new_pipe[2];
@@ -133,7 +132,8 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
-		execute_cmd(com);
+		if(execute)
+			execute_cmd(com, env);
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent
