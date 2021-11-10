@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/31 17:13:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/10 13:35:30 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env)
+int execute_cmd(t_command com, char **env, t_env *env_arr)
 {
 	char *str;
 	char **arg;
@@ -87,7 +87,9 @@ int execute_cmd(t_command com, char **env)
 	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
 		ret = ft_echo(arg);
 	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
-		ret = ft_env(com.env);
+		ret = ft_env(env_arr);
+	else if (ft_strncmp(arg[0], "export", ft_strlen(arg[0])) == 0)
+		ret = ft_export(env_arr, arg);
 	else
 	{
 		full_cmd = find_cmd_path(arg[0]);
@@ -99,11 +101,11 @@ int execute_cmd(t_command com, char **env)
 		else
 			ret = -1;
 	}
-	free(arg);
+	//free(arg); tu free (arg) dans ft_free_cmd 
 	return ret; // todo
 }
 
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute)
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env *env_arr)
 {
 	int i;
 	int new_pipe[2];
@@ -133,7 +135,7 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 			close(new_pipe[1]);
 		}
 		if(execute)
-			execute_cmd(com, env);
+			execute_cmd(com, env, env_arr);
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent

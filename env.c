@@ -6,64 +6,100 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/31 17:09:42 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/10 13:41:44 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int ft_env(char **env)
-// {
-//     int index = 0;
-
-//     if (env == NULL)
-//         return (-1);
-//     while (env[index])
-//     {
-//         printf("%s\n", env[index++]);
-//     }
-//     printf("nb parms env: %d\n", index);
-//     return (0);
-// }
-
 int ft_env(t_env *env)
 {
-    int count = 0;
-    while (env && env->next != NULL)
-    {
-        printf("%s\n", env->var);
-        env = env->next;
-        count++;
-    }
-    if (env)
-        printf("%s\n", env->var);
-    //printf("lines env: %i\n", count);
-    return (0);
+	if (env == NULL)
+		printf("errooooooor");
+	while (env && env->next != NULL)
+	{
+		printf("%s\n", env->var);
+		env = env->next;
+	}
+	if (env)
+		printf("%s\n", env->var);
+	return (1);
 }
 
-int init_env(t_command *com, char **env_)
+void add_env(t_env **env, t_env *new, char *str)
 {
-	int		i;
-    t_env *tmp_env;
-    t_env *new_env;
+	t_env *tmp;
 
-	if (!(tmp_env = malloc(sizeof(t_env))))
-		return -1;
-    tmp_env->var = ft_strdup(env_[0]);
-    tmp_env->next = NULL;
-    com->env = tmp_env;
-    i = 1;
-	while (env_  && env_[0] && env_[i])
+	tmp = *env;
+	if (*env == NULL)
 	{
-        if (!(new_env =  malloc(sizeof(t_env))))
-            return -1;
-		new_env->var = ft_strdup(env_[i]);
-        //printf("%s\n", new_env->var);
-		new_env->next = NULL;
-		tmp_env->next = new_env;
-        tmp_env = new_env;
+		*env = new;
+		(*env)->next = NULL;
+		(*env)->var = str;
+		(*env)->name = get_name_env(str);
+	}
+	else
+	{
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+		tmp->next->var = str;
+		tmp->next->name = get_name_env(str);
+		tmp->next->next = NULL;
+	}
+}
+
+void init_env(t_env **env_list, char **env)
+{
+	t_env *tmp;
+	t_env *new;
+
+	tmp = NULL;
+	if (*env_list == NULL)
+	{
+		while (*env)
+		{
+			new = malloc(sizeof(t_env));
+			if (new == NULL)
+				return (NULL);
+			add_env(&tmp, new, *env);
+			env++;
+		}
+		*env_list = tmp;
+	}
+}
+
+char *get_value(char *s)
+{
+	int i;
+
+	i = 0;
+	if (s != NULL)
+	{
+		while (s[i])
+		{
+			if (s[i] == '=')
+			{
+				return (ft_substr(s, i + 1, ft_strlen(s) - i));
+			}
+			i++;
+		}
+	}
+	return (s);
+}
+
+char *get_name_env(char *s)
+{
+	int i;
+
+	i = 0;
+	if (s != NULL)
+		return (NULL);
+	while (s[i])
+	{
+		if (s[i] == '=')
+			return (ft_substr(s, 0, i));
 		i++;
 	}
-    //printf("lines env_init:%d \n", i);
-    return 0;
+	return (ft_strdup(s));
 }
