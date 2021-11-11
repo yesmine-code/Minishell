@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/10 13:35:30 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/11 22:26:06 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int execute_cmd(t_command com, char **env, t_env *env_arr)
 		else
 			ret = -1;
 	}
-	//free(arg); tu free (arg) dans ft_free_cmd 
+	free(arg);
 	return ret; // todo
 }
 
