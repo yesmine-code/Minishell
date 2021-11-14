@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/10 13:40:26 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/14 12:30:47 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_command
 int	char_numb(char *str, char c, int two);
 int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env *env_arr);
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env **env_arr);
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
@@ -72,7 +72,7 @@ int		is_it_between_simple_quotes(char *str, int pos);
 int		ft_mini_count(char *s, char c);
 //t_command get_cmd(char *command);
 int handle_single_cmd(char* cmd, char **env);
-int execute_cmd(t_command com, char **env, t_env *env_arr);
+int execute_cmd(t_command com, char **env, t_env **env_arr);
 int ft_cd(char **dir);
 int ft_echo(char **arg);
 //int ft_env(char **env);
@@ -82,5 +82,7 @@ char *get_name_env(char *s);
 int ft_export(t_env *env, char **arg);
 void add_env(t_env **env,t_env *new, char *str);
 char *get_value(char *s);
-
+int ft_unset(t_env **env_list, char **list_to_delete);
+void delete_env(t_env **env_list, char *to_delete);
+int is_new_env(char *s);
 #endif

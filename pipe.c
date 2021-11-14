@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/11 22:26:06 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/14 13:12:33 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env, t_env *env_arr)
+int execute_cmd(t_command com, char **env, t_env **env_arr)
 {
 	char *str;
 	char **arg;
@@ -87,16 +87,18 @@ int execute_cmd(t_command com, char **env, t_env *env_arr)
 	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
 		ret = ft_echo(arg);
 	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
-		ret = ft_env(env_arr);
+		ret = ft_env(*env_arr);
 	else if (ft_strncmp(arg[0], "export", ft_strlen(arg[0])) == 0)
-		ret = ft_export(env_arr, arg);
+		ret = ft_export(*env_arr, arg);
+	else if (ft_strncmp(arg[0], "unset", ft_strlen(arg[0])) == 0)
+		ret = ft_unset(env_arr, arg);
 	else
 	{
 		full_cmd = find_cmd_path(arg[0]);
 		if (full_cmd != NULL)
 		{
 			arg[0] = full_cmd;
-			execve(arg[0], arg, env);
+			execve(arg[0], arg, env);// todo use env_arr instead of env
 		}
 		else
 			ret = -1;
@@ -105,7 +107,7 @@ int execute_cmd(t_command com, char **env, t_env *env_arr)
 	return ret; // todo
 }
 
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env *env_arr)
+int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env **env_arr)
 {
 	int i;
 	int new_pipe[2];

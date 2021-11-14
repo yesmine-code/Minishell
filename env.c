@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/11 22:09:31 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/14 12:54:06 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int ft_env(t_env *env)
 {
 	if (env == NULL)
-		printf("errooooooor");
+		return (-1);
 	while (env && env->next != NULL)
 	{
 		printf("%s\n", env->var);
@@ -55,12 +55,10 @@ void init_env(t_env **env_list, char **env)
 	t_env *new;
 
 	tmp = NULL;
-	int i = 0;
 	if (*env_list == NULL)
 	{
 		while (*env)
 		{
-			i++;
 			new = malloc(sizeof(t_env));
 			if (new == NULL)
 				return ;

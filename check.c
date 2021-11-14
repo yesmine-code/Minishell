@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:33:55 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/09/27 15:33:59 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/11/14 13:20:14 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int is_a_real_builtin(char *str)
 		return(0);
 	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
 		return(0);
+	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
+		return (0);
 	return (1);
 }
 

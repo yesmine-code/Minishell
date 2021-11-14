@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/10 12:49:40 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:09:20 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,12 @@ int main(int ac, char **av, char **env)
 					//	print_cmd(com_struct);
 					if(is_a_real_builtin(com_struct.com) == 1)
 					{
-						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1, env_list);
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1, &env_list);
 					}
 					else if (i == 0 && commands[i + 1] == NULL)
-						execute_cmd(com_struct, env, env_list);
+						execute_cmd(com_struct, env, &env_list);
 					else
-						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0, env_list);
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0, &env_list);
 					i++;
 					previous = 1;
 					ft_free_cmd(&com_struct);
