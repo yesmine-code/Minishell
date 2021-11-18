@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/14 12:54:06 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/18 14:24:36 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char *get_name_env(char *s)
 
 	i = 0;
 	if (s == NULL)
-		return (NULL);
+		return (ft_strdup(" "));
 	while (s[i])
 	{
 		if (s[i] == '=')

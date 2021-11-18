@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/14 12:30:47 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/18 15:35:12 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_command
 	char	**output_files_append;
 	int		expected_words_num;
 	char 	**read_from_shell;
+	int		*nb_args;
 }				t_command;
 
 int	char_numb(char *str, char c, int two);
@@ -85,4 +86,8 @@ char *get_value(char *s);
 int ft_unset(t_env **env_list, char **list_to_delete);
 void delete_env(t_env **env_list, char *to_delete);
 int is_new_env(char *s);
+void handle_ctrl_c();
+void handle_ctrl_d();
+int exists(char *s, t_env *env, t_env **new_env);
+int check_error(char *s);
 #endif
