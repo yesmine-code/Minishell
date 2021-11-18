@@ -79,7 +79,6 @@ int execute_cmd(t_command com, char **env)
 	ret = 0;
 
 	arg = create_tab(com);
-
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 		ret = ft_pwd();
 	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
@@ -120,18 +119,21 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 	cpid = fork();
 	if (cpid == 0) // child
 	{
+
 		if (is_previous) // if there is a previous command
 		{
 			dup2(*old_pipe[0], 0);
 			close(*old_pipe[0]);
 			close(*old_pipe[1]);
 		}
-		if (is_coming) // if there is a coming command
+		if (is_coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
 		{
 			close(new_pipe[0]);
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
+		if (ft_infile(com) < 0 || ft_outfile(com) < 0 || ft_outfile_append(com) < 0)
+			exit(EXIT_FAILURE);
 		if(execute)
 			execute_cmd(com, env);
 		exit(EXIT_SUCCESS);

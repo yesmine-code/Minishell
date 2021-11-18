@@ -12,7 +12,7 @@
 
 NAME	 	= minishell
 
-SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c echo.c env.c
+SRCS		= main.c check.c parsing.c pipe.c pwd.c free.c parse.c mini_split.c cd.c echo.c env.c putfile.c
 
 INCLUDES	=	include
 
@@ -28,7 +28,7 @@ CC			= gcc
 
 RM			= rm -f
 
-CFLAGS		= -g #-Wall -Wextra -Werror 
+CFLAGS		= -g  #-Wall -Wextra -Werror 
 
 .c.o:
 				${CC} ${CFLAGS} -c -I ${INCLUDES} $< -o ${<:.c=.o}

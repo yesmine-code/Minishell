@@ -14,16 +14,31 @@
 
 int ft_echo(char **arg)
 {
-    if (ft_strncmp(arg[1], "-n", 2) == 0)
+    int i = 1;
+
+
+    if (ft_strncmp(arg[i], "-n", 2) == 0)
     {
-        ft_putstr_fd(arg[2], 1);
-        return 1;
+        i++;
+        while (arg[i] != NULL)
+        {
+            ft_putstr_fd(arg[i], 1);
+            write(1, " ", 1);
+            i++;
+        }
+        return 1;       
     }
     else
     {
-        ft_putstr_fd(arg[1], 1);
+        while (arg[i] != NULL)
+        {
+            ft_putstr_fd(arg[i], 1);
+            write(1, " ", 1);
+            i++;
+        }
         ft_putstr_fd("\n", 1);
         return 1;
     }
+    ft_putstr_fd("\n", 1);
     return 0;
 }

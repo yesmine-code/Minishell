@@ -94,11 +94,8 @@ int main(int ac, char **av, char **env)
 				{
 					coming = (commands[i + 1] == NULL) ? 0 : 1;
 					com_struct = get_cmd(commands[i], env);
-					//	print_cmd(com_struct);
 					if(is_a_real_builtin(com_struct.com) == 1)
-					{
 						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1);
-					}
 					else if (i == 0 && commands[i + 1] == NULL)
 						execute_cmd(com_struct, env);
 					else
@@ -106,6 +103,8 @@ int main(int ac, char **av, char **env)
 					i++;
 					previous = 1;
 					ft_free_cmd(&com_struct);
+					if (child_status != 0)
+						break ;
 				}
 				last_child_status = child_status;
 				if(is_builtin(com_struct.com) == 0)

@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 
 typedef struct  s_env
@@ -76,6 +77,11 @@ int ft_cd(char **dir);
 int ft_echo(char **arg);
 //int ft_env(char **env);
 int ft_env(t_env *env);
+int	ft_infile(t_command com);
 int init_env(t_command *com, char **env_);
+int ft_outfile(t_command com);
+int ft_outfile_append(t_command com);
+
+
 
 #endif
