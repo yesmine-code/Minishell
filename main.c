@@ -97,7 +97,10 @@ int main(int ac, char **av, char **env)
 					if(is_a_real_builtin(com_struct.com) == 1)
 						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1);
 					else if (i == 0 && commands[i + 1] == NULL)
-						execute_cmd(com_struct, env);
+					{
+						if (execute_cmd(com_struct, env) < 0)
+							break ;
+					}
 					else
 						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0);
 					i++;

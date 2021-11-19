@@ -92,11 +92,14 @@ int execute_cmd(t_command com, char **env)
 		full_cmd = find_cmd_path(arg[0]);
 		if (full_cmd != NULL)
 		{
-			arg[0] = full_cmd;
-			execve(arg[0], arg, env);
+			arg[0] = full_cmd;	
+			ret = execve(arg[0], arg, env);
 		}
 		else
+		{
+			printf("minishell: command not found : %s\n", arg[0]);
 			ret = -1;
+		}
 	}
 	free(arg);
 	return ret; // todo
@@ -132,10 +135,16 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
+		ft_read_from_shell(com);
 		if (ft_infile(com) < 0 || ft_outfile(com) < 0 || ft_outfile_append(com) < 0)
 			exit(EXIT_FAILURE);
 		if(execute)
-			execute_cmd(com, env);
+		{
+			if (execute_cmd(com, env) < 0)
+			{
+				exit(EXIT_FAILURE);
+			}
+		}
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent

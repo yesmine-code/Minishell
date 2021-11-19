@@ -81,6 +81,7 @@ int	ft_infile(t_command com);
 int init_env(t_command *com, char **env_);
 int ft_outfile(t_command com);
 int ft_outfile_append(t_command com);
+void ft_read_from_shell(t_command com);
 
 
 

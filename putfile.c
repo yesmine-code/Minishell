@@ -83,3 +83,41 @@ int ft_outfile_append(t_command com)
 	}
 	return (0);
 }
+
+void ft_read_from_shell(t_command com)
+{
+	int i;
+	char *line;
+	char *tmp;
+	char *str;
+	int		fds[2];
+
+	i = 0;
+	str = ft_strdup("");
+	if (com.read_from_shell != NULL)
+	{
+		while (i < com.expected_words_num)
+		{
+			line = readline("heredoc>");
+			if (ft_strncmp(line, com.read_from_shell[i], ft_strlen(com.read_from_shell[i])) == 0 && ft_strlen(line) == ft_strlen(com.read_from_shell[i]))
+				i++;
+			else
+			{
+				tmp = ft_strjoin(str, line);
+				free(str);
+				str = ft_strjoin(tmp, ft_strdup("\n"));
+				free(tmp);
+			}
+			free(line);
+		}
+		tmp = ttyname(STDIN_FILENO);
+		if (tmp == NULL)
+			perror("minishell :");
+		close(STDIN_FILENO);
+		pipe(fds);
+		write(fds[1], str, ft_strlen(str));
+		free(str);
+		close(fds[1]);
+		dup2(fds[0], STDERR_FILENO);
+	}
+}
