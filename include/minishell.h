@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/18 15:35:12 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/19 09:58:47 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,5 @@ int is_new_env(char *s);
 void handle_ctrl_c();
 void handle_ctrl_d();
 int exists(char *s, t_env *env, t_env **new_env);
-int check_error(char *s);
+int is_valid_ident(char *s);
 #endif

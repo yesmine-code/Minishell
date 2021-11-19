@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/19 00:20:15 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/19 09:58:31 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int is_valid_env(char *s)
     return (1);
 }
 
-int check_error(char *s)
+int is_valid_ident(char *s)
 {
     char *env_name;
     if (s == NULL)
@@ -101,7 +101,7 @@ int ft_export(t_env *env, char **arg)
         return ft_env(env);
     while (arg[i] != NULL)
     {
-        if (check_error(arg[i]) == 0)
+        if (is_valid_ident(arg[i]) == 0)
             i++;
         else if (arg[i] != NULL && is_new_env(arg[i]) == 1)
         {
