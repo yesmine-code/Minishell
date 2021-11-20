@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/14 13:12:33 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/20 21:19:25 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int execute_cmd(t_command com, char **env, t_env **env_arr)
 	ret = 0;
 
 	arg = create_tab(com);
-
 	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
 		ret = ft_pwd();
 	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
@@ -101,7 +100,10 @@ int execute_cmd(t_command com, char **env, t_env **env_arr)
 			execve(arg[0], arg, env);// todo use env_arr instead of env
 		}
 		else
+		{
+			printf("minishell: command not found : %s\n", arg[0]);
 			ret = -1;
+		}
 	}
 	free(arg);
 	return ret; // todo
@@ -124,20 +126,29 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 	cpid = fork();
 	if (cpid == 0) // child
 	{
+
 		if (is_previous) // if there is a previous command
 		{
 			dup2(*old_pipe[0], 0);
 			close(*old_pipe[0]);
 			close(*old_pipe[1]);
 		}
-		if (is_coming) // if there is a coming command
+		if (is_coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
 		{
 			close(new_pipe[0]);
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
+		ft_read_from_shell(com);
+		if (ft_infile(com) < 0 || ft_outfile(com) < 0 || ft_outfile_append(com) < 0)
+			exit(EXIT_FAILURE);
 		if(execute)
-			execute_cmd(com, env, env_arr);
+		{
+			if (execute_cmd(com, env, env_arr) < 0)
+			{
+				exit(EXIT_FAILURE);
+			}
+		}
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent

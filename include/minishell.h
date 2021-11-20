@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/19 09:58:47 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/20 21:20:55 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 
 typedef struct  s_env
@@ -90,4 +91,11 @@ void handle_ctrl_c();
 void handle_ctrl_d();
 int exists(char *s, t_env *env, t_env **new_env);
 int is_valid_ident(char *s);
+int	ft_infile(t_command com);
+int ft_outfile(t_command com);
+int ft_outfile_append(t_command com);
+void ft_read_from_shell(t_command com);
+
+
+
 #endif

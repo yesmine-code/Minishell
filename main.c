@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/19 00:23:22 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/20 21:30:03 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,41 +89,42 @@ int main(int ac, char **av, char **env)
 		else
 		{
 			commands = ft_mini_split(tmp, '|');
+	
+				int *old_pipe[2];
 
-			int *old_pipe[2];
+				old_pipe[0] = malloc(sizeof(int));
+				old_pipe[1] = malloc(sizeof(int));
+				ft_memset(*old_pipe, 0x00, sizeof(*old_pipe));
 
-			old_pipe[0] = malloc(sizeof(int));
-			old_pipe[1] = malloc(sizeof(int));
-			ft_memset(*old_pipe, 0x00, sizeof(*old_pipe));
+				int previous;
+				int coming;
 
-			int previous;
-			int coming;
-
-			previous = 0;
-			while (commands[i] != NULL)
-			{
-				coming = (commands[i + 1] == NULL) ? 0 : 1;
-				com_struct = get_cmd(commands[i], env);
-				//	print_cmd(com_struct);
-				if(is_a_real_builtin(com_struct.com) == 1)
+				previous = 0;
+				while (commands[i] != NULL)
 				{
-					child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1, &env_list);
+					coming = (commands[i + 1] == NULL) ? 0 : 1;
+					com_struct = get_cmd(commands[i], env);
+					if(is_a_real_builtin(com_struct.com) == 1)
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1, &env_list);
+					else if (i == 0 && commands[i + 1] == NULL)
+					{
+						if (execute_cmd(com_struct, env, &env_list) < 0)
+							break ;
+					}
+					else
+						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0, &env_list);
+					i++;
+					previous = 1;
+					ft_free_cmd(&com_struct);
+					if (child_status != 0)
+						break ;
 				}
-				else if (i == 0 && commands[i + 1] == NULL)
-					execute_cmd(com_struct, env, &env_list);
-				else
-					child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 0, &env_list);
-				i++;
-				previous = 1;
-				ft_free_cmd(&com_struct);
-			}
-			last_child_status = child_status;
-			if(is_builtin(com_struct.com) == 0)
-			{
-				free(old_pipe[0]);
-				free(old_pipe[1]);
-			}
-			
+				last_child_status = child_status;
+				if(is_builtin(com_struct.com) == 0)
+				{
+					free(old_pipe[0]);
+					free(old_pipe[1]);
+				}
 		}
 	}
 }
