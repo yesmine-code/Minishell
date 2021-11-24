@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/20 21:30:03 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/24 22:00:04 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int main(int ac, char **av, char **env)
 	last_child_status = 0;
 	child_status = 0;
 	handle_ctrl_c();
+	handle_ctrl_backslash();
 	while (1)
 	{
 		i = 0;
