@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/20 21:19:25 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/25 14:09:02 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,26 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
+int ft_compare(char *s1, char *s2)
+{
+	int len1;
+	int len2;
+	int i;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	i = 0;
+
+	if (len1 != len2 || len2 == 0)
+		return (0);
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
 int execute_cmd(t_command com, char **env, t_env **env_arr)
 {
 	char *str;
@@ -79,17 +99,17 @@ int execute_cmd(t_command com, char **env, t_env **env_arr)
 	ret = 0;
 
 	arg = create_tab(com);
-	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0)
+	if (ft_compare(arg[0], "pwd"))
 		ret = ft_pwd();
-	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0)
+	else if (ft_compare(arg[0], "cd"))
 		ret = ft_cd(arg);
-	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0)
+	else if (ft_compare(arg[0], "echo"))
 		ret = ft_echo(arg);
-	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0)
+	else if (ft_compare(arg[0], "env"))
 		ret = ft_env(*env_arr);
-	else if (ft_strncmp(arg[0], "export", ft_strlen(arg[0])) == 0)
+	else if (ft_compare(arg[0], "export"))
 		ret = ft_export(*env_arr, arg);
-	else if (ft_strncmp(arg[0], "unset", ft_strlen(arg[0])) == 0)
+	else if (ft_compare(arg[0], "unset"))
 		ret = ft_unset(env_arr, arg);
 	else
 	{
