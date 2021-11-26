@@ -83,10 +83,12 @@ int is_builtin(char *str)
 
 int is_a_real_builtin(char *str)
 {
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
-		return(0);
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
-		return(0);
-	return (1);
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("cd"))
+		return(1);
+	if (ft_strncmp(str, "export", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("export"))
+		return(1);
+	if (ft_strncmp(str, "unset", ft_strlen(str))  == 0 && ft_strlen(str) == ft_strlen("unset"))
+		return (1);
+	return (0);
 }
 

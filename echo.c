@@ -14,31 +14,26 @@
 
 int ft_echo(char **arg)
 {
-    int i = 1;
+    int i;
+    int has_option;
 
-
-    if (ft_strncmp(arg[i], "-n", 2) == 0)
+    has_option = 0;
+    i = 1;
+    if (arg[1] == NULL)
+        return(printf("\n"));
+    if (ft_strncmp(arg[i], "-n", 2) == 0 && ft_strlen(arg[i]) == ft_strlen("-n") && i == 1)
     {
         i++;
-        while (arg[i] != NULL)
-        {
-            ft_putstr_fd(arg[i], 1);
-            write(1, " ", 1);
-            i++;
-        }
-        return 1;       
+        has_option = 1;
     }
-    else
+    while (arg[i] != NULL)
     {
-        while (arg[i] != NULL)
-        {
             ft_putstr_fd(arg[i], 1);
-            write(1, " ", 1);
-            i++;
-        }
-        ft_putstr_fd("\n", 1);
-        return 1;
+        if (arg[i + 1] != NULL)
+            ft_putstr_fd(" ", 1);
+        i++;
     }
-    ft_putstr_fd("\n", 1);
-    return 0;
+    if (has_option == 0)
+          ft_putstr_fd("\n", 1);
+    return (1);
 }

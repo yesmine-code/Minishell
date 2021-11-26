@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+
+char *getenv_value_from_list(t_command command, char *env)
+{
+	while(command.env && command.env->next)
+	{
+		if (ft_strncmp(command.env->name, env, ft_strlen(env)) == 0 && ft_strlen(command.env->name) == ft_strlen(env))
+			return (command.env->value);
+		command.env = command.env->next;
+	}
+	return ft_strdup("");
+}
+
+
+
 char **get_paths()
 {
 	char *path;
@@ -186,7 +200,7 @@ int		is_it_between_quotes(char *str, int pos)
 }
 
 
-char *substitute_env_var(char *com)
+char *substitute_env_var(t_command command, char *com)
 {
 	int i;
 	int tmp;
@@ -206,15 +220,13 @@ char *substitute_env_var(char *com)
 	{
 		if (com[i] == '$')
 		{
-			//printf("hi");
 			i++;
 			tmp = i;
 			while (ft_isalnum(com[i]) == 1)
 				i++;
 			env = ft_substr(com, tmp, i - tmp);
 			char_to_extract = char_to_extract + ft_strlen(env) + 1;
-			str[j] = getenv(env);
-			//printf("%s", str[j]);
+			str[j] = getenv_value_from_list(command, env);
 			j++;
 		}
 		i++;

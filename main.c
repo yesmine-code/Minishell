@@ -59,11 +59,18 @@ int main(int ac, char **av, char **env)
 
 	last_child_status = 0;
 	child_status = 0;
+	handle_ctrl_c();
+	handle_ctrl_backslash();
 	while (1)
 	{
 		i = 0;
 		str = readline("minishell->");
 		add_history(str);
+		if (str == NULL)
+		{
+			printf("\n");
+			exit(EXIT_SUCCESS); // ctrl_d
+		}
 		tmp = ft_strtrim(str, " \t\r\f\v\n");
 		free(str);
 		if (ft_strncmp(tmp, "exit", ft_strlen(tmp)) == 0 && ft_strlen(tmp) == ft_strlen("exit")) 
@@ -94,11 +101,12 @@ int main(int ac, char **av, char **env)
 				{
 					coming = (commands[i + 1] == NULL) ? 0 : 1;
 					com_struct = get_cmd(commands[i], env);
-					if(is_a_real_builtin(com_struct.com) == 1)
+					init_env(&com_struct.env, env);
+					if(is_a_real_builtin(com_struct.com) == 0)
 						child_status = pipe_cmd(com_struct, previous, coming, old_pipe, last_child_status, env, 1);
 					else if (i == 0 && commands[i + 1] == NULL)
 					{
-						if (execute_cmd(com_struct, env) < 0)
+						if (execute_cmd(com_struct, env, last_child_status) < 0)
 							break ;
 					}
 					else

@@ -2,4 +2,6 @@ ls "-l"
 ls " -l"
 echo " 'hello" 'ls'  "'-l'"
 echo " 'hello" 'ls'  '"-l"'
-rm 
+<< hi >hello
+<< hi cd
+echo yesmine >yas | cd ( ici normalement le cd ne marche pas)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_infile(t_command com)
+int	ft_infile(t_command com, int dupit)
 {
 	int i;
 	int fd;
@@ -28,15 +28,18 @@ int	ft_infile(t_command com)
 				perror("minishell");
 				return (fd);
 			}
-			dup2(fd , STDIN_FILENO);
-			close(fd);
+			if (dupit == 1)
+			{
+				dup2(fd , STDIN_FILENO);
+				close(fd);
+			}
 			i++;
 		}
 	}
 	return (0);
 }
 
-int ft_outfile(t_command com)
+int ft_outfile(t_command com, int dupit)
 {
 	int i;
 	int fd;
@@ -52,15 +55,18 @@ int ft_outfile(t_command com)
 				perror("minishell");
 				return (fd);
 			}
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
+			if (dupit == 1)
+			{
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 			i++;
 		}
 	}
 	return (0);
 }
 
-int ft_outfile_append(t_command com)
+int ft_outfile_append(t_command com, int dupit)
 {
 	int i;
 	int fd;
@@ -76,15 +82,18 @@ int ft_outfile_append(t_command com)
 				perror("minishell");
 				return fd;
 			}
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
+			if (dupit == 1)
+			{
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 			i++;
 		}
 	}
 	return (0);
 }
 
-void ft_read_from_shell(t_command com)
+void ft_read_from_shell(t_command com, int dupit)
 {
 	int i;
 	char *line;
@@ -113,11 +122,14 @@ void ft_read_from_shell(t_command com)
 		tmp = ttyname(STDIN_FILENO);
 		if (tmp == NULL)
 			perror("minishell :");
-		close(STDIN_FILENO);
-		pipe(fds);
-		write(fds[1], str, ft_strlen(str));
-		free(str);
-		close(fds[1]);
-		dup2(fds[0], STDERR_FILENO);
+		if (dupit == 1)
+		{
+			close(STDIN_FILENO);
+			pipe(fds);
+			write(fds[1], str, ft_strlen(str));
+			free(str);
+			close(fds[1]);
+			dup2(fds[0], STDERR_FILENO);
+		}
 	}
 }
