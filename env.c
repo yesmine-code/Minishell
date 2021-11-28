@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/18 14:24:36 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/28 18:45:42 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ int ft_env(t_env *env)
 	return (1);
 }
 
-void add_env(t_env **env, t_env *new, char *str)
+void add_env(t_env **env, char *str)
 {
 	t_env *tmp;
-
+	t_env *new;
+	
 	tmp = *env;
+	if (!(new = malloc(sizeof(t_env))))
+		return ;
 	if (*env == NULL)
 	{
 		*env = new;
@@ -52,18 +55,17 @@ void add_env(t_env **env, t_env *new, char *str)
 void init_env(t_env **env_list, char **env)
 {
 	t_env *tmp;
-	t_env *new;
+	int i = 0;
 
 	tmp = NULL;
 	if (*env_list == NULL)
 	{
 		while (*env)
 		{
-			new = malloc(sizeof(t_env));
-			if (new == NULL)
-				return ;
-			add_env(&tmp, new, *env);
+			add_env(&tmp, *env);
 			env++;
+			if (i++ > 2)
+				break;
 		}
 		*env_list = tmp;
 	}

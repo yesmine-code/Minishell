@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/24 21:59:35 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/28 18:36:51 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,15 @@ void	ft_delete_quotes(char *com);
 char *substitute_env_var(char *com);
 int		is_it_between_simple_quotes(char *str, int pos);
 int		ft_mini_count(char *s, char c);
-//t_command get_cmd(char *command);
 int handle_single_cmd(char* cmd, char **env);
 int execute_cmd(t_command com, char **env, t_env **env_arr);
 int ft_cd(char **dir);
 int ft_echo(char **arg);
-//int ft_env(char **env);
 int ft_env(t_env *env);
 void init_env(t_env **env, char **env_);
 char *get_name_env(char *s);
 int ft_export(t_env *env, char **arg);
-void add_env(t_env **env,t_env *new, char *str);
+void add_env(t_env **env, char *str);
 char *get_value(char *s);
 int ft_unset(t_env **env_list, char **list_to_delete);
 void delete_env(t_env **env_list, char *to_delete);
@@ -96,6 +94,12 @@ int ft_outfile(t_command com);
 int ft_outfile_append(t_command com);
 void ft_read_from_shell(t_command com);
 void handle_ctrl_backslash();
+int ft_compare(char *s1, char *s2);
+void ft_swap(t_env *env1, t_env *env2);
+int ft_sorted(t_env *list);
+int ft_sort(t_env *list);
+int without_arg(t_env *env);
+char *to_lowercase(char *s1);
 
 
 
