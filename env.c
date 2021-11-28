@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/28 18:45:42 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/28 22:13:53 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ int ft_env(t_env *env)
 {
 	if (env == NULL)
 		return (-1);
-	while (env && env->next != NULL)
+	while (env)
 	{
 		printf("%s\n", env->var);
 		env = env->next;
 	}
-	if (env)
-		printf("%s\n", env->var);
 	return (1);
 }
 
@@ -55,8 +53,9 @@ void add_env(t_env **env, char *str)
 void init_env(t_env **env_list, char **env)
 {
 	t_env *tmp;
-	int i = 0;
-
+	int i;
+	
+	i = 0;
 	tmp = NULL;
 	if (*env_list == NULL)
 	{
@@ -69,28 +68,6 @@ void init_env(t_env **env_list, char **env)
 		}
 		*env_list = tmp;
 	}
-}
-
-char *get_value(char *s)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	if (s != NULL)
-	{
-		while (s[i])
-		{
-			count++;
-			if (s[i] == '=')
-			{
-				return (ft_substr(s, i + 1, ft_strlen(s) - count));
-			}
-			i++;
-		}
-	}
-	return (s);
 }
 
 char *get_name_env(char *s)

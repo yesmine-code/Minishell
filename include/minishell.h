@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/28 18:36:51 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/28 22:07:05 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void handle_ctrl_backslash();
 int ft_compare(char *s1, char *s2);
 void ft_swap(t_env *env1, t_env *env2);
 int ft_sorted(t_env *list);
-int ft_sort(t_env *list);
+void ft_sort(t_env *list);
 int without_arg(t_env *env);
 char *to_lowercase(char *s1);
 

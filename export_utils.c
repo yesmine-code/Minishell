@@ -34,6 +34,7 @@ int ft_sorted(t_env *list)
     char *s1;
     char *s2;
     int len;
+
     tmp = list;
     while (tmp != NULL)
     {
@@ -53,11 +54,9 @@ int ft_sorted(t_env *list)
         }
         tmp = tmp->next;
     }
-
     return (1);
 }
-
-int ft_sort(t_env *list)
+void  ft_sort(t_env *list)
 {
     t_env *tmp;
     char *s1;
@@ -83,6 +82,7 @@ int ft_sort(t_env *list)
         }
         tmp = list;
     }
+
 }
 
 int without_arg(t_env *env)
