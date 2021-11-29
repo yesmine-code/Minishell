@@ -105,7 +105,6 @@ void cmd_init(char *command, t_command *com_struct)
 		com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
 	com_struct->com = NULL;
 	com_struct->args = NULL;
-	com_struct->env = NULL;
 }
 
 t_command get_cmd(char *command, char **env)
@@ -118,7 +117,6 @@ t_command get_cmd(char *command, char **env)
 
 	i = 0;
 	cmd_init(command, &com_struct);
-	//init_env(&com_struct, env);
 	com_trim = ft_strtrim(command, " \t\r\f\v\n");
 	parse_cmd(com_trim, &com_struct);
 	return com_struct;

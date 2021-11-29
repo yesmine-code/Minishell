@@ -16,21 +16,23 @@ int ft_env(t_env *env)
 {
 	if (env == NULL)
 		return (-1);
-	while (env && env->next != NULL)
+	while (env)
 	{
 		printf("%s\n", env->var);
 		env = env->next;
 	}
-	if (env)
-		printf("%s\n", env->var);
 	return (1);
 }
 
-void add_env(t_env **env, t_env *new, char *str)
+void add_env(t_env **env, char *str)
 {
 	t_env *tmp;
+	t_env *new;
+	int i;
 
 	tmp = *env;
+	if (!(new = malloc(sizeof(t_env))))
+		return ;
 	if (*env == NULL)
 	{
 		*env = new;
@@ -53,18 +55,19 @@ void add_env(t_env **env, t_env *new, char *str)
 
 void init_env(t_env **env_list, char **env)
 {
-	t_env *new;
+	t_env *tmp;
+	int i;
 
+	i = 0;
+	tmp = NULL;
 	if (*env_list == NULL)
 	{
 		while (*env)
 		{
-			new = malloc(sizeof(t_env));
-			if (new == NULL)
-				return ;
-			add_env(env_list, new, *env);
-			*env++;
+			add_env(&tmp, *env);
+			env++;
 		}
+		*env_list = tmp;
 	}
 }
 
@@ -96,7 +99,7 @@ char *get_name_env(char *s)
 
 	i = 0;
 	if (s == NULL)
-		return (ft_strdup(" "));
+		return (ft_strdup(""));
 	while (s[i])
 	{
 		if (s[i] == '=')

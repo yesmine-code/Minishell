@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:50:08 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/19 00:17:54 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/28 22:49:59 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,12 @@ int is_exist(char *to_delte, t_env *list_env)
     t_env *tmp;
 
     tmp = list_env;
-    if (ft_strncmp(tmp->name, to_delte, ft_strlen(tmp->name)) == 0)
-        return (1);
-    while (tmp->next != NULL)
+    while (tmp != NULL)
     {
-        if (ft_strncmp(tmp->name, to_delte, ft_strlen(tmp->name)) == 0)
+        if (ft_strcompare(tmp->name, to_delte))
             return (1);
         tmp = tmp->next;
     }
-    if (ft_strncmp(tmp->name, to_delte, ft_strlen(tmp->name)) == 0)
-        return (1);
     return (0);
 }
 
@@ -81,7 +77,7 @@ void delete_env(t_env **env_list, char *to_delete)
     tmp = *env_list;
     previous = NULL;
     {
-        if (ft_strncmp(tmp->name, to_delete, ft_strlen(to_delete)) == 0)
+        if (ft_strcompare(tmp->name, to_delete))
         {
             *env_list = (*env_list)->next;
             free(tmp);
@@ -90,7 +86,7 @@ void delete_env(t_env **env_list, char *to_delete)
         previous = tmp;
         while (tmp != NULL)
         {
-            if (ft_strncmp(tmp->name, to_delete, ft_strlen(to_delete)) == 0)
+            if (ft_strcompare(tmp->name, to_delete))
             {
                 previous->next = tmp->next;
                 free(tmp);
@@ -100,4 +96,4 @@ void delete_env(t_env **env_list, char *to_delete)
             tmp = tmp->next;
         }
     }
-} 
+}

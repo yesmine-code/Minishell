@@ -13,18 +13,16 @@
 #include "minishell.h"
 
 
-char *getenv_value_from_list(t_command command, char *env)
+char *getenv_value_from_list(t_shellinfo shell, char *env)
 {
-	while(command.env && command.env->next)
+	while(shell.env && shell.env->var)
 	{
-		if (ft_strncmp(command.env->name, env, ft_strlen(env)) == 0 && ft_strlen(command.env->name) == ft_strlen(env))
-			return (command.env->value);
-		command.env = command.env->next;
+		if (ft_strcompare(shell.env->name, env) == 1)
+			return (shell.env->value);
+		shell.env = shell.env->next;
 	}
 	return ft_strdup("");
 }
-
-
 
 char **get_paths()
 {
@@ -200,7 +198,7 @@ int		is_it_between_quotes(char *str, int pos)
 }
 
 
-char *substitute_env_var(t_command command, char *com)
+char *substitute_env_var(t_shellinfo shell, char *com)
 {
 	int i;
 	int tmp;
@@ -226,7 +224,7 @@ char *substitute_env_var(t_command command, char *com)
 				i++;
 			env = ft_substr(com, tmp, i - tmp);
 			char_to_extract = char_to_extract + ft_strlen(env) + 1;
-			str[j] = getenv_value_from_list(command, env);
+			str[j] = getenv_value_from_list(shell, env);
 			j++;
 		}
 		i++;

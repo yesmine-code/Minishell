@@ -66,28 +66,36 @@ int	check_syntax_errors(char *str)
 
 int is_builtin(char *str)
 {
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("cd"))
+	if (ft_strcompare(str, "cd") == 1)
 		return(1);
-	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("pwd"))
+	if (ft_strcompare(str, "pwd") == 1)
 		return(1);
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("export"))
+	if (ft_strcompare(str, "export") == 1)
 		return(1);
-	if (ft_strncmp(str, "env", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("env"))
+	if (ft_strcompare(str, "env") == 1)
 		return(1);
-	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("echo"))
+	if (ft_strcompare(str, "echo") == 1)
 		return(1);
-	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("unset"))
+	if (ft_strcompare(str, "unset") == 1)
 		return(1);
 	return (0);
 }
 
 int is_a_real_builtin(char *str)
 {
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("cd"))
+	if (ft_strcompare(str, "cd") == 1)
 		return(1);
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0 && ft_strlen(str) == ft_strlen("export"))
+	if (ft_strcompare(str, "export") == 1)
 		return(1);
-	if (ft_strncmp(str, "unset", ft_strlen(str))  == 0 && ft_strlen(str) == ft_strlen("unset"))
+	if (ft_strcompare(str, "unset") == 1)
+		return (1);
+	return (0);
+}
+
+int ft_strcompare(char *str1, char *str2)
+{
+	if (ft_strncmp(str1, str2, ft_strlen(str1)) == 0
+		&& ft_strlen(str1) == ft_strlen(str2))
 		return (1);
 	return (0);
 }

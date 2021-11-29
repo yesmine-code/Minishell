@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+extern int g_shell_status;
 
 typedef struct  s_env
 {
@@ -36,7 +37,6 @@ typedef struct  s_env
 
 typedef struct s_command
 {
-	t_env   *env;
 	char	*com;
 	char	*args;
 	int		out_file_num;
@@ -47,14 +47,24 @@ typedef struct s_command
 	char	**output_files_append;
 	int		expected_words_num;
 	char 	**read_from_shell;
-	//int		*nb_args;
 }				t_command;
 
-int execute_cmd(t_command com, char **env, int last_child_status);
+typedef struct s_shellinfo
+{
+	t_env	*env;
+	int		execute;
+	int		*old_pipe[2];
+	int		*previous;
+	int		coming;
+
+}				t_shellinfo;
+
+char **create_tab(t_command com, t_shellinfo shell);
+int execute_cmd(t_command com, char **env, t_shellinfo shell);
 int	char_numb(char *str, char c, int two);
 int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute);
+void pipe_cmd(t_command com, t_shellinfo shell, char **env);
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
@@ -71,7 +81,6 @@ void ft_free_tab(char **str);
 int quotes_enum(char *str);
 int		is_it_between_quotes(char *str, int pos);
 void	ft_delete_quotes(char *com);
-char *substitute_env_var(t_command command, char *com);
 int		is_it_between_simple_quotes(char *str, int pos);
 int		ft_mini_count(char *s, char c);
 int handle_single_cmd(char* cmd, char **env);
@@ -86,7 +95,7 @@ void ft_read_from_shell(t_command com, int dupIt);
 int execute_input_output(t_command com);
 char *get_name_env(char *s);
 int ft_export(t_env *env, char **arg);
-void add_env(t_env **env,t_env *new, char *str);
+void add_env(t_env **env, char *str);
 char *get_value(char *s);
 int ft_unset(t_env **env_list, char **list_to_delete);
 void delete_env(t_env **env_list, char *to_delete);
@@ -96,6 +105,13 @@ void handle_ctrl_d();
 int exists(char *s, t_env *env, t_env **new_env);
 int is_valid_ident(char *s);
 void handle_ctrl_backslash();
-char *getenv_value_from_list(t_command command, char *env);
+int ft_strcompare(char *str1, char *str2);
+char *getenv_value_from_list(t_shellinfo shell, char *env);
+char *substitute_env_var(t_shellinfo shell, char *com);
+void ft_swap(t_env *env1, t_env *env2);
+int ft_sorted(t_env *list);
+void ft_sort(t_env *list);
+int without_arg(t_env *env);
+char *to_lowercase(char *s1);
 
 #endif

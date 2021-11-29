@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int g_shell_status;
+
 void ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
     printf("\n");
@@ -20,10 +22,11 @@ void ctrl_c_handler(int sig, siginfo_t *info, void *context)
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
+        g_shell_status = 130;
     }
 }
 
-void handle_ctrl_c()
+void handle_ctrl_c(void)
 {
     struct sigaction sa;
 

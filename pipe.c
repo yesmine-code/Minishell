@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int g_shell_status;
+
 int	ft_envsize(t_env *env)
 {
 	int i;
@@ -44,7 +46,7 @@ char **convert_list_to_tab(t_env *env)
 }
 
 
-char **create_tab(t_command com)
+char **create_tab(t_command com, t_shellinfo shell)
 {
 	char **tab;
 	int i;
@@ -56,7 +58,7 @@ char **create_tab(t_command com)
 	tab = malloc(sizeof(char *) * (char_numb(com.args, ' ', 0) + 2));
 	while (com.args[i] != '\0')
 	{
-		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\'))
+		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\')) //si double cote
 		{
 			tmp = i;
 			i++;
@@ -64,8 +66,9 @@ char **create_tab(t_command com)
 				i++;
 			tab[j] = ft_substr(com.args, tmp, i - tmp + 1);
 			j++;
+			i++;
 		}
-		else if (com.args[i] == '\'')
+		else if (com.args[i] == '\'') // si cote
 		{
 			tmp = i;
 			i++;
@@ -73,8 +76,9 @@ char **create_tab(t_command com)
 				i++;
 			tab[j] = ft_substr(com.args, tmp, i - tmp + 1);
 			j++;
+			i++;
 		}
-		else if (ft_isspace(com.args[i]) == 0)
+		else if (ft_isspace(com.args[i]) == 0) //si caractere
 		{
 			tmp = i;
 			while (ft_isspace(com.args[i]) == 0 && com.args[i] != '\0' || is_it_between_quotes(com.args, i) == 1)
@@ -90,7 +94,7 @@ char **create_tab(t_command com)
 	char *c_tmp;
 	while (tab[i] != NULL)
 	{
-		c_tmp = substitute_env_var(com, tab[i]);
+		c_tmp = substitute_env_var(shell, tab[i]);
 		if (tab[i] != NULL)
 			free(tab[i]);
 		tab[i] = c_tmp;
@@ -100,7 +104,7 @@ char **create_tab(t_command com)
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env, int last_child_status)
+int execute_cmd(t_command com, char **env, t_shellinfo shell)
 {
 	char *str;
 	char **arg;
@@ -110,41 +114,43 @@ int execute_cmd(t_command com, char **env, int last_child_status)
 	pid_t cpid;
 
 	ret = 0;
-
 	if(is_a_real_builtin(com.com) == 1)
 	{
-		{
-			ft_read_from_shell(com, 0);
-			if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
-				exit(EXIT_FAILURE);
-		}
+		ft_read_from_shell(com, 0);
+		if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
+			exit(EXIT_FAILURE);
 	}
-	arg = create_tab(com);
-	if (ft_strncmp(arg[0], "pwd", ft_strlen(arg[0])) == 0 && ft_strlen("pwd") == ft_strlen(arg[0]))
+	arg = create_tab(com, shell);
+	if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
-	else if (ft_strncmp(arg[0], "cd", ft_strlen(arg[0])) == 0 && ft_strlen("cd") == ft_strlen(arg[0]))
+	else if (ft_strcompare(arg[0], "cd") == 1)
 		ret = ft_cd(arg);
-	else if (ft_strncmp(arg[0], "echo", ft_strlen(arg[0])) == 0 && ft_strlen("echo") == ft_strlen(arg[0]))
+	else if (ft_strcompare(arg[0], "echo") == 1)
 		ret = ft_echo(arg);
-	else if (ft_strncmp(arg[0], "env", ft_strlen(arg[0])) == 0 && ft_strlen("env") == ft_strlen(arg[0]))
-		ret = ft_env(com.env);
-	else if (ft_strncmp(arg[0], "export", ft_strlen(arg[0])) == 0 && ft_strlen("export") == ft_strlen(arg[0]))
-		ret = ft_export(com.env, arg);
-	else if (ft_strncmp(arg[0], "unset", ft_strlen(arg[0])) == 0 && ft_strlen("unset") == ft_strlen(arg[0]))
-		ret = ft_unset(&com.env, arg);
+	else if (ft_strcompare(arg[0], "env") == 1)
+		ret = ft_env(shell.env);
+	else if (ft_strcompare(arg[0], "export") == 1)
+		ret = ft_export(shell.env, arg);
+	else if (ft_strcompare(arg[0], "unset") == 1)
+		ret = ft_unset(&shell.env, arg);
 	else
 	{
 		full_cmd = find_cmd_path(arg[0]);
 		if (full_cmd != NULL)
 		{
 			arg[0] = full_cmd;
-			tab = convert_list_to_tab(com.env);
+			tab = convert_list_to_tab(shell.env);
 			ret = execve(arg[0], arg, tab); // replace en by list
 		}
 		else
 		{
 			if ( arg[0][0] == '?')
-				printf("minishell: command not found : %d%s\n", WEXITSTATUS(last_child_status), arg[0] + 1);
+			{
+				if (g_shell_status == 130)
+					printf("minishell: command not found : %d%s\n", g_shell_status, arg[0] + 1);
+				else
+					printf("minishell: command not found : %d%s\n", WEXITSTATUS(g_shell_status), arg[0] + 1);
+			}
 			else
 				printf("minishell: command not found : %s\n", arg[0]);
 			ret = -1;
@@ -154,19 +160,17 @@ int execute_cmd(t_command com, char **env, int last_child_status)
 	return ret;
 }
 
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute)
+void pipe_cmd(t_command com, t_shellinfo shell, char **env)
 {
 	int i;
 	int new_pipe[2];
-	int child_status;
-
 	char **com_tab;
 	pid_t cpid;
 	pid_t tpid;
+
 	i = 0;
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
-
-	if (is_coming)
+	if (shell.coming)
 		pipe(new_pipe);
 	cpid = fork();
 	if (cpid == 0) // child
@@ -175,46 +179,45 @@ int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int
 		if (ft_infile(com, 1) < 0)
 			exit(EXIT_FAILURE);
 		if(com.in_file_num > 0)
-			is_previous = 1;
-		if (is_previous) // if there is a previous command
+			*shell.previous = 1;
+		if (*shell.previous) // if there is a previous command
 		{
-			dup2(*old_pipe[0], 0);
-			close(*old_pipe[0]);
-			close(*old_pipe[1]);
+			dup2(*shell.old_pipe[0], 0);
+			close(*shell.old_pipe[0]);
+			close(*shell.old_pipe[1]);
 		}
 		if (ft_outfile(com, 1) < 0 || ft_outfile_append(com, 1) < 0)
 			exit(EXIT_FAILURE);
-		if (is_coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
+		if (shell.coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
 		{
 			close(new_pipe[0]);
 			dup2(new_pipe[1], 1);
 			close(new_pipe[1]);
 		}
-		if(execute && ft_strlen(com.com) > 0)
+		if(shell.execute && ft_strlen(com.com) > 0)
 		{
-			if (execute_cmd(com, env, last_child_status) < 0)
+			if (execute_cmd(com, env, shell) < 0)
 				exit(EXIT_FAILURE);
 		}
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent
 	{
-		if (is_previous) // previous command
+		if (*shell.previous) // previous command
 		{
-			close(*old_pipe[0]);
-			close(*old_pipe[1]);
+			close(*shell.old_pipe[0]);
+			close(*shell.old_pipe[1]);
 		}
-		if (is_coming) // comming command
+		if (shell.coming) // comming command
 		{
-			*old_pipe[0] = new_pipe[0];
-			*old_pipe[1] = new_pipe[1];
+			*shell.old_pipe[0] = new_pipe[0];
+			*shell.old_pipe[1] = new_pipe[1];
 		}
 	}
 	else
 	{
 		perror("creating fork failed");
-		return (-1);
+		g_shell_status = -1;
 	}
-	waitpid(cpid, &child_status, 0);
-	return child_status;
+	waitpid(cpid, &g_shell_status, 0);
 }

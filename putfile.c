@@ -108,7 +108,7 @@ void ft_read_from_shell(t_command com, int dupit)
 		while (i < com.expected_words_num)
 		{
 			line = readline("heredoc>");
-			if (ft_strncmp(line, com.read_from_shell[i], ft_strlen(com.read_from_shell[i])) == 0 && ft_strlen(line) == ft_strlen(com.read_from_shell[i]))
+			if (ft_strcompare(line, com.read_from_shell[i]) == 1)
 				i++;
 			else
 			{

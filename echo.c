@@ -21,7 +21,7 @@ int ft_echo(char **arg)
     i = 1;
     if (arg[1] == NULL)
         return(printf("\n"));
-    if (ft_strncmp(arg[i], "-n", 2) == 0 && ft_strlen(arg[i]) == ft_strlen("-n") && i == 1)
+    if (ft_strcompare(arg[i], "-n") == 1 && i == 1)
     {
         i++;
         has_option = 1;

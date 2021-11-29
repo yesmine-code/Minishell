@@ -37,7 +37,7 @@ int home_path(char *arg)
     ret = chdir(default_dir);
     if (default_dir != NULL)
         free(default_dir);
-            return (ret);
+    return (ret);
 }
 
 int change_path(char *path)
@@ -71,7 +71,7 @@ int ft_cd(char **arg)
         printf("cd: too many arguments\n");
         return (1);
     }
-    if (arg[1] == NULL || (ft_strncmp(arg[1], "~", 1) == 0 && ft_strlen(arg[1]) == 1))
+    if (arg[1] == NULL || (ft_strcompare(arg[1], "~") == 1))
         return (ret = home_path(arg[1]));
     path = get_path(arg[1]);
     ret = change_path(path);
