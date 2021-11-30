@@ -12,13 +12,23 @@
 
 #include "minishell.h"
 
+
+char *getenv_value_from_list(t_shellinfo shell, char *env)
+{
+	while(shell.env && shell.env->var)
+	{
+		if (ft_strcompare(shell.env->name, env) == 1)
+			return (shell.env->value);
+		shell.env = shell.env->next;
+	}
+	return ft_strdup("");
+}
+
 char **get_paths()
 {
 	char *path;
 	char **path_tab;
-	int i;
 
-	i = 0;
 	path = getenv("PATH");
 	path_tab = ft_split(path, ':');
 	return (path_tab);
@@ -80,9 +90,6 @@ int quotes_enum(char *str)
 
 void	ft_remove_char(char *str,int pos)
 {
-	int i;
-
-	i = 0;
 	while (str[pos] != '\0')
 	{
 		str[pos] = str[pos + 1];
@@ -186,7 +193,7 @@ int		is_it_between_quotes(char *str, int pos)
 }
 
 
-char *substitute_env_var(char *com)
+char *substitute_env_var(t_shellinfo shell, char *com)
 {
 	int i;
 	int tmp;
@@ -206,15 +213,13 @@ char *substitute_env_var(char *com)
 	{
 		if (com[i] == '$')
 		{
-			//printf("hi");
 			i++;
 			tmp = i;
 			while (ft_isalnum(com[i]) == 1)
 				i++;
 			env = ft_substr(com, tmp, i - tmp);
 			char_to_extract = char_to_extract + ft_strlen(env) + 1;
-			str[j] = getenv(env);
-			//printf("%s", str[j]);
+			str[j] = getenv_value_from_list(shell, env);
 			j++;
 		}
 		i++;

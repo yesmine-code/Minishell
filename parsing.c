@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/10 09:31:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:16:34 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void parse_cmd(char *command, t_command *com_struct)
 	int k;
 	int n;
 	int m;
-	int tmp;
-	char *cmd;
 	int offset;
 
 	i = 0;
@@ -108,17 +106,12 @@ void cmd_init(char *command, t_command *com_struct)
 	//com_struct->env = NULL;
 }
 
-t_command get_cmd(char *command, char **env)
+t_command get_cmd(char *command)
 {
 	t_command com_struct;
 	char *com_trim;
-	int tmp;
-	char *cmd;
-	int i;
 
-	i = 0;
 	cmd_init(command, &com_struct);
-	//init_env(&com_struct, env);
 	com_trim = ft_strtrim(command, " \t\r\f\v\n");
 	parse_cmd(com_trim, &com_struct);
 	return com_struct;

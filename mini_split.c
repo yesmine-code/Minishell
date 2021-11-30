@@ -32,10 +32,8 @@ int		ft_mini_count(char *s, char c)
 int		ft_mini_wordlen(char *s, char c)
 {
 	int		i;
-	int		len;
 
 	i = 0;
-	len = 0;
 	while (s[i] != '\0')
 	{
 		ft_skip_quotes(s, &i);

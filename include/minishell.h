@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/28 22:07:05 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:21:46 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,18 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+extern int g_shell_status;
 
 typedef struct  s_env
 {
 	char *var;
 	char *name;
+	char *value;
 	struct s_env *next;
-} t_env;
+} 				t_env;
 
 typedef struct s_command
 {
-	//t_env  *env;
 	char	*com;
 	char	*args;
 	int		out_file_num;
@@ -49,15 +50,27 @@ typedef struct s_command
 	int		*nb_args;
 }				t_command;
 
+typedef struct s_shellinfo
+{
+	t_env	*env;
+	int		execute;
+	int		*old_pipe[2];
+	int		*previous;
+	int		coming;
+
+}				t_shellinfo;
+
+char **create_tab(t_command com, t_shellinfo shell);
+int execute_cmd(t_command com, t_shellinfo shell);
 int	char_numb(char *str, char c, int two);
 int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
-int pipe_cmd(t_command com, int is_previous, int is_coming, int *old_pipe[], int last_child_status, char **env, int execute, t_env **env_arr);
+void pipe_cmd(t_command com, t_shellinfo shell);
 int ft_pwd(void);
 int ft_exit(void);
 int is_builtin(char *str);
 int is_a_real_builtin(char *str);
-t_command get_cmd(char *command, char **env);
+t_command get_cmd(char *command);
 void parse_cmd(char *command, t_command *com_struct);
 void ft_free_cmd(t_command *com);
 char **get_paths();
@@ -69,15 +82,18 @@ void ft_free_tab(char **str);
 int quotes_enum(char *str);
 int		is_it_between_quotes(char *str, int pos);
 void	ft_delete_quotes(char *com);
-char *substitute_env_var(char *com);
 int		is_it_between_simple_quotes(char *str, int pos);
 int		ft_mini_count(char *s, char c);
 int handle_single_cmd(char* cmd, char **env);
-int execute_cmd(t_command com, char **env, t_env **env_arr);
 int ft_cd(char **dir);
 int ft_echo(char **arg);
 int ft_env(t_env *env);
-void init_env(t_env **env, char **env_);
+int	ft_infile(t_command com, int dupIt);
+void init_env(t_env **env_list, char **env);
+int ft_outfile(t_command com, int dupIt);
+int ft_outfile_append(t_command com, int dupIt);
+void ft_read_from_shell(t_command com, int dupIt);
+int execute_input_output(t_command com);
 char *get_name_env(char *s);
 int ft_export(t_env *env, char **arg);
 void add_env(t_env **env, char *str);
@@ -89,18 +105,14 @@ void handle_ctrl_c();
 void handle_ctrl_d();
 int exists(char *s, t_env *env, t_env **new_env);
 int is_valid_ident(char *s);
-int	ft_infile(t_command com);
-int ft_outfile(t_command com);
-int ft_outfile_append(t_command com);
-void ft_read_from_shell(t_command com);
 void handle_ctrl_backslash();
-int ft_compare(char *s1, char *s2);
+int ft_strcompare(char *str1, char *str2);
+char *getenv_value_from_list(t_shellinfo shell, char *env);
+char *substitute_env_var(t_shellinfo shell, char *com);
 void ft_swap(t_env *env1, t_env *env2);
 int ft_sorted(t_env *list);
 void ft_sort(t_env *list);
 int without_arg(t_env *env);
 char *to_lowercase(char *s1);
-
-
 
 #endif

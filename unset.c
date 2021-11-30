@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:50:08 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/28 22:49:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:20:47 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int is_exist(char *to_delte, t_env *list_env)
     tmp = list_env;
     while (tmp != NULL)
     {
-        if (ft_compare(tmp->name, to_delte))
+        if (ft_strcompare(tmp->name, to_delte))
             return (1);
         tmp = tmp->next;
     }
@@ -77,7 +77,7 @@ void delete_env(t_env **env_list, char *to_delete)
     tmp = *env_list;
     previous = NULL;
     {
-        if (ft_compare(tmp->name, to_delete))
+        if (ft_strcompare(tmp->name, to_delete))
         {
             *env_list = (*env_list)->next;
             free(tmp);
@@ -86,7 +86,7 @@ void delete_env(t_env **env_list, char *to_delete)
         previous = tmp;
         while (tmp != NULL)
         {
-            if (ft_compare(tmp->name, to_delete))
+            if (ft_strcompare(tmp->name, to_delete))
             {
                 previous->next = tmp->next;
                 free(tmp);

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/28 18:49:06 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:15:02 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int exists(char *s, t_env *env, t_env **new_env)
     name_of_new_env = get_name_env(s);
     while (tmp != NULL)
     {
-        if (ft_compare(tmp->name, name_of_new_env))
+        if (ft_strcompare(tmp->name, name_of_new_env) == 1)
         {
             free(name_of_new_env);
             *new_env = tmp;
@@ -69,7 +69,6 @@ int is_valid_env(char *s)
 int is_valid_ident(char *s)
 {
     char *env_name;
-
     if (s == NULL)
         return (0);
     env_name = get_name_env(s);
@@ -82,7 +81,6 @@ int is_valid_ident(char *s)
     free(env_name);
     return (1);
 }
-
 int ft_export(t_env *env, char **arg)
 {
     t_env *new_env;

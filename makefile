@@ -28,7 +28,7 @@ CC			= gcc
 
 RM			= rm -f
 
-CFLAGS		= -g  #-Wall -Wextra -Werror 
+CFLAGS		= -g  -Wall -Wextra -Werror 
 
 .c.o:
 				${CC} ${CFLAGS} -c -I ${INCLUDES} $< -o ${<:.c=.o}

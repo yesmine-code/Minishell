@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/23 16:57:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:07:37 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char *get_path(char *arg)
     return (path);
 }
 
-int home_path(char *arg)
+int home_path()
 {
     char *default_dir;
     int ret;
@@ -69,8 +69,8 @@ int ft_cd(char **arg)
         printf("cd: too many arguments\n");
         return (1);
     }
-    if (arg[1] == NULL || (ft_strncmp(arg[1], "~", 1) == 0 && ft_strlen(arg[1]) == 1))
-        return (ret = home_path(arg[1]));
+    if (arg[1] == NULL || (ft_strcompare(arg[1], "~") == 1))
+        return (ret = home_path());
     path = get_path(arg[1]);
     ret = change_path(path);
     if (path != NULL)
