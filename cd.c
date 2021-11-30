@@ -28,7 +28,7 @@ char *get_path(char *arg)
     return (path);
 }
 
-int home_path(char *arg)
+int home_path()
 {
     char *default_dir;
     int ret;
@@ -72,7 +72,7 @@ int ft_cd(char **arg)
         return (1);
     }
     if (arg[1] == NULL || (ft_strcompare(arg[1], "~") == 1))
-        return (ret = home_path(arg[1]));
+        return (ret = home_path());
     path = get_path(arg[1]);
     ret = change_path(path);
     if (path != NULL)

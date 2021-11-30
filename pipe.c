@@ -81,7 +81,7 @@ char **create_tab(t_command com, t_shellinfo shell)
 		else if (ft_isspace(com.args[i]) == 0) //si caractere
 		{
 			tmp = i;
-			while (ft_isspace(com.args[i]) == 0 && com.args[i] != '\0' || is_it_between_quotes(com.args, i) == 1)
+			while ((ft_isspace(com.args[i]) == 0 && com.args[i] != '\0') || is_it_between_quotes(com.args, i) == 1)
 				i++;
 			tab[j] = ft_substr(com.args, tmp, i - tmp);
 			j++;
@@ -104,14 +104,12 @@ char **create_tab(t_command com, t_shellinfo shell)
 	return (tab);
 }
 
-int execute_cmd(t_command com, char **env, t_shellinfo shell)
+int execute_cmd(t_command com, t_shellinfo shell)
 {
-	char *str;
 	char **arg;
 	char *full_cmd;
 	int ret;
 	char **tab;
-	pid_t cpid;
 
 	ret = 0;
 	if(is_a_real_builtin(com.com) == 1)
@@ -153,22 +151,18 @@ int execute_cmd(t_command com, char **env, t_shellinfo shell)
 			}
 			else
 				printf("minishell: command not found : %s\n", arg[0]);
-			ret = -1;
+			ret = 127;
 		}
 	}
 	free(arg);
 	return ret;
 }
 
-void pipe_cmd(t_command com, t_shellinfo shell, char **env)
+void pipe_cmd(t_command com, t_shellinfo shell)
 {
-	int i;
 	int new_pipe[2];
-	char **com_tab;
 	pid_t cpid;
-	pid_t tpid;
 
-	i = 0;
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
 		pipe(new_pipe);
@@ -195,10 +189,7 @@ void pipe_cmd(t_command com, t_shellinfo shell, char **env)
 			close(new_pipe[1]);
 		}
 		if(shell.execute && ft_strlen(com.com) > 0)
-		{
-			if (execute_cmd(com, env, shell) < 0)
-				exit(EXIT_FAILURE);
-		}
+				exit(execute_cmd(com, shell));
 		exit(EXIT_SUCCESS);
 	}
 	else if (cpid > 0) // parent

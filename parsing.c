@@ -31,8 +31,6 @@ void parse_cmd(char *command, t_command *com_struct)
 	int k;
 	int n;
 	int m;
-	int tmp;
-	char *cmd;
 	int offset;
 
 	i = 0;
@@ -107,15 +105,11 @@ void cmd_init(char *command, t_command *com_struct)
 	com_struct->args = NULL;
 }
 
-t_command get_cmd(char *command, char **env)
+t_command get_cmd(char *command)
 {
 	t_command com_struct;
 	char *com_trim;
-	int tmp;
-	char *cmd;
-	int i;
 
-	i = 0;
 	cmd_init(command, &com_struct);
 	com_trim = ft_strtrim(command, " \t\r\f\v\n");
 	parse_cmd(com_trim, &com_struct);

@@ -14,10 +14,10 @@
 
 int g_shell_status;
 
-void ctrl_c_handler(int sig, siginfo_t *info, void *context)
+void ctrl_c_handler(int sig)
 {
     printf("\n");
-    if (info->si_pid != 0)
+    if (sig == SIGINT)
     {
         rl_on_new_line();
         rl_replace_line("", 0);
@@ -30,26 +30,21 @@ void handle_ctrl_c(void)
 {
     struct sigaction sa;
 
-    sa.sa_sigaction = ctrl_c_handler;
+    sa.sa_handler = ctrl_c_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGINT, &sa, NULL);
 }
 
-void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
+void ctrl_backslash_handler(int sig)
 {
-    if (info->si_pid == 0)
-    {
-        printf("Quit\n");
-    }
-    else
-        printf("\b\b  \b\b");
+    (void)sig;
 }
 
 void handle_ctrl_backslash()
 {
     struct sigaction sa;
 
-    sa.sa_sigaction = ctrl_backslash_handler;
+    sa.sa_handler = ctrl_backslash_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGQUIT, &sa, NULL);
 } 

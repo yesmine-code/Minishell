@@ -23,6 +23,12 @@ int main(int ac, char **av, char **env)
 	t_command com_struct;
 	int i;
 
+	if (ac > 1)
+	{
+		printf("ERROR :this program doesn't work with arguments\n");
+		exit(EXIT_FAILURE);
+	}
+	av[1] = NULL;
 	shell.env = NULL;
 	shell.previous = malloc(sizeof(int));
 	if (shell.previous == NULL)
@@ -62,22 +68,22 @@ int main(int ac, char **av, char **env)
 			while (commands[i] != NULL)
 			{
 				shell.coming = (commands[i + 1] == NULL) ? 0 : 1;
-				com_struct = get_cmd(commands[i], env);
+				com_struct = get_cmd(commands[i]);
 				init_env(&shell.env, env);
 				if(is_a_real_builtin(com_struct.com) == 0)
 				{
 					shell.execute = 1;
-					pipe_cmd(com_struct, shell, env);
+					pipe_cmd(com_struct, shell);
 				}
 				else if (i == 0 && commands[i + 1] == NULL)
 				{
-					if (execute_cmd(com_struct, env, shell) < 0)
+					if (execute_cmd(com_struct, shell) < 0)
 						break ;
 				}
 				else
 				{
 					shell.execute = 0;
-					pipe_cmd(com_struct, shell, env);
+					pipe_cmd(com_struct, shell);
 				}
 				i++;
 				*shell.previous = 1;

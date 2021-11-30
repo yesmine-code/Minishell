@@ -28,7 +28,6 @@ void add_env(t_env **env, char *str)
 {
 	t_env *tmp;
 	t_env *new;
-	int i;
 
 	tmp = *env;
 	if (!(new = malloc(sizeof(t_env))))
@@ -56,9 +55,7 @@ void add_env(t_env **env, char *str)
 void init_env(t_env **env_list, char **env)
 {
 	t_env *tmp;
-	int i;
 
-	i = 0;
 	tmp = NULL;
 	if (*env_list == NULL)
 	{

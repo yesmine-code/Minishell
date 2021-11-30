@@ -28,9 +28,7 @@ char **get_paths()
 {
 	char *path;
 	char **path_tab;
-	int i;
 
-	i = 0;
 	path = getenv("PATH");
 	path_tab = ft_split(path, ':');
 	return (path_tab);
@@ -92,9 +90,6 @@ int quotes_enum(char *str)
 
 void	ft_remove_char(char *str,int pos)
 {
-	int i;
-
-	i = 0;
 	while (str[pos] != '\0')
 	{
 		str[pos] = str[pos + 1];
