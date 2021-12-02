@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 21:03:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/30 22:20:19 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/02 21:45:37 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int g_shell_status;
 
-void ctrl_c_handler(int sig)
+void ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
+    (void) info;
+    (void) context;
     printf("\n");
     if (sig == SIGINT)
     {
@@ -26,25 +28,32 @@ void ctrl_c_handler(int sig)
     }
 }
 
-void handle_ctrl_c(void)
+void handle_ctrl_c()
 {
     struct sigaction sa;
 
-    sa.sa_handler = ctrl_c_handler;
+    sa.sa_sigaction = ctrl_c_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGINT, &sa, NULL);
 }
 
-void ctrl_backslash_handler(int sig)
+void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
 {
-    (void)sig;
+    (void) context;
+    (void) sig;
+    if (info->si_pid == 0)
+    {
+        printf("Quit\n");
+    }
+    else
+        printf("\b\b  \b\b");
 }
 
 void handle_ctrl_backslash()
 {
     struct sigaction sa;
 
-    sa.sa_handler = ctrl_backslash_handler;
+    sa.sa_sigaction = ctrl_backslash_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGQUIT, &sa, NULL);
-} 
+}

@@ -24,6 +24,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <dirent.h>
+# include <errno.h>
 
 extern int g_shell_status;
 
@@ -114,5 +116,20 @@ int ft_sorted(t_env *list);
 void ft_sort(t_env *list);
 int without_arg(t_env *env);
 char *to_lowercase(char *s1);
+void case_of_0_cpid(t_command com, t_shellinfo shell, int *new_pipe[]);
+void    substitute_and_delete(t_shellinfo shell,char **tab);
+void case_of_positive_cpid(t_shellinfo shell, int *new_pipe[]);
+int find_and_execute(t_shellinfo shell, char **arg);
+char **convert_list_to_tab(t_env *env);
+void    check_for_files(t_command com);
+int	caculate_char_to_add(char **str, char *com);
+char *dollar_between_quotes(char **str, char *com, int char_to_extract, int char_to_add);
+int	executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
+void shell_init(t_shellinfo *shell);
+void	old_pipe_set(t_shellinfo *shell);
+
+
+
+
 
 #endif

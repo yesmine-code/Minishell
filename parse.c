@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 char *getenv_value_from_list(t_shellinfo shell, char *env)
 {
 	while(shell.env && shell.env->var)
@@ -192,6 +191,21 @@ int		is_it_between_quotes(char *str, int pos)
 	return (0);
 }
 
+int	caculate_char_to_add(char **str, char *com)
+{
+	int i;
+	int char_to_add;
+
+	i = 0;
+	char_to_add = 0;
+	while (i < char_numb(com, '$', 0))
+	{
+		if (str[i] != NULL)
+			char_to_add = char_to_add + ft_strlen(str[i]);
+		i++;
+	}
+	return (char_to_add);
+}
 
 char *substitute_env_var(t_shellinfo shell, char *com)
 {
@@ -224,44 +238,6 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 		}
 		i++;
 	}
-	i = 0;
-	while (i < char_numb(com, '$', 0))
-	{
-		if (str[i] != NULL)
-			char_to_add = char_to_add + ft_strlen(str[i]);
-		i++;
-	}
-	env = malloc(sizeof(char) * (ft_strlen(com) - char_to_extract + char_to_add));
-	i = 0;
-	j = 0;
-	int k = 0;
-	tmp = 0;
-	while (com[i] != '\0')
-	{
-		if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0 && ft_isspace(com[i + 1]) != 1 && com[i + 1] != '\0')
-		{
-			i++;
-			while (ft_isalnum(com[i]) == 1)
-				i++;
-			if (str != NULL && str[tmp] != NULL)
-			{
-				k = 0;
-				while (str[tmp][k] != '\0')
-				{
-					env[j] =  str[tmp][k];
-					j++;
-					k++;
-				}
-				tmp++;
-			}
-		}
-		else
-		{
-			env[j] = com[i];
-			i++;
-			j++;
-		}
-	}
-	env[j] = '\0';
-	return (env);
+	char_to_add = caculate_char_to_add(str, com);
+	return (dollar_between_quotes(str, com, char_to_extract, char_to_add));
 }

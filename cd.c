@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <errno.h>
-
 #include "minishell.h"
 
 char *get_path(char *arg)
