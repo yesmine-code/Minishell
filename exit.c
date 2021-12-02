@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:59:29 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/09/28 14:59:33 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/12/02 22:16:42 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_exit(void)
+int ft_exit(t_env *env_list)
 {
+	free_env_list(env_list);
 	exit(EXIT_SUCCESS);
 }
