@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-int g_shell_status;
-
 int	ft_envsize(t_env *env)
 {
 	int i;
@@ -26,6 +24,7 @@ int	ft_envsize(t_env *env)
 	}
 	return i;
 }
+
 char **convert_list_to_tab(t_env *env)
 {
 	char **tab;
@@ -44,7 +43,6 @@ char **convert_list_to_tab(t_env *env)
 	tab[i] = NULL;
 	return (tab);
 }
-
 
 char **create_tab(t_command com, t_shellinfo shell)
 {
@@ -90,34 +88,17 @@ char **create_tab(t_command com, t_shellinfo shell)
 			i++;
 	}
 	tab[j] = NULL;
-	i = 0;
-	char *c_tmp;
-	while (tab[i] != NULL)
-	{
-		c_tmp = substitute_env_var(shell, tab[i]);
-		if (tab[i] != NULL)
-			free(tab[i]);
-		tab[i] = c_tmp;
-		ft_delete_quotes(tab[i]);
-		i++;
-	}
+	substitute_and_delete(shell, tab);
 	return (tab);
 }
 
 int execute_cmd(t_command com, t_shellinfo shell)
 {
 	char **arg;
-	char *full_cmd;
 	int ret;
-	char **tab;
 
 	ret = 0;
-	if(is_a_real_builtin(com.com) == 1)
-	{
-		ft_read_from_shell(com, 0);
-		if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
-			exit(EXIT_FAILURE);
-	}
+	check_for_files(com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
@@ -132,79 +113,26 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	else if (ft_strcompare(arg[0], "unset") == 1)
 		ret = ft_unset(&shell.env, arg);
 	else
-	{
-		full_cmd = find_cmd_path(arg[0]);
-		if (full_cmd != NULL)
-		{
-			arg[0] = full_cmd;
-			tab = convert_list_to_tab(shell.env);
-			ret = execve(arg[0], arg, tab); // replace en by list
-		}
-		else
-		{
-			if ( arg[0][0] == '?')
-			{
-				if (g_shell_status == 130)
-					printf("minishell: command not found : %d%s\n", g_shell_status, arg[0] + 1);
-				else
-					printf("minishell: command not found : %d%s\n", WEXITSTATUS(g_shell_status), arg[0] + 1);
-			}
-			else
-				printf("minishell: command not found : %s\n", arg[0]);
-			ret = 127;
-		}
-	}
+		ret = find_and_execute(shell, arg);
 	free(arg);
 	return ret;
 }
 
 void pipe_cmd(t_command com, t_shellinfo shell)
 {
-	int new_pipe[2];
+	int *new_pipe[2];
 	pid_t cpid;
 
-	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
+	new_pipe[0] = malloc(sizeof(int));
+	new_pipe[1] = malloc(sizeof(int));
+	ft_memset(*new_pipe, 0x00, sizeof(*new_pipe));
 	if (shell.coming)
-		pipe(new_pipe);
+		pipe(*new_pipe);
 	cpid = fork();
 	if (cpid == 0) // child
-	{
-		ft_read_from_shell(com, 1);
-		if (ft_infile(com, 1) < 0)
-			exit(EXIT_FAILURE);
-		if(com.in_file_num > 0)
-			*shell.previous = 1;
-		if (*shell.previous) // if there is a previous command
-		{
-			dup2(*shell.old_pipe[0], 0);
-			close(*shell.old_pipe[0]);
-			close(*shell.old_pipe[1]);
-		}
-		if (ft_outfile(com, 1) < 0 || ft_outfile_append(com, 1) < 0)
-			exit(EXIT_FAILURE);
-		if (shell.coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
-		{
-			close(new_pipe[0]);
-			dup2(new_pipe[1], 1);
-			close(new_pipe[1]);
-		}
-		if(shell.execute && ft_strlen(com.com) > 0)
-				exit(execute_cmd(com, shell));
-		exit(EXIT_SUCCESS);
-	}
+		case_of_0_cpid(com, shell, &new_pipe[2]);
 	else if (cpid > 0) // parent
-	{
-		if (*shell.previous) // previous command
-		{
-			close(*shell.old_pipe[0]);
-			close(*shell.old_pipe[1]);
-		}
-		if (shell.coming) // comming command
-		{
-			*shell.old_pipe[0] = new_pipe[0];
-			*shell.old_pipe[1] = new_pipe[1];
-		}
-	}
+		case_of_positive_cpid(shell, &new_pipe[2]);
 	else
 	{
 		perror("creating fork failed");

@@ -92,8 +92,7 @@ int ft_outfile_append(t_command com, int dupit)
 	}
 	return (0);
 }
-
-void heredoc_helper(char *str, int dupit)
+void	heredoc_helper(char *str, int dupit)
 {
 	char *tmp;
 	int		fds[2];
@@ -137,6 +136,6 @@ void ft_read_from_shell(t_command com, int dupit)
 			}
 			free(line);
 		}
-		heredoc_helper(str, dupit);
+		heredoc_helper(str, dupit);	
 	}
 }
