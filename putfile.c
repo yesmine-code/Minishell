@@ -93,13 +93,31 @@ int ft_outfile_append(t_command com, int dupit)
 	return (0);
 }
 
+void heredoc_helper(char *str, int dupit)
+{
+	char *tmp;
+	int		fds[2];
+
+	tmp = ttyname(STDIN_FILENO);
+	if (tmp == NULL)
+		perror("minishell :");
+	if (dupit == 1)
+	{
+		close(STDIN_FILENO);
+		pipe(fds);
+		write(fds[1], str, ft_strlen(str));
+		free(str);
+		close(fds[1]);
+		dup2(fds[0], STDERR_FILENO);
+	}
+}
+
 void ft_read_from_shell(t_command com, int dupit)
 {
 	int i;
 	char *line;
 	char *tmp;
 	char *str;
-	int		fds[2];
 
 	i = 0;
 	str = ft_strdup("");
@@ -119,17 +137,6 @@ void ft_read_from_shell(t_command com, int dupit)
 			}
 			free(line);
 		}
-		tmp = ttyname(STDIN_FILENO);
-		if (tmp == NULL)
-			perror("minishell :");
-		if (dupit == 1)
-		{
-			close(STDIN_FILENO);
-			pipe(fds);
-			write(fds[1], str, ft_strlen(str));
-			free(str);
-			close(fds[1]);
-			dup2(fds[0], STDERR_FILENO);
-		}
+		heredoc_helper(str, dupit);
 	}
 }

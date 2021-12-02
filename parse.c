@@ -147,6 +147,7 @@ void	ft_delete_quotes(char *com)
 	pos_tab[j] = '\0';
 	remove_quotes(com, pos_tab);
 }
+
 int		is_it_between_simple_quotes(char *str, int pos)
 {
 
@@ -175,6 +176,7 @@ int		is_it_between_quotes(char *str, int pos)
 
 	i = 0;
 	result = 0;
+	result1 = 0;
 	while (i < pos)
 	{
 		if (str[i] == '\"' && (i == 0 || str[i - 1] != '\\'))
@@ -206,7 +208,6 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 	i = 0;
 	j = 0;
 	char_to_extract = 0;
-	char_to_add =0;
 
 	str = malloc(sizeof(char *) * char_numb(com, '$', 0));
 	while (com[i] != '\0')
@@ -224,44 +225,7 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 		}
 		i++;
 	}
-	i = 0;
-	while (i < char_numb(com, '$', 0))
-	{
-		if (str[i] != NULL)
-			char_to_add = char_to_add + ft_strlen(str[i]);
-		i++;
-	}
-	env = malloc(sizeof(char) * (ft_strlen(com) - char_to_extract + char_to_add));
-	i = 0;
-	j = 0;
-	int k = 0;
-	tmp = 0;
-	while (com[i] != '\0')
-	{
-		if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0 && ft_isspace(com[i + 1]) != 1 && com[i + 1] != '\0')
-		{
-			i++;
-			while (ft_isalnum(com[i]) == 1)
-				i++;
-			if (str != NULL && str[tmp] != NULL)
-			{
-				k = 0;
-				while (str[tmp][k] != '\0')
-				{
-					env[j] =  str[tmp][k];
-					j++;
-					k++;
-				}
-				tmp++;
-			}
-		}
-		else
-		{
-			env[j] = com[i];
-			i++;
-			j++;
-		}
-	}
-	env[j] = '\0';
+	char_to_add = caculate_char_to_add(com, str);
+	env = dollar_beween_quotes(com, str, char_to_extract, char_to_add);
 	return (env);
 }

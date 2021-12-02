@@ -111,7 +111,14 @@ char *substitute_env_var(t_shellinfo shell, char *com);
 void ft_swap(t_env *env1, t_env *env2);
 int ft_sorted(t_env *list);
 void ft_sort(t_env *list);
+void heredoc_helper(char *str, int dupit);
 int without_arg(t_env *env);
 char *to_lowercase(char *s1);
+void heredoc_helper(char *str, int dupit);
+char *dollar_beween_quotes(char *com, char **str, int char_to_extract, int char_to_add);
+int caculate_char_to_add(char *com, char **str);
+
+
+
 
 #endif

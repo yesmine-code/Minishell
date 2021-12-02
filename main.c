@@ -12,8 +12,6 @@
 
 #include "include/minishell.h"
 
-int g_shell_status;
-
 int main(int ac, char **av, char **env)
 {
 	char *str;

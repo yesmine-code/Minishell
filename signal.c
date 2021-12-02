@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-int g_shell_status;
-
-void ctrl_c_handler(int sig)
+void ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
+    (void) sig;
+    (void) context;
     printf("\n");
     if (sig == SIGINT)
     {
@@ -30,21 +30,28 @@ void handle_ctrl_c(void)
 {
     struct sigaction sa;
 
-    sa.sa_handler = ctrl_c_handler;
+    sa.sa_sigaction = ctrl_c_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGINT, &sa, NULL);
 }
 
-void ctrl_backslash_handler(int sig)
+void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
 {
-    (void)sig;
+    (void) sig;
+    (void) context;   
+    if (info->si_pid == 0)
+    {
+        printf("Quit\n");
+    }
+    else
+        printf("\b\b  \b\b");
 }
 
 void handle_ctrl_backslash()
 {
     struct sigaction sa;
 
-    sa.sa_handler = ctrl_backslash_handler;
+    sa.sa_sigaction = ctrl_backslash_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGQUIT, &sa, NULL);
 } 
