@@ -49,7 +49,6 @@ typedef struct s_command
 	char	**output_files_append;
 	int		expected_words_num;
 	char 	**read_from_shell;
-	int		*nb_args;
 }				t_command;
 
 typedef struct s_shellinfo

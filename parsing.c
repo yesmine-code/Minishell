@@ -103,7 +103,6 @@ void cmd_init(char *command, t_command *com_struct)
 		com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
 	com_struct->com = NULL;
 	com_struct->args = NULL;
-	//com_struct->env = NULL;
 }
 
 t_command get_cmd(char *command)
