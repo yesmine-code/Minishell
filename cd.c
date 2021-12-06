@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/28 15:56:20 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:07:37 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int change_path(char *path)
     }
     return (ret);
 }
-
 int ft_cd(char **arg)
 {
     char *path;

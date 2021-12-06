@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/19 09:58:31 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/11/30 22:15:02 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int exists(char *s, t_env *env, t_env **new_env)
 
     tmp = env;
     name_of_new_env = get_name_env(s);
-    while (tmp->next != NULL)
+    while (tmp != NULL)
     {
         if (ft_strcompare(tmp->name, name_of_new_env) == 1)
         {

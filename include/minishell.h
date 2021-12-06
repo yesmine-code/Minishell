@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/31 17:09:54 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/02 22:17:39 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
 void pipe_cmd(t_command com, t_shellinfo shell);
 int ft_pwd(void);
-int ft_exit(void);
+int ft_exit(t_env *env_list);
 int is_builtin(char *str);
 int is_a_real_builtin(char *str);
 t_command get_cmd(char *command);
@@ -126,6 +126,7 @@ char *dollar_between_quotes(char **str, char *com, int char_to_extract, int char
 int	executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
 void shell_init(t_shellinfo *shell);
 void	old_pipe_set(t_shellinfo *shell);
+void free_env_list(t_env *env_list);
 
 
 
