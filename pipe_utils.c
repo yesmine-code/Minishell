@@ -29,7 +29,7 @@ void    substitute_and_delete(t_shellinfo shell,char **tab)
 	}
 }
 
-void case_of_0_cpid(t_command com, t_shellinfo shell, int *new_pipe[])
+void case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 {
     ft_read_from_shell(com, 1);
     if (ft_infile(com, 1) < 0)
@@ -46,16 +46,16 @@ void case_of_0_cpid(t_command com, t_shellinfo shell, int *new_pipe[])
         exit(EXIT_FAILURE);
     if (shell.coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
     {
-        close(*new_pipe[0]);
-        dup2(*new_pipe[1], 1);
-        close(*new_pipe[1]);
+        close(new_pipe[0]);
+        dup2(new_pipe[1], 1);
+        close(new_pipe[1]);
     }
     if(shell.execute && ft_strlen(com.com) > 0)
             exit(execute_cmd(com, shell));
     exit(EXIT_SUCCESS);
 }
 
-void case_of_positive_cpid(t_shellinfo shell, int *new_pipe[])
+void case_of_positive_cpid(t_shellinfo shell, int new_pipe[])
 {
     if (*shell.previous) // previous command
     {
@@ -64,8 +64,8 @@ void case_of_positive_cpid(t_shellinfo shell, int *new_pipe[])
     }
     if (shell.coming) // comming command
     {
-        *shell.old_pipe[0] = *new_pipe[0];
-        *shell.old_pipe[1] = *new_pipe[1];
+        *shell.old_pipe[0] = new_pipe[0];
+        *shell.old_pipe[1] = new_pipe[1];
     }
 }
 

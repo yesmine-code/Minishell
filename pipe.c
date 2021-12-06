@@ -120,19 +120,17 @@ int execute_cmd(t_command com, t_shellinfo shell)
 
 void pipe_cmd(t_command com, t_shellinfo shell)
 {
-	int *new_pipe[2];
+	int new_pipe[2];
 	pid_t cpid;
 
-	new_pipe[0] = malloc(sizeof(int));
-	new_pipe[1] = malloc(sizeof(int));
-	ft_memset(*new_pipe, 0x00, sizeof(*new_pipe));
+	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
-		pipe(*new_pipe);
+		pipe(new_pipe);
 	cpid = fork();
 	if (cpid == 0) // child
-		case_of_0_cpid(com, shell, &new_pipe[2]);
+		case_of_0_cpid(com, shell, new_pipe);
 	else if (cpid > 0) // parent
-		case_of_positive_cpid(shell, &new_pipe[2]);
+		case_of_positive_cpid(shell, new_pipe);
 	else
 	{
 		perror("creating fork failed");
