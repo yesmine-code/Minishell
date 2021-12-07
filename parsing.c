@@ -73,10 +73,11 @@ void parse_cmd(char *command, t_command *com_struct)
 		}
 		i++;
 	}
-	com_struct->com = ft_substr(com_struct->args, 0, ft_strchr(com_struct->args, ' ') - com_struct->args);
+	com_struct->args[offset] = '\0';
+	if (ft_strchr(com_struct->args, ' ') && ft_strchr(com_struct->args, ' ') - com_struct->args > 0)
+		com_struct->com = ft_substr(com_struct->args, 0, ft_strchr(com_struct->args, ' ') - com_struct->args);
 	if(com_struct->com == NULL)
 		com_struct->com = ft_strdup(com_struct->args);
-	com_struct->args[offset] = '\0';
 }
 
 void cmd_init(char *command, t_command *com_struct)

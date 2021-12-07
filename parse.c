@@ -174,6 +174,7 @@ int		is_it_between_quotes(char *str, int pos)
 
 	i = 0;
 	result = 0;
+	result1 = 0;
 	while (i < pos)
 	{
 		if (str[i] == '\"' && (i == 0 || str[i - 1] != '\\'))

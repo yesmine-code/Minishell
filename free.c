@@ -34,10 +34,8 @@ void ft_free_cmd(t_command *com)
 		free (com->com);
 	if (com->args != NULL)
 		free (com->args);
-	if (com->inputfiles != NULL)
-		free (com->inputfiles);
-	if (com->output_files_append != NULL)
-		free (com->output_files_append);
-	if (com->read_from_shell != NULL)
-		free (com->read_from_shell);
+	ft_free_tab(com->inputfiles);
+	ft_free_tab(com->output_files_append);
+	ft_free_tab(com->read_from_shell);
+	ft_free_tab(com->outputfiles);
 }

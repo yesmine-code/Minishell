@@ -35,7 +35,7 @@ int	executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
 	return (ret);
 }
 
-char	*read_check_and_trim()
+char	*read_check_and_trim(t_shellinfo shell)
 {
 	char *str;
 	char *tmp;
@@ -45,14 +45,14 @@ char	*read_check_and_trim()
 	if (str == NULL)
 	{
 		printf("\n");
-		exit(EXIT_SUCCESS);// ctrl_d
+		ft_exit(shell, 0);// ctrl_d
 	}
 	tmp = ft_strtrim(str, " \t\r\f\v\n");
 	free(str);
 	if (ft_strcompare(tmp, "exit") == 1) 
 	{
 		free(tmp);
-		exit(EXIT_SUCCESS);
+		ft_exit(shell, 0);
 	}
 	if (check_syntax_errors(tmp) == 1)
 	{
@@ -76,14 +76,14 @@ void	shell_init(t_shellinfo *shell)
 	shell->env = NULL;
 	shell->previous = malloc(sizeof(int));
 	if (shell->previous == NULL)
-		exit(EXIT_FAILURE);
+		ft_exit(*shell, 1);
 }
 
 void	old_pipe_set(t_shellinfo *shell)
 {
 	shell->old_pipe[0] = malloc(sizeof(int));
 	shell->old_pipe[1] = malloc(sizeof(int));
-	ft_memset(*(shell->old_pipe), 0x00, sizeof(*(shell->old_pipe)));
+//	ft_memset(shell->old_pipe, 0x00, sizeof(shell->old_pipe));
 	*shell->previous = 0;
 }
 
@@ -98,7 +98,7 @@ void	minishell_loop(char **env)
 	while (1)
 	{
 		i = 0;
-		commands = ft_mini_split(read_check_and_trim(), '|');
+		commands = ft_mini_split(read_check_and_trim(shell), '|');
 		old_pipe_set(&shell);
 		while (commands && commands[i] != NULL)
 		{
@@ -113,7 +113,7 @@ void	minishell_loop(char **env)
 			if (g_shell_status != 0)
 				break ;
 		}
-		free_old_pipe(com_struct, shell);
+	//	free_old_pipe(com_struct, shell);
 	}
 }
 

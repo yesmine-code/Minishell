@@ -12,7 +12,11 @@
 
 #include "minishell.h"
 
-int ft_exit(void)
+void ft_exit(t_shellinfo shell, int stat)
 {
-	exit(EXIT_SUCCESS);
+	(void) shell;
+	if (stat == 0)
+		exit(EXIT_SUCCESS);
+	else
+		exit(EXIT_FAILURE);
 }

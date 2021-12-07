@@ -68,7 +68,6 @@ int	check_syntax_errors(char *str);
 char **read_from_input(char *str);
 void pipe_cmd(t_command com, t_shellinfo shell);
 int ft_pwd(void);
-int ft_exit(void);
 int is_builtin(char *str);
 int is_a_real_builtin(char *str);
 t_command get_cmd(char *command);
@@ -120,13 +119,13 @@ void    substitute_and_delete(t_shellinfo shell,char **tab);
 void case_of_positive_cpid(t_shellinfo shell, int new_pipe[]);
 int find_and_execute(t_shellinfo shell, char **arg);
 char **convert_list_to_tab(t_env *env);
-void    check_for_files(t_command com);
+void    check_for_files(t_shellinfo shell,t_command com);
 int	caculate_char_to_add(char **str, char *com);
 char *dollar_between_quotes(char **str, char *com, int char_to_extract, int char_to_add);
 int	executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
 void shell_init(t_shellinfo *shell);
 void	old_pipe_set(t_shellinfo *shell);
-
+void ft_exit(t_shellinfo shell, int stat);
 
 
 
