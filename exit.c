@@ -14,7 +14,7 @@
 
 void ft_exit(t_shellinfo shell, int stat)
 {
-	(void) shell;
+	free_env_list(shell.env);
 	if (stat == 0)
 		exit(EXIT_SUCCESS);
 	else

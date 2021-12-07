@@ -32,6 +32,7 @@ void handle_ctrl_c()
 {
     struct sigaction sa;
 
+    ft_memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = ctrl_c_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGINT, &sa, NULL);
@@ -53,6 +54,7 @@ void handle_ctrl_backslash()
 {
     struct sigaction sa;
 
+    ft_memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = ctrl_backslash_handler;
     sa.sa_flags = SA_SIGINFO;
     sigaction(SIGQUIT, &sa, NULL);

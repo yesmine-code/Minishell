@@ -126,6 +126,7 @@ int	executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
 void shell_init(t_shellinfo *shell);
 void	old_pipe_set(t_shellinfo *shell);
 void ft_exit(t_shellinfo shell, int stat);
+void free_env_list(t_env *env_list);
 
 
 

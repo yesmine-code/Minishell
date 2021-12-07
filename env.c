@@ -36,7 +36,7 @@ void add_env(t_env **env, char *str)
 	{
 		*env = new;
 		(*env)->next = NULL;
-		(*env)->var = str;
+		(*env)->var = ft_strdup(str);
 		(*env)->value = get_value(str);
 		(*env)->name = get_name_env(str);
 	}
@@ -45,7 +45,7 @@ void add_env(t_env **env, char *str)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new;
-		tmp->next->var = str;
+		tmp->next->var = ft_strdup(str);
 		tmp->next->value = get_value(str);
 		tmp->next->name = get_name_env(str);
 		tmp->next->next = NULL;

@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+void free_env_list(t_env *env_list)
+{
+	t_env *next;
+	while (env_list != NULL)
+	{
+		next = env_list->next;
+		if (env_list->value != NULL)
+			free(env_list->value);
+		if (env_list->name != NULL)
+			free(env_list->name);
+		if (env_list->var != NULL)
+			free(env_list->var);
+		free(env_list);
+		env_list = next;
+	}
+}
+
 void ft_free_tab(char **str)
 {
 	int i;

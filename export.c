@@ -19,7 +19,7 @@ int exists(char *s, t_env *env, t_env **new_env)
 
     tmp = env;
     name_of_new_env = get_name_env(s);
-    while (tmp->next != NULL)
+    while (tmp != NULL)
     {
         if (ft_strcompare(tmp->name, name_of_new_env) == 1)
         {
