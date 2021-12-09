@@ -72,6 +72,7 @@ char *get_value(char *s)
 {
     int i;
 	int count;
+	char *tmp;
     
     i = 0;
 	count = 0;
@@ -82,12 +83,13 @@ char *get_value(char *s)
 			count++;
 			if (s[i] == '=')
 			{
-				return (ft_substr(s, i + 1, ft_strlen(s) - count));
+				tmp = ft_substr(s, i + 1, ft_strlen(s) - count);
+				return (tmp);
 			}
 			i++;
 		}
 	}
-	return (s);
+	return (ft_strdup(s));
 }
 
 char *get_name_env(char *s)

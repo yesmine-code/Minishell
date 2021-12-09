@@ -15,6 +15,7 @@
 void free_env_list(t_env *env_list)
 {
 	t_env *next;
+
 	while (env_list != NULL)
 	{
 		next = env_list->next;

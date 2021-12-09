@@ -56,7 +56,7 @@ typedef struct s_shellinfo
 	t_env	*env;
 	int		execute;
 	int		*old_pipe[2];
-	int		*previous;
+	int		previous;
 	int		coming;
 
 }				t_shellinfo;
@@ -119,7 +119,7 @@ void    substitute_and_delete(t_shellinfo shell,char **tab);
 void case_of_positive_cpid(t_shellinfo shell, int new_pipe[]);
 int find_and_execute(t_shellinfo shell, char **arg);
 char **convert_list_to_tab(t_env *env);
-void    check_for_files(t_shellinfo shell,t_command com);
+int    check_for_files(t_command com);
 int	caculate_char_to_add(char **str, char *com);
 char *dollar_between_quotes(char **str, char *com, int char_to_extract, int char_to_add);
 int	executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);

@@ -61,7 +61,7 @@ int ft_cd(char **arg)
     char *path;
     int ret;
 
-    if (arg[2] != NULL)
+    if (arg[1] != NULL && arg[2] != NULL)
     {
         printf("cd: too many arguments\n");
         return (1);

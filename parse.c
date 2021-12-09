@@ -145,6 +145,7 @@ void	ft_delete_quotes(char *com)
 	}
 	pos_tab[j] = '\0';
 	remove_quotes(com, pos_tab);
+	free(pos_tab);
 }
 int		is_it_between_simple_quotes(char *str, int pos)
 {
@@ -208,12 +209,26 @@ int	caculate_char_to_add(char **str, char *com)
 	return (char_to_add);
 }
 
+void tab_init(char **str, int size)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+	{
+		str[i] = NULL;
+		i++;
+	}
+
+}
+
 char *substitute_env_var(t_shellinfo shell, char *com)
 {
 	int i;
 	int tmp;
 	char *env;
 	char **str;
+	char *doll;
 	int char_to_extract;
 	int char_to_add;
 	int j;
@@ -223,7 +238,10 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 	char_to_extract = 0;
 	char_to_add =0;
 
-	str = malloc(sizeof(char *) * char_numb(com, '$', 0));
+	str = malloc(sizeof(char *) * (char_numb(com, '$', 0) + 1));
+	if (str == NULL)
+		return NULL;
+	tab_init(str, char_numb(com, '$', 0) + 1 );
 	while (com[i] != '\0')
 	{
 		if (com[i] == '$')
@@ -240,5 +258,7 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 		i++;
 	}
 	char_to_add = caculate_char_to_add(str, com);
-	return (dollar_between_quotes(str, com, char_to_extract, char_to_add));
+	doll= dollar_between_quotes(str, com, char_to_extract, char_to_add);
+	ft_free_tab(str);
+	return (doll);
 }

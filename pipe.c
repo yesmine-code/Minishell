@@ -98,7 +98,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	int ret;
 
 	ret = 0;
-	check_for_files(shell, com);
+	ret = check_for_files(com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();

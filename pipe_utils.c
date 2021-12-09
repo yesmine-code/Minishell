@@ -35,8 +35,8 @@ void case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
     if (ft_infile(com, 1) < 0)
         exit(EXIT_FAILURE);
     if(com.in_file_num > 0)
-        *shell.previous = 1;
-    if (*shell.previous) // if there is a previous command
+        shell.previous = 1;
+    if (shell.previous) // if there is a previous command
     {
         dup2(*shell.old_pipe[0], 0);
         close(*shell.old_pipe[0]);
@@ -57,7 +57,7 @@ void case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 
 void case_of_positive_cpid(t_shellinfo shell, int new_pipe[])
 {
-    if (*shell.previous) // previous command
+    if (shell.previous) // previous command
     {
         close(*shell.old_pipe[0]);
         close(*shell.old_pipe[1]);
@@ -69,17 +69,15 @@ void case_of_positive_cpid(t_shellinfo shell, int new_pipe[])
     }
 }
 
-void    check_for_files(t_shellinfo shell, t_command com)
+int    check_for_files(t_command com)
 {
     if(is_a_real_builtin(com.com) == 1)
     {
         ft_read_from_shell(com, 0);
         if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
-        {
-            ft_free_cmd(&com);
-            ft_exit(shell, 1);
-        }
+            return (1);
     }
+    return (-1);
 }
 
 int find_and_execute(t_shellinfo shell, char **arg)

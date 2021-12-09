@@ -138,4 +138,5 @@ void ft_read_from_shell(t_command com, int dupit)
 		}
 		heredoc_helper(str, dupit);	
 	}
+	free(str);
 }
