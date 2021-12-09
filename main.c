@@ -58,6 +58,7 @@ char	*read_check_and_trim(t_shellinfo shell)
 	{
 		printf("error : syntax_error\n");
 		free(tmp);
+		tmp = NULL;
 	}
 	return (tmp);
 }
@@ -87,6 +88,8 @@ void	minishell_loop(char **env)
 	{
 		i = 0;
 		tmp = read_check_and_trim(shell);
+		if (tmp == NULL)
+			continue ;
 		commands = ft_mini_split(tmp, '|');
 		free(tmp);
 		old_pipe_set(&shell);

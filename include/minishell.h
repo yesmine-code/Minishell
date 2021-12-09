@@ -127,5 +127,7 @@ void		old_pipe_set(t_shellinfo *shell);
 void		ft_exit(t_shellinfo shell, int stat);
 void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
+void		tab_init(char **str, int size);
+
 
 #endif

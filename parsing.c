@@ -89,19 +89,32 @@ void cmd_init(char *command, t_command *com_struct)
 	if (com_struct->in_file_num == 0)
 		com_struct->inputfiles = NULL;
 	else
+	{
 		com_struct->inputfiles = malloc(sizeof(char *) * (com_struct->in_file_num + 1));
+		tab_init(com_struct->inputfiles, com_struct->in_file_num + 1);
+
+	}
 	if (com_struct->out_file_num == 0)
 		com_struct->outputfiles = NULL;
 	else
+	{
 		com_struct->outputfiles = malloc(sizeof(char *) * (com_struct->out_file_num + 1));
+		tab_init(com_struct->outputfiles, com_struct->out_file_num + 1);
+	}
 	if (com_struct->expected_words_num == 0)
 		com_struct->read_from_shell = NULL;
 	else
+	{
 		com_struct->read_from_shell = malloc(sizeof(char *) * (com_struct->expected_words_num + 1));
+		tab_init(com_struct->read_from_shell, com_struct->expected_words_num + 1);
+	}
 	if (com_struct->out_file_app_num == 0)
 		com_struct->output_files_append = NULL;
 	else
+	{
 		com_struct->output_files_append = malloc(sizeof(char *) * (com_struct->out_file_app_num + 1));
+		tab_init(com_struct->output_files_append, com_struct->out_file_app_num + 1);
+	}
 	com_struct->com = NULL;
 	com_struct->args = NULL;
 }
