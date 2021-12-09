@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+void ft_free_old_pipe(t_shellinfo shell)
+{
+	if (shell.old_pipe[0] != NULL)
+		free(shell.old_pipe[0]);
+	if (shell.old_pipe[1] != NULL)
+		free(shell.old_pipe[1]);
+	shell.old_pipe[0]= NULL;
+	shell.old_pipe[1]= NULL;
+}
+
 void free_env_list(t_env *env_list)
 {
 	t_env *next;

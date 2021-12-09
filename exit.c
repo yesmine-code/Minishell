@@ -14,10 +14,6 @@
 
 void ft_exit(t_shellinfo shell, int stat)
 {
-	if (shell.old_pipe[0] != NULL)
-		free(shell.old_pipe[0]);
-	if (shell.old_pipe[1] != NULL)
-		free(shell.old_pipe[1]);
 	free_env_list(shell.env);
 	if (stat == 0)
 		exit(EXIT_SUCCESS);

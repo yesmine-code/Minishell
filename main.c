@@ -62,23 +62,6 @@ char	*read_check_and_trim(t_shellinfo shell)
 	return (tmp);
 }
 
-void	free_old_pipe(t_command com_struct , t_shellinfo shell)
-{
-	if(is_builtin(com_struct.com) == 0)
-	{
-		free(shell.old_pipe[0]);
-		free(shell.old_pipe[1]);
-	}
-}
-
-void	shell_init(t_shellinfo *shell)
-{
-	shell->env = NULL;
-/*	shell->previous = malloc(sizeof(int));
-	if (shell->previous == NULL)
-		ft_exit(*shell, 1);*/
-}
-
 void	old_pipe_set(t_shellinfo *shell)
 {
 	shell->old_pipe[0] = malloc(sizeof(int));
@@ -98,7 +81,8 @@ void	minishell_loop(char **env)
 	t_command com_struct;
 	int i;
 
-	shell_init(&shell);
+	shell.env = NULL;
+	init_env(&shell.env, env);
 	while (1)
 	{
 		i = 0;
@@ -106,14 +90,15 @@ void	minishell_loop(char **env)
 		commands = ft_mini_split(tmp, '|');
 		free(tmp);
 		old_pipe_set(&shell);
-		shell.previous = 0;
 		while (commands && commands[i] != NULL)
 		{
 			shell.coming = (commands[i + 1] == NULL) ? 0 : 1;
 			com_struct = get_cmd(commands[i]);
-			init_env(&shell.env, env);
 			if (executer(com_struct, shell, i, commands) == -1)
+			{
+				ft_free_cmd(&com_struct);
 				break;
+			}
 			i++;
 			shell.previous = 1;
 			ft_free_cmd(&com_struct);
@@ -121,7 +106,7 @@ void	minishell_loop(char **env)
 				break ;
 		}
 		ft_free_tab(commands);
-	//	free_old_pipe(com_struct, shell);
+		ft_free_old_pipe(shell);
 	}
 }
 

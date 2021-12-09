@@ -51,8 +51,10 @@ int change_path(char *path)
     {
         printf("lol\n");
         perror("cd ");
+        closedir(d);
         return (-1);
     }
+    closedir(d);
     return (ret);
 }
 

@@ -48,10 +48,14 @@ char *find_cmd_path(char *cmd)
 		tmp = ft_strjoin(tmp2, cmd);
 		free(tmp2);
 		if (access(tmp, F_OK) == 0)
+		{
+			ft_free_tab(path_tab);
 			return(tmp);
+		}
 		free(tmp);
 		i++;
 	}
+	ft_free_tab(path_tab);
 	return (NULL);
 }
 
@@ -224,7 +228,7 @@ void tab_init(char **str, int size)
 
 char *substitute_env_var(t_shellinfo shell, char *com)
 {
-	int i;
+	unsigned int i;
 	int tmp;
 	char *env;
 	char **str;
@@ -242,7 +246,7 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 	if (str == NULL)
 		return NULL;
 	tab_init(str, char_numb(com, '$', 0) + 1 );
-	while (com[i] != '\0')
+	while (i < ft_strlen(com))
 	{
 		if (com[i] == '$')
 		{
@@ -253,6 +257,7 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 			env = ft_substr(com, tmp, i - tmp);
 			char_to_extract = char_to_extract + ft_strlen(env) + 1;
 			str[j] = getenv_value_from_list(shell, env);
+			free(env);
 			j++;
 		}
 		i++;
