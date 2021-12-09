@@ -91,6 +91,7 @@ void	minishell_loop(char **env)
 {
 	char **commands;
 	t_shellinfo shell;
+	char *tmp;
 	t_command com_struct;
 	int i;
 
@@ -98,7 +99,9 @@ void	minishell_loop(char **env)
 	while (1)
 	{
 		i = 0;
-		commands = ft_mini_split(read_check_and_trim(shell), '|');
+		tmp = read_check_and_trim(shell);
+		commands = ft_mini_split(tmp, '|');
+		free(tmp);
 		old_pipe_set(&shell);
 		while (commands && commands[i] != NULL)
 		{

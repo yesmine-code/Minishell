@@ -114,6 +114,7 @@ t_command get_cmd(char *command)
 	cmd_init(command, &com_struct);
 	com_trim = ft_strtrim(command, " \t\r\f\v\n");
 	parse_cmd(com_trim, &com_struct);
+	free(com_trim);
 	return com_struct;
 }
 

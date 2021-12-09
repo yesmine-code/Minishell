@@ -114,7 +114,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 		ret = ft_unset(&shell.env, arg);
 	else
 		ret = find_and_execute(shell, arg);
-	free(arg);
+	ft_free_tab(arg);
 	return ret;
 }
 

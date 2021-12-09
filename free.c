@@ -48,9 +48,9 @@ void ft_free_tab(char **str)
 void ft_free_cmd(t_command *com)
 {
 	if (com->com != NULL)
-		free (com->com);
+		free(com->com);
 	if (com->args != NULL)
-		free (com->args);
+		free(com->args);
 	ft_free_tab(com->inputfiles);
 	ft_free_tab(com->output_files_append);
 	ft_free_tab(com->read_from_shell);
