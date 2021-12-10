@@ -105,7 +105,6 @@ void	heredoc_helper(char *str, int dupit)
 		close(STDIN_FILENO);
 		pipe(fds);
 		write(fds[1], str, ft_strlen(str));
-		free(str);
 		close(fds[1]);
 		dup2(fds[0], STDERR_FILENO);
 	}

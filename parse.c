@@ -204,7 +204,7 @@ int	caculate_char_to_add(char **str, char *com)
 
 	i = 0;
 	char_to_add = 0;
-	while (i < char_numb(com, '$', 0))
+	while (i < char_numb(com, '$', 0, 0))
 	{
 		if (str[i] != NULL)
 			char_to_add = char_to_add + ft_strlen(str[i]);
@@ -242,10 +242,10 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 	char_to_extract = 0;
 	char_to_add =0;
 
-	str = malloc(sizeof(char *) * (char_numb(com, '$', 0) + 1));
+	str = malloc(sizeof(char *) * (char_numb(com, '$', 0, 0) + 1));
 	if (str == NULL)
 		return NULL;
-	tab_init(str, char_numb(com, '$', 0) + 1 );
+	tab_init(str, char_numb(com, '$', 0, 0) + 1 );
 	while (i < ft_strlen(com))
 	{
 		if (com[i] == '$')
@@ -262,7 +262,7 @@ char *substitute_env_var(t_shellinfo shell, char *com)
 		}
 		i++;
 	}
-	char_to_add = caculate_char_to_add(str, com);
+	char_to_add =  caculate_char_to_add(str, com);
 	doll= dollar_between_quotes(str, com, char_to_extract, char_to_add);
 	ft_free_tab(str);
 	return (doll);

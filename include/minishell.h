@@ -63,7 +63,7 @@ typedef struct s_shellinfo
 
 char		**create_tab(t_command com, t_shellinfo shell);
 int			execute_cmd(t_command com, t_shellinfo shell);
-int			char_numb(char *str, char c, int two);
+int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
 char		**read_from_input(char *str);
 void		pipe_cmd(t_command com, t_shellinfo shell);
@@ -75,7 +75,7 @@ void		parse_cmd(char *command, t_command *com_struct);
 void		ft_free_cmd(t_command *com);
 char		**get_paths();
 char		*find_cmd_path(char *cmd);
-void		ft_skip_quotes(char *str, int *i);
+void		ft_skip_quotes(char *str, int *i, int skip_double_q);
 char		**ft_mini_split(char *s, char c);
 void		*mini_leak(char **ptr, int words);
 void		ft_free_tab(char **str);
@@ -128,6 +128,8 @@ void		ft_exit(t_shellinfo shell, int stat);
 void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
 void		tab_init(char **str, int size);
+int			space_calcul(char *str);
+
 
 
 #endif

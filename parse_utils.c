@@ -26,6 +26,8 @@ char *dollar_between_quotes(char **str, char *com, int char_to_extract, int char
     tmp = 0;
 
     env = malloc(sizeof(char) * (ft_strlen(com) - char_to_extract + char_to_add + 1));
+    if (env == NULL)
+        return NULL;
     while (com[i] != '\0')
     {
         if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0

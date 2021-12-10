@@ -82,10 +82,10 @@ void parse_cmd(char *command, t_command *com_struct)
 
 void cmd_init(char *command, t_command *com_struct)
 {
-	com_struct->out_file_app_num = char_numb(command, '>', 1);
-	com_struct->out_file_num = char_numb(command, '>', 0);
-	com_struct->in_file_num = char_numb(command, '<', 0);
-	com_struct->expected_words_num = char_numb(command, '<', 1);
+	com_struct->out_file_app_num = char_numb(command, '>', 1, 1);
+	com_struct->out_file_num = char_numb(command, '>', 0, 1);
+	com_struct->in_file_num = char_numb(command, '<', 0, 1);
+	com_struct->expected_words_num = char_numb(command, '<', 1, 1);
 	if (com_struct->in_file_num == 0)
 		com_struct->inputfiles = NULL;
 	else
@@ -131,14 +131,17 @@ t_command get_cmd(char *command)
 	return com_struct;
 }
 
-void ft_skip_quotes(char *str, int *i)
+void ft_skip_quotes(char *str, int *i, int skip_double_q)
 {
-	if (str[*i] == '\"' && (*i == 0 || str[*i - 1] != '\\'))
+	if (skip_double_q == 1)
 	{
-		*i = *i + 1;
-		while ((str[*i] != '\"' || str[*i - 1] == '\\') && str[*i] != '\0')
+		if (str[*i] == '\"' && (*i == 0 || str[*i - 1] != '\\'))
+		{
 			*i = *i + 1;
-		;
+			while ((str[*i] != '\"' || str[*i - 1] == '\\') && str[*i] != '\0')
+				*i = *i + 1;
+			;
+		}
 	}
 	if (str[*i] == '\'')
 	{
@@ -148,7 +151,7 @@ void ft_skip_quotes(char *str, int *i)
 	}
 }
 
-int char_numb(char *str, char c, int two)
+int char_numb(char *str, char c, int two, int skip_double_q)
 {
 	int i;
 	int r;
@@ -157,9 +160,9 @@ int char_numb(char *str, char c, int two)
 	r = 0;
 	rd = 0;
 	i = 0;
-	while (str[i] != '\0')
+	while (i < (int)ft_strlen(str))
 	{
-		ft_skip_quotes(str, &i);
+		ft_skip_quotes(str, &i, skip_double_q);
 		if (str[i] == c)
 		{
 			if (str[i + 1] != c)
@@ -177,6 +180,31 @@ int char_numb(char *str, char c, int two)
 	return (rd);
 }
 
+int space_calcul(char *str)
+{
+	int i;
+	int r;
+
+	r = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		ft_skip_quotes(str, &i, 1);
+		if (str[i] == ' ')
+		{
+			r++;
+			i++;
+			while (str[i] == ' ')
+				i++;
+		}
+		else
+			i++;
+	}
+	return (r);
+
+
+}
+
 char **read_from_input(char *str)
 {
 	int input_double_num;
@@ -188,7 +216,7 @@ char **read_from_input(char *str)
 
 	i = 0;
 	k = 0;
-	input_double_num = char_numb(str, '<', 1);
+	input_double_num = char_numb(str, '<', 1, 1);
 	input_double = malloc(sizeof(char **) * input_double_num + 1);
 	if (input_double == NULL)
 		return (NULL);

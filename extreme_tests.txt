@@ -11,3 +11,8 @@ $?
 ls | wc
 ls >hello
 echo hi >>hello
+pwd
+export yy=yes
+echo "$yy"
+env 
+unset yy

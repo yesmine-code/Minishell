@@ -21,7 +21,7 @@ int		ft_mini_count(char *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		ft_skip_quotes(s, &i);
+		ft_skip_quotes(s, &i, 1);
 		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 			words++;
 		i++;
@@ -36,7 +36,7 @@ int		ft_mini_wordlen(char *s, char c)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		ft_skip_quotes(s, &i);
+		ft_skip_quotes(s, &i, 1);
 		if (s[i] == c )
 			break ;
 		i++;

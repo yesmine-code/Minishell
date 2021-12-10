@@ -53,7 +53,8 @@ char **create_tab(t_command com, t_shellinfo shell)
 
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof(char *) * (char_numb(com.args, ' ', 0) + 2));
+
+	tab = malloc(sizeof(char *) * (space_calcul(com.args) + 2));
 	while (com.args[i] != '\0')
 	{
 		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\')) //si double cote
