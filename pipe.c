@@ -53,7 +53,8 @@ char **create_tab(t_command com, t_shellinfo shell)
 
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof(char *) * (char_numb(com.args, ' ', 0) + 2));
+
+	tab = malloc(sizeof(char *) * (space_calcul(com.args) + 2));
 	while (com.args[i] != '\0')
 	{
 		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\')) //si double cote
@@ -98,7 +99,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	int ret;
 
 	ret = 0;
-	check_for_files(com);
+	ret = check_for_files(com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
@@ -114,25 +115,23 @@ int execute_cmd(t_command com, t_shellinfo shell)
 		ret = ft_unset(&shell.env, arg);
 	else
 		ret = find_and_execute(shell, arg);
-	free(arg);
+	ft_free_tab(arg);
 	return ret;
 }
 
 void pipe_cmd(t_command com, t_shellinfo shell)
 {
-	int *new_pipe[2];
+	int new_pipe[2];
 	pid_t cpid;
 
-	new_pipe[0] = malloc(sizeof(int));
-	new_pipe[1] = malloc(sizeof(int));
-	ft_memset(*new_pipe, 0x00, sizeof(*new_pipe));
+	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
-		pipe(*new_pipe);
+		pipe(new_pipe);
 	cpid = fork();
 	if (cpid == 0) // child
-		case_of_0_cpid(com, shell, &new_pipe[2]);
+		case_of_0_cpid(com, shell, new_pipe);
 	else if (cpid > 0) // parent
-		case_of_positive_cpid(shell, &new_pipe[2]);
+		case_of_positive_cpid(shell, new_pipe);
 	else
 	{
 		perror("creating fork failed");

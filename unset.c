@@ -89,6 +89,9 @@ void delete_env(t_env **env_list, char *to_delete)
             if (ft_strcompare(tmp->name, to_delete))
             {
                 previous->next = tmp->next;
+                free(tmp->value);
+                free(tmp->var);
+                free(tmp->name);
                 free(tmp);
                 return;
             }

@@ -51,8 +51,10 @@ int change_path(char *path)
     {
         printf("lol\n");
         perror("cd ");
+        closedir(d);
         return (-1);
     }
+    closedir(d);
     return (ret);
 }
 int ft_cd(char **arg)
@@ -60,7 +62,7 @@ int ft_cd(char **arg)
     char *path;
     int ret;
 
-    if (arg[2] != NULL)
+    if (arg[1] != NULL && arg[2] != NULL)
     {
         printf("cd: too many arguments\n");
         return (1);

@@ -29,6 +29,7 @@ int exists(char *s, t_env *env, t_env **new_env)
         }
         tmp = tmp->next;
     }
+    free(name_of_new_env);
     return (0);
 }
 

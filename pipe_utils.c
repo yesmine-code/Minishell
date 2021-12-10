@@ -29,14 +29,14 @@ void    substitute_and_delete(t_shellinfo shell,char **tab)
 	}
 }
 
-void case_of_0_cpid(t_command com, t_shellinfo shell, int *new_pipe[])
+void case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 {
     ft_read_from_shell(com, 1);
     if (ft_infile(com, 1) < 0)
         exit(EXIT_FAILURE);
     if(com.in_file_num > 0)
-        *shell.previous = 1;
-    if (*shell.previous) // if there is a previous command
+        shell.previous = 1;
+    if (shell.previous) // if there is a previous command
     {
         dup2(*shell.old_pipe[0], 0);
         close(*shell.old_pipe[0]);
@@ -46,37 +46,38 @@ void case_of_0_cpid(t_command com, t_shellinfo shell, int *new_pipe[])
         exit(EXIT_FAILURE);
     if (shell.coming && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
     {
-        close(*new_pipe[0]);
-        dup2(*new_pipe[1], 1);
-        close(*new_pipe[1]);
+        close(new_pipe[0]);
+        dup2(new_pipe[1], 1);
+        close(new_pipe[1]);
     }
     if(shell.execute && ft_strlen(com.com) > 0)
-            exit(execute_cmd(com, shell));
+        exit(execute_cmd(com, shell));
     exit(EXIT_SUCCESS);
 }
 
-void case_of_positive_cpid(t_shellinfo shell, int *new_pipe[])
+void case_of_positive_cpid(t_shellinfo shell, int new_pipe[])
 {
-    if (*shell.previous) // previous command
+    if (shell.previous) // previous command
     {
         close(*shell.old_pipe[0]);
         close(*shell.old_pipe[1]);
     }
     if (shell.coming) // comming command
     {
-        *shell.old_pipe[0] = *new_pipe[0];
-        *shell.old_pipe[1] = *new_pipe[1];
+        *shell.old_pipe[0] = new_pipe[0];
+        *shell.old_pipe[1] = new_pipe[1];
     }
 }
 
-void    check_for_files(t_command com)
+int    check_for_files(t_command com)
 {
     if(is_a_real_builtin(com.com) == 1)
     {
         ft_read_from_shell(com, 0);
         if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
-            exit(EXIT_FAILURE);
+            return (1);
     }
+    return (-1);
 }
 
 int find_and_execute(t_shellinfo shell, char **arg)
@@ -91,7 +92,7 @@ int find_and_execute(t_shellinfo shell, char **arg)
     {
         arg[0] = full_cmd;
         tab = convert_list_to_tab(shell.env);
-        ret = execve(arg[0], arg, tab); // replace en by list
+        ret = execve(arg[0], arg, tab); 
     }
     else
     {

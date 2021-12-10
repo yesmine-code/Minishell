@@ -26,9 +26,9 @@ int ft_echo(char **arg)
         i++;
         has_option = 1;
     }
-    while (arg[i] != NULL)
+    while (arg && arg[i] != NULL)
     {
-            ft_putstr_fd(arg[i], 1);
+        ft_putstr_fd(arg[i], 1);
         if (arg[i + 1] != NULL)
             ft_putstr_fd(" ", 1);
         i++;
