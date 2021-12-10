@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-<<<<<<< HEAD
-int ft_exit(t_env *env_list)
-{
-	free_env_list(env_list);
-	exit(EXIT_SUCCESS);
-=======
 void ft_exit(t_shellinfo shell, int stat)
 {
 	free_env_list(shell.env);
@@ -25,5 +19,4 @@ void ft_exit(t_shellinfo shell, int stat)
 		exit(EXIT_SUCCESS);
 	else
 		exit(EXIT_FAILURE);
->>>>>>> 989334766fec09f58424eb6def1f1a3b402efdeb
 }
