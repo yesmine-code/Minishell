@@ -35,5 +35,5 @@ int ft_echo(char **arg)
     }
     if (has_option == 0)
           ft_putstr_fd("\n", 1);
-    return (1);
+    return (0);
 }

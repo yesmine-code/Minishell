@@ -30,6 +30,13 @@ exit " "              c bon
 echo "cat lol.c | cat > lol.c"    ca c bon aussi 
 echo toto | grep o               ca c bon aussi 
 
+cat | cat | cat | ls ca marche
+
+il reste quand tu fais ctrl_c minishell-> s'affiche 2 fois 
+aussi bien le status tu dois faire en sorte de substituer &? par sa valeur
+
+
+
 
 cat | cat | ls behave "normally" ( not yet )
 

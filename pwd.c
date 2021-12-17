@@ -28,5 +28,5 @@ int ft_pwd(void)
 	str = getcwd(buf, 1000);
 	ft_putstr_fd(str, 1);
 	ft_putstr_fd("\n", 1);
-	return (1);
+	return (0);
 }

@@ -44,18 +44,17 @@ int change_path(char *path)
     if (d == NULL)
     {
         printf("cd: %s: No such file or directory\n", path);
-        return (-1);
+        return (1);
     }
     ret = chdir(path);
     if (ret < 0)
     {
-        printf("lol\n");
         perror("cd ");
         closedir(d);
-        return (-1);
+        return (1);
     }
     closedir(d);
-    return (ret);
+    return (0);
 }
 
 int ft_cd(char **arg)
@@ -74,5 +73,7 @@ int ft_cd(char **arg)
     ret = change_path(path);
     if (path != NULL)
         free(path);
+    else
+        ret = 1;
     return (ret);
 }

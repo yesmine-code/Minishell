@@ -50,7 +50,7 @@ int ft_unset(t_env **env_list, char **list_to_delete)
 
     i = 1;
     if (env_list == NULL)
-        return (-1);
+        return (1);
     while (list_to_delete[i] != NULL)
     {
         if (is_valid_identifier(list_to_delete[i]) == 0)
@@ -66,7 +66,7 @@ int ft_unset(t_env **env_list, char **list_to_delete)
         else
             i++;
     }
-    return (1);
+    return (0);
 }
 
 void delete_env(t_env **env_list, char *to_delete)

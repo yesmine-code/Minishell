@@ -15,13 +15,13 @@
 int ft_env(t_env *env)
 {
 	if (env == NULL)
-		return (-1);
+		return (1);
 	while (env)
 	{
 		printf("%s\n", env->var);
 		env = env->next;
 	}
-	return (1);
+	return (0);
 }
 
 void add_env(t_env **env, char *str)

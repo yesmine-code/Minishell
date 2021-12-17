@@ -73,22 +73,30 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	return ret;
 }
 
-void pipe_cmd(t_command com, t_shellinfo shell)
+pid_t pipe_cmd(t_command com, t_shellinfo shell)
 {
 	int new_pipe[2];
 	pid_t cpid;
 
+
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
-		pipe(new_pipe);
+	{
+		if (pipe(new_pipe) < 0)
+			exit(EXIT_FAILURE);
+	}
 	cpid = fork();
-	if (cpid == 0) // child
-		case_of_0_cpid(com, shell, new_pipe);
-	else if (cpid > 0) // parent
-		case_of_positive_cpid(cpid, shell, new_pipe);
-	else
+	if (cpid < 0)
 	{
 		perror("creating fork failed");
 		g_shell_status = -1;
+		exit(EXIT_FAILURE);
 	}
+	else if (cpid == 0) // child
+		case_of_0_cpid(com, shell, new_pipe);
+	else  // parent
+		case_of_positive_cpid(cpid, shell, new_pipe);
+	
+	return cpid;
+
 }

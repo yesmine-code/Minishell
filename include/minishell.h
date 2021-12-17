@@ -68,7 +68,7 @@ int			execute_cmd(t_command com, t_shellinfo shell);
 int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
 char		**read_from_input(char *str);
-void		pipe_cmd(t_command com, t_shellinfo shell);
+pid_t		pipe_cmd(t_command com, t_shellinfo shell);
 int			ft_pwd(void);
 int			is_builtin(char *str);
 int			is_a_real_builtin(char *str);

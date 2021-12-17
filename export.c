@@ -71,16 +71,16 @@ int is_valid_ident(char *s)
 {
     char *env_name;
     if (s == NULL)
-        return (0);
+        return (1);
     env_name = get_name_env(s);
     if (is_valid_env(env_name) == 0)
     {
         printf("export: '%s': not a valid identifier\n", s);
         free(env_name);
-        return (0);
+        return (1);
     }
     free(env_name);
-    return (1);
+    return (0);
 }
 int ft_export(t_env *env, char **arg)
 {
@@ -106,5 +106,5 @@ int ft_export(t_env *env, char **arg)
         else
             i++;
     }
-    return (1);
+    return (0);
 }

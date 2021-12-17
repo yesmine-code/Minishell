@@ -12,7 +12,7 @@
 
 #include "include/minishell.h"
 
-int executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
+pid_t executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
 {
 	int ret;
 
@@ -20,17 +20,14 @@ int executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
 	if (is_a_real_builtin(com_struct.com) == 0)
 	{
 		shell.execute = 1;
-		pipe_cmd(com_struct, shell);
+		return pipe_cmd(com_struct, shell);
 	}
 	else if (i == 0 && commands[i + 1] == NULL)
-	{
-		if (execute_cmd(com_struct, shell) < 0)
-			ret = -1;
-	}
+		ret = execute_cmd(com_struct, shell);
 	else
 	{
 		shell.execute = 0;
-		pipe_cmd(com_struct, shell);
+		return pipe_cmd(com_struct, shell);
 	}
 	return (ret);
 }
@@ -50,22 +47,22 @@ void init_com_struct(t_shellinfo *shell, char **commands)
 {
 	t_command com_struct;
 	int i;
+	pid_t pids;
 
 	i = 0;
 	while (commands && commands[i] != NULL)
 	{
 		shell->coming = (commands[i + 1] == NULL) ? 0 : 1;
 		com_struct = get_cmd(commands[i]);
-		if (executer(com_struct, *shell, i, commands) == -1)
-		{
-			ft_free_cmd(&com_struct);
-			break;
-		}
+		pids = executer(com_struct, *shell, i, commands);
 		i++;
 		shell->previous = 1;
 		ft_free_cmd(&com_struct);
-	//	if (g_shell_status != 0)
-		//	break;
+	}
+	while(i > 0){
+		waitpid(pids, &g_shell_status, 0);
+		pids--;
+		i--;
 	}
 }
 void minishell_loop(char **env)
