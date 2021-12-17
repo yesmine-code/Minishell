@@ -10,13 +10,56 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
+
+int get_status(t_shellinfo shell, char *s)
+{
+	int i;
+	int stat;
+
+	i = 0;
+	stat = 0;
+	while (s[i] != '\0')
+	{
+		if (ft_isdigit(s[i]) == 0)
+		{
+			printf("exit\n");
+			printf("exit: %s:  numeric argument required\n", s);
+			ft_exit(shell, g_shell_status);
+		}
+		i++;
+	}
+	stat = ft_atoi(s);
+	return (stat);
+}
+
+void exit_minishell(char **arg, t_shellinfo shell)
+{
+	int stat;
+
+	stat = 0;
+	if (arg[1] == NULL)
+	{
+		printf("exit\n");
+		ft_exit(shell, g_shell_status);
+	}
+	else if (arg[2] != NULL)
+	{
+		printf("exit\n");
+		printf("exit: too many arguments\n");
+		ft_exit(shell, g_shell_status);
+	}
+	else
+	{
+		stat = get_status(shell, arg[1]);
+		printf("exit\n");
+		ft_exit(shell, stat);
+	}
+}
 
 void ft_exit(t_shellinfo shell, int stat)
 {
 	free_env_list(shell.env);
-	if (stat == 0)
-		exit(EXIT_SUCCESS);
-	else
-		exit(EXIT_FAILURE);
+	exit(stat);
 }
+

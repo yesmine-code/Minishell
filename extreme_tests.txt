@@ -27,7 +27,9 @@ echo \'lol             c bon
 
 exit " "              c bon 
 
-echo "cat lol.c | cat > lol.c"
-cat | cat | ls behave "normally"
-echo toto | grep o
+echo "cat lol.c | cat > lol.c"    ca c bon aussi 
+echo toto | grep o               ca c bon aussi 
+
+
+cat | cat | ls behave "normally" ( not yet )
 

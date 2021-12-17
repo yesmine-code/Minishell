@@ -26,7 +26,7 @@ char *get_word(char *command, int *i)
 
 void parse_single_input_redirect(char *command, int *position, t_command *com_struct)
 {
-	if (command[*position] == '<' && command[(*position) + 1] != '<')
+	if (command[*position] == '<' && command[(*position) + 1] != '<' && is_it_between_quotes(command, *position) == 0)
 	{
 		*position += 1;
 		com_struct->inputfiles[tab_next_index(com_struct->inputfiles)] = get_word(command, position);
@@ -35,7 +35,7 @@ void parse_single_input_redirect(char *command, int *position, t_command *com_st
 
 void parse_double_input_redirect(char *command, int *position, t_command *com_struct)
 {
-	if (command[*position] == '<' && command[(*position) + 1] == '<')
+	if (command[*position] == '<' && command[(*position) + 1] == '<' && is_it_between_quotes(command, *position) == 0)
 	{
 		*position += 2;
 		com_struct->read_from_shell[tab_next_index(com_struct->read_from_shell)] = get_word(command, position);
@@ -44,7 +44,7 @@ void parse_double_input_redirect(char *command, int *position, t_command *com_st
 
 void parse_single_output_redirect(char *command, int *position, t_command *com_struct)
 {
-	if (command[*position] == '>' && command[(*position) + 1] != '>')
+	if (command[*position] == '>' && command[(*position) + 1] != '>' && is_it_between_quotes(command, *position) == 0)
 	{
 		*position += 1;
 		com_struct->outputfiles[tab_next_index(com_struct->outputfiles)] = get_word(command, position);
@@ -53,7 +53,7 @@ void parse_single_output_redirect(char *command, int *position, t_command *com_s
 
 void parse_double_output_redirect(char *command, int *position, t_command *com_struct)
 {
-	if (command[*position] == '>' && command[(*position) + 1] == '>')
+	if (command[*position] == '>' && command[(*position) + 1] == '>' && is_it_between_quotes(command, *position) == 0)
 	{
 		*position += 2;
 		com_struct->output_files_append[tab_next_index(com_struct->output_files_append)] = get_word(command, position);

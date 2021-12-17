@@ -52,7 +52,10 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	ret = 0;
 	ret = check_for_files(com);
 	arg = create_tab(com, shell);
-	if (ft_strcompare(arg[0], "pwd") == 1)
+
+	if (ft_strcompare(arg[0], "exit") == 1)
+		exit_minishell(arg, shell);
+	else if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
 	else if (ft_strcompare(arg[0], "cd") == 1)
 		ret = ft_cd(arg);
@@ -63,7 +66,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	else if (ft_strcompare(arg[0], "export") == 1)
 		ret = ft_export(shell.env, arg);
 	else if (ft_strcompare(arg[0], "unset") == 1)
-		ret = ft_unset(&shell.env, arg);
+		ret = ft_unset(&shell.env, arg);	
 	else
 		ret = find_and_execute(shell, arg);
 	ft_free_tab(arg);

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "minishell.h"
+#include "include/minishell.h"
 
 int is_builtin(char *str)
 {
@@ -37,6 +37,8 @@ int is_a_real_builtin(char *str)
 	if (ft_strcompare(str, "export") == 1)
 		return (1);
 	if (ft_strcompare(str, "unset") == 1)
+		return (1);
+	if (ft_strcompare(str, "exit") == 1)
 		return (1);
 	return (0);
 }

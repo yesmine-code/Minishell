@@ -75,8 +75,6 @@ char *read_check_and_trim(t_shellinfo shell)
 {
 	char *str;
 	char *tmp;
-	int	i;
-	int start;
 
 	str = readline("minishell->");
 	add_history(str);
@@ -87,48 +85,6 @@ char *read_check_and_trim(t_shellinfo shell)
 	}
 	tmp = ft_strtrim(str, " \t\r\f\v\n");
 	free(str);
-	if (ft_strncmp(tmp, "exit", 4) == 0)
-	{
-		if (ft_strcompare(tmp, "exit") == 0)
-		{
-			i = 4;
-			while (ft_isspace(tmp[i]) == 1)
-				i++;
-			start = i;
-			while (ft_isspace(tmp[i]) == 0)
-				i++;
-			str =  ft_substr(tmp, start, i - start);
-			i = 0;
-			while (str[i] != '\0')
-			{
-				if (str[i] < '0' || str[i] >'9')
-					break ;
-				i++;
-			}
-			if (i != (int)ft_strlen(str))
-			{
-				printf("exit\n");
-				printf("minishell: exit: %s: numeric argument required\n", str);
-				free(str);
-				free(tmp);
-				ft_exit(shell, 1);
-
-			}
-			else if (ft_atoi(str) != 0)
-				printf("\n");
-			else
-				printf("exit\n");
-			free(tmp);
-			free(str);
-			ft_exit(shell, 0);
-		}
-		else
-		{
-			printf("exit\n");
-			free(tmp);
-			ft_exit(shell, 0);
-		}
-	}
 	if (check_syntax_errors(tmp) == 1)
 	{
 		printf("error : syntax_error\n");

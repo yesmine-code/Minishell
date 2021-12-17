@@ -137,7 +137,7 @@ int			space_calcul(char *str);
 int 		tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
-
+void 		exit_minishell(char **arg, t_shellinfo shell);
 
 
 

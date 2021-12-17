@@ -64,8 +64,8 @@ void init_com_struct(t_shellinfo *shell, char **commands)
 		i++;
 		shell->previous = 1;
 		ft_free_cmd(&com_struct);
-		if (g_shell_status != 0)
-			break;
+	//	if (g_shell_status != 0)
+		//	break;
 	}
 }
 void minishell_loop(char **env)
