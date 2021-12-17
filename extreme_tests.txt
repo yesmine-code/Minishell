@@ -16,3 +16,18 @@ export yy=yes
 echo "$yy"
 env 
 unset yy
+
+
+****************new prob haha*************
+-pour unset PATH apres la commande ne doit pas fonctionner c bon
+-gere le path absolue et relatif
+
+echo \"lol              c bon 
+echo \'lol             c bon 
+
+exit " "              c bon 
+
+echo "cat lol.c | cat > lol.c"
+cat | cat | ls behave "normally"
+echo toto | grep o
+

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/31 17:09:54 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:00:56 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_shellinfo
 }				t_shellinfo;
 
 char		**create_tab(t_command com, t_shellinfo shell);
+char *ft_get_pwd(void);
+char *read_check_and_trim(t_shellinfo shell);
 int			execute_cmd(t_command com, t_shellinfo shell);
 int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
@@ -73,8 +75,8 @@ int			is_a_real_builtin(char *str);
 t_command	get_cmd(char *command);
 void		parse_cmd(char *command, t_command *com_struct);
 void		ft_free_cmd(t_command *com);
-char		**get_paths();
-char		*find_cmd_path(char *cmd);
+char		**get_paths(t_shellinfo shell);
+char		*find_cmd_path(t_shellinfo shell,char *cmd);
 void		ft_skip_quotes(char *str, int *i, int skip_double_q);
 char		**ft_mini_split(char *s, char c);
 void		*mini_leak(char **ptr, int words);
@@ -89,7 +91,7 @@ int			ft_cd(char **dir);
 int			ft_echo(char **arg);
 int			ft_env(t_env *env);
 int			ft_infile(t_command com, int dupIt);
-void		init_env(t_env **env_list, char **env);
+void		init_env(t_shellinfo *shell, char **env);
 int			ft_outfile(t_command com, int dupIt);
 int			ft_outfile_append(t_command com, int dupIt);
 void		ft_read_from_shell(t_command com, int dupIt);
@@ -116,19 +118,28 @@ int			without_arg(t_env *env);
 char		*to_lowercase(char *s1);
 void		case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[]);
 void		substitute_and_delete(t_shellinfo shell,char **tab);
-void		case_of_positive_cpid(t_shellinfo shell, int new_pipe[]);
+void		case_of_positive_cpid(pid_t cpid, t_shellinfo shell, int new_pipe[]);
 int			find_and_execute(t_shellinfo shell, char **arg);
 char		**convert_list_to_tab(t_env *env);
 int			check_for_files(t_command com);
 int			caculate_char_to_add(char **str, char *com);
-char		*dollar_between_quotes(char **str, char *com, int char_to_extract, int char_to_add);
+void		dollar_between_quotes(char **str, char *com, char *buff);
 int			executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
 void		old_pipe_set(t_shellinfo *shell);
 void		ft_exit(t_shellinfo shell, int stat);
 void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
 void		tab_init(char **str, int size);
+void 		init_com_struct(t_shellinfo *shell, char **commands);
+void sum_quotes(int *quotes_num, int *double_quotes_num, char *str);
+void remove_quotes(char *str, int *pos_tab);
 int			space_calcul(char *str);
+int 		tab_next_index(char **tab);
+void		ft_delete_backslash(char *com);
+void		ft_remove_char(char *str, int pos);
+
+
+
 
 
 
