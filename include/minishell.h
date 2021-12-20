@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/16 21:00:56 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:10:43 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char *read_check_and_trim(t_shellinfo shell);
 int			execute_cmd(t_command com, t_shellinfo shell);
 int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
-char		**read_from_input(char *str);
 pid_t		pipe_cmd(t_command com, t_shellinfo shell);
 int			ft_pwd(void);
 int			is_builtin(char *str);
@@ -138,6 +137,8 @@ int 		tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
 void 		exit_minishell(char **arg, t_shellinfo shell);
+void free_str(char *s1, char *s2, char *s3, char *s4);
+void is_status_command(t_command *com_struct);
 
 
 

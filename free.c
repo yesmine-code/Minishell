@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 15:20:08 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/14 15:20:14 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/12/20 10:55:19 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void ft_free_old_pipe(t_shellinfo shell)
 		free(shell.old_pipe[0]);
 	if (shell.old_pipe[1] != NULL)
 		free(shell.old_pipe[1]);
-	shell.old_pipe[0]= NULL;
-	shell.old_pipe[1]= NULL;
+	shell.old_pipe[0] = NULL;
+	shell.old_pipe[1] = NULL;
 }
 
 void free_env_list(t_env *env_list)
@@ -52,7 +52,7 @@ void ft_free_tab(char **str)
 			free(str[i]);
 			i++;
 		}
-		free (str);
+		free(str);
 	}
 }
 
@@ -66,4 +66,16 @@ void ft_free_cmd(t_command *com)
 	ft_free_tab(com->output_files_append);
 	ft_free_tab(com->read_from_shell);
 	ft_free_tab(com->outputfiles);
+}
+
+void free_str(char *s1, char *s2, char *s3, char *s4)
+{
+	if (s1 != NULL)
+		free(s1);
+	if (s2 != NULL)
+		free(s2);
+	if (s3 != NULL)
+		free(s3);
+	if (s4 != NULL)
+		free(s4);
 }

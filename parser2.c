@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/31 16:22:58 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:13:43 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,43 @@ void parse_cmd(char *command, t_command *com_struct)
 		com_struct->com = ft_substr(com_struct->args, 0, ft_strchr(com_struct->args, ' ') - com_struct->args);
 	if (com_struct->com == NULL)
 		com_struct->com = ft_strdup(com_struct->args);
+	is_status_command(com_struct);
 }
+char *get_cmd_with_status(int *j, t_command *com_struct)
+{
+	char *part1;
+	char *part2;
+	char *part3;
+	char *tmp;
+	char *g_status;
 
+	part1 = ft_substr(com_struct->args, 0, *j);
+	g_status = ft_itoa(WEXITSTATUS(g_shell_status));
+	part2 = ft_strjoin(part1, g_status);
+	tmp = ft_substr(com_struct->args, *j + 2, ft_strlen(com_struct->args) - (*j + 1));
+	part3 = ft_strjoin(part2, tmp);
+	free_str(part1, part2, tmp, g_status);
+	return (part3);
+}
+void is_status_command(t_command *com_struct)
+{
+	int j;
+	int contain_status;
+
+	contain_status = 0;
+	j = 0;
+	while (com_struct->args[j] != '\0')
+	{
+		if (com_struct->args[j] == '$' && com_struct->args[j + 1] != '\0' && com_struct->args[j + 1] == '?')
+		{
+			contain_status = 1;
+			break;
+		}
+		j++;
+	}
+	if (contain_status == 1)
+		com_struct->args = get_cmd_with_status(&j, com_struct);
+}
 void init_command(char *command, t_command *com_struct)
 {
 	com_struct->out_file_app_num = char_numb(command, '>', 1, 1);
@@ -114,8 +149,6 @@ void init_outputfile_param(t_command *com_struct)
 		tab_init(com_struct->outputfiles, com_struct->out_file_num + 1);
 	}
 }
-
-
 
 void cmd_init(char *command, t_command *com_struct)
 {
@@ -222,46 +255,4 @@ int space_calcul(char *str)
 			i++;
 	}
 	return (r);
-}
-
-char **read_from_input(char *str)
-{
-	int input_double_num;
-	char **input_double;
-	char *tmp;
-	int i;
-	int j;
-	int k;
-
-	i = 0;
-	k = 0;
-	input_double_num = char_numb(str, '<', 1, 1);
-	input_double = malloc(sizeof(char **) * input_double_num + 1);
-	if (input_double == NULL)
-		return (NULL);
-	tmp = NULL;
-	input_double[input_double_num] = 0;
-	while (str[i] != '\0' && k < input_double_num)
-	{
-		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '\0')
-		{
-			tmp = malloc(sizeof(char *) * ft_strlen(str - 2));
-			if (tmp == NULL)
-			{
-				free(input_double);
-				return NULL;
-			}
-			j = 0;
-			i = i + 2;
-			while (str[i] == ' ')
-				i++;
-			while (str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<' && str[i] != '\0')
-				tmp[j++] = str[i++];
-			tmp[j] = '\0';
-			input_double[k++] = tmp;
-		}
-		else
-			i++;
-	}
-	return (input_double);
 }

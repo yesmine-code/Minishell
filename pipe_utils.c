@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:29:28 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/02 11:29:35 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/12/19 17:07:26 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int find_and_execute(t_shellinfo shell, char **arg)
         }
         else
             printf("minishell: command not found : %s\n", arg[0]);
-        ret = 127;
+           // ret = 127;}
     }
     return (ret);
 }

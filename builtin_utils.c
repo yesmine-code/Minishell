@@ -6,10 +6,9 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 22:15:38 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/15 22:15:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:52:43 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "include/minishell.h"
 
@@ -39,6 +38,8 @@ int is_a_real_builtin(char *str)
 	if (ft_strcompare(str, "unset") == 1)
 		return (1);
 	if (ft_strcompare(str, "exit") == 1)
+		return (1);
+	if (ft_strcompare(str, "echo") == 1)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 19:47:03 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/26 21:26:56 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 11:12:33 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int ft_echo(char **arg)
     has_option = 0;
     i = 1;
     if (arg[1] == NULL)
-        return(printf("\n"));
+        return (printf("\n"));
     if (ft_strcompare(arg[i], "-n") == 1 && i == 1)
     {
         i++;

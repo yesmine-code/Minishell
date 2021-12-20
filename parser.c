@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 13:20:37 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/16 21:29:43 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:12:35 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *getenv_value_from_list(t_shellinfo shell, char *env)
 	while (shell.env && shell.env->var)
 	{
 		if (ft_strcompare(shell.env->name, env) == 1)
-			return (shell.env->value);
+			return (ft_strdup(shell.env->value));
 		shell.env = shell.env->next;
 	}
 	return (ft_strdup(""));
@@ -43,7 +43,7 @@ char *find_cmd_path(t_shellinfo shell, char *cmd)
 	i = 0;
 
 	if (access(cmd, F_OK) == 0)
-		return(ft_strdup(cmd));
+		return (ft_strdup(cmd));
 	else
 	{
 		path_tab = get_paths(shell);
