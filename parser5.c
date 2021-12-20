@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 20:09:41 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/20 11:06:05 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 23:27:35 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,17 @@ void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
     i = 0;
     while (i < ft_strlen(com))
     {
-        if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0)
+        if (com[i] == '$' && com[i + 1] != '\0' && com[i + 1] == '?')
+        {
+            str[j] = ft_itoa((WIFEXITED(g_shell_status) ? WEXITSTATUS(g_shell_status) : g_shell_status));
+            i += 2;
+            j++;
+        }
+        else if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0)
         {
             i++;
             tmp = i;
-            while (ft_isalnum(com[i]) == 1 || ft_isspace(com[i]) == 1)
+            while (com[i] != '$' && com[i] != '"' && com[i] != '\0')
                 i++;
             env = ft_substr(com, tmp, i - tmp);
             *char_to_extract = *char_to_extract + ft_strlen(env) + 1;

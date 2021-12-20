@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 21:59:20 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 23:31:55 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,8 @@ void parse_cmd(char *command, t_command *com_struct)
 		com_struct->com = ft_substr(com_struct->args, 0, ft_strchr(com_struct->args, ' ') - com_struct->args);
 	if (com_struct->com == NULL)
 		com_struct->com = ft_strdup(com_struct->args);
-	is_status_command(com_struct);
 }
 
-char *get_cmd_with_status(int *j, t_command *com_struct)
-{
-	char *part1;
-	char *part2;
-	char *part3;
-	char *tmp;
-	char *g_status;
 
 	part1 = ft_substr(com_struct->args, 0, *j);
 	g_status = ft_itoa((WIFEXITED(g_shell_status) ? WEXITSTATUS(g_shell_status) : g_shell_status));
