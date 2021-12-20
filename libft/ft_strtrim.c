@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t		size;
+	int			size;
 	char		*ptr;
 
 	if (s1 == NULL)

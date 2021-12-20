@@ -57,15 +57,12 @@ void init_env(t_shellinfo *shell, char **env)
 	t_env *tmp;
 	
 	tmp = NULL;
-	if (shell->env == NULL)
+	while (*env)
 	{
-		while (*env)
-		{
-			add_env(&tmp, *env);
-			env++;
-		}
-		shell->env = tmp;
+		add_env(&tmp, *env);
+		env++;
 	}
+	shell->env = tmp;
 }
 
 char *get_value(char *s)
