@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 21:03:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/19 16:55:52 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:17:56 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int g_shell_status;
 
 void ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
-    (void) info;
-    (void) context;
+    (void)context;
+    (void)sig;
     printf("\n");
-    if (sig == SIGINT)
+    if (info->si_pid != 0)
     {
         rl_on_new_line();
         rl_replace_line("", 0);
@@ -40,8 +40,8 @@ void handle_ctrl_c()
 
 void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
 {
-    (void) context;
-    (void) sig;
+    (void)context;
+    (void)sig;
     if (info->si_pid == 0)
     {
         printf("Quit\n");
