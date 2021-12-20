@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 13:03:48 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 12:16:26 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 23:28:14 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void dollar_between_quotes(char **str, char *com, char *buff)
         if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0 && ft_isspace(com[i + 1]) != 1 && com[i + 1] != '\0')
         {
             i++;
-            while (ft_isalnum(com[i]) == 1)
+            if (com[i] == '?')
                 i++;
+            else
+                while (com[i] != '$' && com[i] != '"' && com[i] != '\0')
+                    i++;
             if (str != NULL && str[tmp] != NULL)
                 copy_to(str[tmp++], buff, &j);
         }
