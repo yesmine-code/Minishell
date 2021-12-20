@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 15:33:55 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/16 15:54:52 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:31:12 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int check_syntax_errors(char *str)
 		return (1);
 	if (str != NULL && str[0] == '|')
 		return (1);
-	if (str != NULL && (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>'))
+	if (str != NULL && i > 0 && (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>'))
 		return (1);
 	return (0);
 }

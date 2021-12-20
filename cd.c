@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/28 15:56:20 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:24:05 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int ft_cd(char **arg)
     char *path;
     int ret;
 
+    ret = 0;
     if (arg[1] != NULL && arg[2] != NULL)
     {
         printf("cd: too many arguments\n");

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/15 22:21:13 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:44:47 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int is_valid_env(char *s)
     return (1);
 }
 
-int is_valid_ident(char *s)
+int is_valid_ident(char *s, int *ret)
 {
     char *env_name;
     if (s == NULL)
@@ -76,24 +76,27 @@ int is_valid_ident(char *s)
     if (is_valid_env(env_name) == 0)
     {
         printf("export: '%s': not a valid identifier\n", s);
+        *ret = 1;
         free(env_name);
-        return (1);
+        return (0);
     }
     free(env_name);
-    return (0);
+    return (1);
 }
 int ft_export(t_env *env, char **arg)
 {
     t_env *new_env;
     t_env *env_to_update;
     int i;
+    int ret;
 
     i = 1;
+    ret = 0;
     if (arg[1] == NULL)
         return (without_arg(env));
     while (arg[i] != NULL)
     {
-        if (is_valid_ident(arg[i]) == 0)
+        if (is_valid_ident(arg[i], &ret) == 0)
             i++;
         else if (arg[i] != NULL && is_new_env(arg[i]) == 1)
         {
@@ -106,5 +109,5 @@ int ft_export(t_env *env, char **arg)
         else
             i++;
     }
-    return (0);
+    return (ret);
 }

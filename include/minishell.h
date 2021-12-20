@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 11:10:43 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:14:42 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int			is_new_env(char *s);
 void		handle_ctrl_c();
 void		handle_ctrl_d();
 int			exists(char *s, t_env *env, t_env **new_env);
-int			is_valid_ident(char *s);
+int			is_valid_ident(char *s, int *ret);
 void		handle_ctrl_backslash();
 int			ft_strcompare(char *str1, char *str2);
 char		*getenv_value_from_list(t_shellinfo shell, char *env);

@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:50:08 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/11/28 22:49:59 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 18:20:21 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,17 @@ int is_valid_identifier(char *to_delete)
 int ft_unset(t_env **env_list, char **list_to_delete)
 {
     int i;
+    int ret;
 
     i = 1;
+    ret = 0;
     if (env_list == NULL)
         return (1);
     while (list_to_delete[i] != NULL)
     {
         if (is_valid_identifier(list_to_delete[i]) == 0)
         {
+            ret = 1;
             printf("unset: '%s': not a valid identifier\n", list_to_delete[i]);
             i++;
         }
@@ -66,7 +69,7 @@ int ft_unset(t_env **env_list, char **list_to_delete)
         else
             i++;
     }
-    return (0);
+    return (ret);
 }
 
 void delete_env(t_env **env_list, char *to_delete)

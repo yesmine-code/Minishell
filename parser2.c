@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:46:19 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 12:13:43 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:15:33 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char *get_cmd_with_status(int *j, t_command *com_struct)
 	char *g_status;
 
 	part1 = ft_substr(com_struct->args, 0, *j);
-	g_status = ft_itoa(WEXITSTATUS(g_shell_status));
+	g_status = ft_itoa((WIFEXITED(g_shell_status) ? WEXITSTATUS(g_shell_status) : g_shell_status));
 	part2 = ft_strjoin(part1, g_status);
 	tmp = ft_substr(com_struct->args, *j + 2, ft_strlen(com_struct->args) - (*j + 1));
 	part3 = ft_strjoin(part2, tmp);
