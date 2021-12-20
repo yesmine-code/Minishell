@@ -61,7 +61,7 @@ void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
     i = 0;
     while (i < ft_strlen(com))
     {
-        if (com[i] == '$')
+        if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0)
         {
             i++;
             tmp = i;
@@ -74,7 +74,7 @@ void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
                 free(env);
             j++;
         }
-        if (com[i] != '$')
+        else
             i++;
     }
 }
