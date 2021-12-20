@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/10/31 17:04:34 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 12:26:44 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ pid_t executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
 		return pipe_cmd(com_struct, shell);
 	}
 	else if (i == 0 && commands[i + 1] == NULL)
+	{
 		ret = execute_cmd(com_struct, shell);
+		g_shell_status = ret;
+	}
 	else
 	{
 		shell.execute = 0;
@@ -59,7 +62,8 @@ void init_com_struct(t_shellinfo *shell, char **commands)
 		shell->previous = 1;
 		ft_free_cmd(&com_struct);
 	}
-	while(i > 0){
+	while (i > 0)
+	{
 		waitpid(pids, &g_shell_status, 0);
 		pids--;
 		i--;
