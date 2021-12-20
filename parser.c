@@ -30,6 +30,7 @@ char **get_paths(t_shellinfo shell)
 
 	path = getenv_value_from_list(shell, "PATH");
 	path_tab = ft_split(path, ':');
+	free(path);
 	return (path_tab);
 }
 

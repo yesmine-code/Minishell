@@ -74,7 +74,6 @@ void parse_cmd(char *command, t_command *com_struct)
 		parse_double_input_redirect(command, &i, com_struct);
 		parse_single_output_redirect(command, &i, com_struct);
 		parse_double_output_redirect(command, &i, com_struct);
-
 		com_struct->args[offset++] = command[i];
 		i++;
 	}
@@ -107,7 +106,7 @@ void is_status_command(t_command *com_struct)
 	int j;
 	char *temp;
 	j = 0;
-	while (com_struct->args[j] != '\0')
+	while (j < (int)ft_strlen(com_struct->args))
 	{
 		if (com_struct->args[j] == '$' && com_struct->args[j + 1] != '\0' && com_struct->args[j + 1] == '?')
 		{
