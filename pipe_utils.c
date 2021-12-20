@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:29:28 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 16:32:38 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/20 21:22:47 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int find_and_execute(t_shellinfo shell, char **arg)
     else
     {
         printf("minishell: command not found : %s\n", arg[0]);
+        g_shell_status = 1;
+        ret = g_shell_status;
     }
     return (ret);
 }
