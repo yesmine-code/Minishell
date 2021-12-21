@@ -104,8 +104,9 @@ int ft_export(t_env *env, char **arg)
                 add_env(&env,arg[i]);
             else if (exists(arg[i], env, &env_to_update) == 1)
             {
-                if (env_to_update->var == NULL)
-                    env_to_update->var = ft_strdup(arg[i]);
+                if (env_to_update->var != NULL)
+                    free(env_to_update->var);
+                env_to_update->var = ft_strdup(arg[i]);
             }
             i++;
         }
