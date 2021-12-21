@@ -84,35 +84,6 @@ void parse_cmd(char *command, t_command *com_struct)
 		com_struct->com = ft_strdup(com_struct->args);
 }
 
-
-	part1 = ft_substr(com_struct->args, 0, *j);
-	g_status = ft_itoa((WIFEXITED(g_shell_status) ? WEXITSTATUS(g_shell_status) : g_shell_status));
-	part2 = ft_strjoin(part1, g_status);
-	tmp = ft_substr(com_struct->args, *j + 2, ft_strlen(com_struct->args) - (*j + 1));
-	part3 = ft_strjoin(part2, tmp);
-	free_str(part1, part2, tmp, g_status);
-	return (part3);
-}
-void is_status_command(t_command *com_struct)
-{
-	int j;
-	char *temp;
-	j = 0;
-	while (j < (int)ft_strlen(com_struct->args))
-	{
-		if (com_struct->args[j] == '$' && com_struct->args[j + 1] != '\0' && com_struct->args[j + 1] == '?')
-		{
-			temp = get_cmd_with_status(&j, com_struct);
-			if (com_struct->args != NULL)
-				free(com_struct->args);
-			com_struct->args = temp;
-			j += 2;
-			continue;
-		}
-		j++;
-	}
-}
-
 void init_command(char *command, t_command *com_struct)
 {
 	com_struct->out_file_app_num = char_numb(command, '>', 1, 1);

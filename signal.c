@@ -49,6 +49,7 @@ void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
     }
     else
         printf("\b\b  \b\b");
+    g_shell_status = 127;
 }
 
 void handle_ctrl_backslash()
