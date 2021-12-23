@@ -97,6 +97,8 @@ void	heredoc_helper(char *str, int dupit)
 	char *tmp;
 	int		fds[2];
 
+	fds[0] = 0;
+	fds[1] = 0;
 	tmp = ttyname(STDIN_FILENO);
 	if (tmp == NULL)
 		perror("minishell :");
@@ -106,7 +108,7 @@ void	heredoc_helper(char *str, int dupit)
 		pipe(fds);
 		write(fds[1], str, ft_strlen(str));
 		close(fds[1]);
-		dup2(fds[0], STDERR_FILENO);
+		//dup2(fds[0], 0);
 	}
 }
 
@@ -130,7 +132,7 @@ void ft_read_from_shell(t_command com, int dupit)
 			{
 				tmp = ft_strjoin(str, line);
 				free(str);
-				str = ft_strjoin(tmp, ft_strdup("\n"));
+				str = ft_strjoin(tmp, "\n");
 				free(tmp);
 			}
 			free(line);
