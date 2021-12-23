@@ -40,9 +40,11 @@ void old_pipe_set(t_shellinfo *shell)
 	shell->old_pipe[0] = malloc(sizeof(int));
 	if (shell->old_pipe[0] == NULL)
 		ft_exit(*shell, 0);
+	ft_memset(shell->old_pipe[0], 0, sizeof(int));
 	shell->old_pipe[1] = malloc(sizeof(int));
 	if (shell->old_pipe[1] == NULL)
 		ft_exit(*shell, 0);
+	ft_memset(shell->old_pipe[1], 0, sizeof(int));
 	shell->previous = 0;
 }
 

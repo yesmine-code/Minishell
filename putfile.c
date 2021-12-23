@@ -72,6 +72,7 @@ int ft_outfile_append(t_command com, int dupit)
 	int fd;
 
 	i = 0;
+	fd = 0;
 	if (com.output_files_append != NULL)
 	{
 		while (com.output_files_append[i] != NULL)
@@ -108,7 +109,6 @@ void	heredoc_helper(char *str, int dupit)
 		pipe(fds);
 		write(fds[1], str, ft_strlen(str));
 		close(fds[1]);
-		//dup2(fds[0], 0);
 	}
 }
 

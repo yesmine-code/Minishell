@@ -33,32 +33,24 @@ void case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 {
 
     ft_read_from_shell(com, 1);
-
     if (ft_infile(com, 1) < 0)
-        exit(EXIT_FAILURE);
-    
-    if (com.in_file_num > 0)
-        shell.previous = 1;
+        exit(EXIT_FAILURE); 
     if (shell.previous == 1) // if there is a previous command
     {
-
         if (dup2(*shell.old_pipe[0], 0) < 0)
-            exit(EXIT_FAILURE);
+           exit(EXIT_FAILURE);
         close(*shell.old_pipe[0]);
         close(*shell.old_pipe[1]);
     }
     if (ft_outfile(com, 1) < 0 || ft_outfile_append(com, 1) < 0)
         exit(EXIT_FAILURE);
-    
     if (shell.coming == 1 && com.out_file_num == 0 && com.out_file_app_num == 0) // if there is a coming command
     {
-
         close(new_pipe[0]);
         if (dup2(new_pipe[1], 1) < 0)
             exit(EXIT_FAILURE);
         close(new_pipe[1]);
     }
-
     if (shell.execute && ft_strlen(com.com) > 0)
         exit(execute_cmd(com, shell));
     exit(EXIT_SUCCESS);
@@ -72,7 +64,6 @@ void case_of_positive_cpid(pid_t cpid, t_shellinfo shell, int new_pipe[])
         close(*shell.old_pipe[0]);
         close(*shell.old_pipe[1]);
     }
-
     if (shell.coming) // comming command
     {
         *shell.old_pipe[0] = new_pipe[0];
@@ -83,7 +74,7 @@ void case_of_positive_cpid(pid_t cpid, t_shellinfo shell, int new_pipe[])
 int check_for_files(t_command com)
 {
     if (is_a_real_builtin(com.com) == 1)
-    {
+   {
         ft_read_from_shell(com, 0);
         if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0 || ft_outfile_append(com, 0) < 0)
             return (1);

@@ -52,7 +52,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	ret = 0;
 	ret = check_for_files(com);
 	arg = create_tab(com, shell);
-
+	
 	if (ft_strcompare(arg[0], "exit") == 1)
 		exit_minishell(arg, shell);
 	else if (ft_strcompare(arg[0], "pwd") == 1)
@@ -96,7 +96,6 @@ pid_t pipe_cmd(t_command com, t_shellinfo shell)
 		case_of_0_cpid(com, shell, new_pipe);
 	else  // parent
 		case_of_positive_cpid(cpid, shell, new_pipe);
-	
 	return cpid;
 
 }
