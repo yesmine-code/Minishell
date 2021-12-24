@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 13:14:42 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:43:15 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <errno.h>
+# include <termios.h>
 
 extern int g_shell_status;
 

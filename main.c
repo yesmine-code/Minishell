@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/20 15:02:14 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/24 22:36:43 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ void old_pipe_set(t_shellinfo *shell)
 void init_com_struct(t_shellinfo *shell, char **commands)
 {
 	t_command com_struct;
+	struct termios term;
 	int i;
 	pid_t pids;
 
 	i = 0;
+	tcgetattr(fileno(stdin), &term);
 	while (commands && commands[i] != NULL)
 	{
 		shell->coming = (commands[i + 1] == NULL) ? 0 : 1;
@@ -70,6 +72,7 @@ void init_com_struct(t_shellinfo *shell, char **commands)
 		pids--;
 		i--;
 	}
+	tcsetattr(fileno(stdin), TCSAFLUSH, &term);
 }
 void minishell_loop(char **env)
 {
