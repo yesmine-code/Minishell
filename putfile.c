@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   putfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybesbes <ybesbes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:51:09 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/11/18 14:51:13 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/12/24 23:01:54 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void ft_read_from_shell(t_command com, int dupit)
 		while (i < com.expected_words_num)
 		{
 			line = readline("heredoc>");
+			if (line == NULL)
+				break;// ctrl d
 			if (ft_strcompare(line, com.read_from_shell[i]) == 1)
 				i++;
 			else

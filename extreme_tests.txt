@@ -43,3 +43,5 @@ ctrl c apres heredoc ne marche pas
 
 cat | cat | ls behave "normally" ( not yet )
 
+heredoc ctrl\ (ne doit rien faire)
+

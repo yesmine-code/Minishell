@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/15 20:12:35 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/24 23:01:30 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	ret = 0;
 	ret = check_for_files(com);
 	arg = create_tab(com, shell);
-	
+
 	if (ft_strcompare(arg[0], "exit") == 1)
 		exit_minishell(arg, shell);
 	else if (ft_strcompare(arg[0], "pwd") == 1)
@@ -66,7 +66,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	else if (ft_strcompare(arg[0], "export") == 1)
 		ret = ft_export(shell.env, arg);
 	else if (ft_strcompare(arg[0], "unset") == 1)
-		ret = ft_unset(&shell.env, arg);	
+		ret = ft_unset(&shell.env, arg);
 	else
 		ret = find_and_execute(shell, arg);
 	ft_free_tab(arg);
@@ -77,7 +77,6 @@ pid_t pipe_cmd(t_command com, t_shellinfo shell)
 {
 	int new_pipe[2];
 	pid_t cpid;
-
 
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
@@ -93,9 +92,11 @@ pid_t pipe_cmd(t_command com, t_shellinfo shell)
 		exit(EXIT_FAILURE);
 	}
 	else if (cpid == 0) // child
+	{
+		signal(SIGINT, SIG_DFL);
 		case_of_0_cpid(com, shell, new_pipe);
-	else  // parent
+	}
+	else // parent
 		case_of_positive_cpid(cpid, shell, new_pipe);
 	return cpid;
-
 }
