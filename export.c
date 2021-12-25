@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/20 16:44:47 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 22:35:29 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int is_valid_ident(char *s, int *ret)
     free(env_name);
     return (1);
 }
+
 int ft_export(t_env *env, char **arg)
 {
     t_env *new_env;
@@ -107,6 +108,12 @@ int ft_export(t_env *env, char **arg)
                 if (env_to_update->var != NULL)
                     free(env_to_update->var);
                 env_to_update->var = ft_strdup(arg[i]);
+                if (env_to_update->value != NULL)
+                    free(env_to_update->value);
+                env_to_update->value = get_value(arg[i]);
+                if (env_to_update->name != NULL)
+                    free(env_to_update->name);
+                env_to_update->name = get_name_env(arg[i]);
             }
             i++;
         }

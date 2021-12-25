@@ -33,10 +33,10 @@ echo toto | grep o               ca c bon aussi
 cat | cat | cat | ls ca marche
 
 il reste quand tu fais ctrl_c minishell-> s'affiche 2 fois 
-aussi bien le status tu dois faire en sorte de substituer &? par sa valeur
+aussi bien le status tu dois faire en sorte de substituer &? par sa valeur /done
 
-cd ~/Bureau par exemple ne marche pas
-ctrl c apres heredoc ne marche pas
+cd ~/Bureau par exemple ne marche pas /done
+ctrl c apres heredoc ne marche pas /done
 
 <cd.c | grep l  marche pas
 
