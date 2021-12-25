@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/25 11:41:36 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 19:59:40 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ pid_t pipe_cmd(t_command com, t_shellinfo shell)
 	else if (cpid == 0) // child
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		case_of_0_cpid(com, shell, new_pipe);
 	}
 	else // parent

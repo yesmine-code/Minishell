@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 21:03:47 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/25 17:03:53 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 19:55:04 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
     if (info->si_pid == 0)
     {
         printf("Quit\n");
+        g_shell_status = 131;
     }
     else
         printf("\b\b  \b\b");
