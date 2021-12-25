@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 20:09:41 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/20 23:27:35 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 23:11:03 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
         {
             i++;
             tmp = i;
-            while (com[i] != '$' && com[i] != '"' && com[i] != '\0')
+            while (ft_isalnum(com[i]) == 1 && com[i] != '"' && com[i] != '\0')
                 i++;
             env = ft_substr(com, tmp, i - tmp);
             *char_to_extract = *char_to_extract + ft_strlen(env) + 1;
