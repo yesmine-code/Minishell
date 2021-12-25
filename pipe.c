@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/24 23:01:30 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 11:41:36 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	else if (ft_strcompare(arg[0], "echo") == 1)
 		ret = ft_echo(arg);
 	else if (ft_strcompare(arg[0], "env") == 1)
-		ret = ft_env(shell.env);
+		ret = ft_env(shell.env, arg);
 	else if (ft_strcompare(arg[0], "export") == 1)
 		ret = ft_export(shell.env, arg);
 	else if (ft_strcompare(arg[0], "unset") == 1)

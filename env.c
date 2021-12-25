@@ -6,16 +6,37 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/10/31 17:09:42 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 13:07:42 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_env(t_env *env)
+int env_with_arg(char *s)
+{
+	int i;
+
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i] != '\0')
+	{
+		if (s[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int ft_env(t_env *env, char **arg)
 {
 	if (env == NULL)
 		return (1);
+	if (env_with_arg(arg[1]) == 0)
+	{
+		printf("env: '%s': No such file or directory\n", arg[1]);
+		return (127);
+	}
 	while (env)
 	{
 		printf("%s\n", env->var);
@@ -55,7 +76,7 @@ void add_env(t_env **env, char *str)
 void init_env(t_shellinfo *shell, char **env)
 {
 	t_env *tmp;
-	
+
 	tmp = NULL;
 	while (*env)
 	{

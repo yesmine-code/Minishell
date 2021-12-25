@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/24 22:43:15 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/25 11:42:20 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			ft_mini_count(char *s, char c);
 int			handle_single_cmd(char* cmd, char **env);
 int			ft_cd(char **dir);
 int			ft_echo(char **arg);
-int			ft_env(t_env *env);
+int			ft_env(t_env *env, char **arg);
 int			ft_infile(t_command com, int dupIt);
 void		init_env(t_shellinfo *shell, char **env);
 int			ft_outfile(t_command com, int dupIt);
