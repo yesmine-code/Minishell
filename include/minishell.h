@@ -28,28 +28,28 @@
 # include <errno.h>
 # include <termios.h>
 
-extern int g_shell_status;
+extern int	g_shell_status;
 
-typedef struct  s_env
+typedef struct s_env
 {
-	char *var;
-	char *name;
-	char *value;
-	struct s_env *next;
-} 				t_env;
+	char			*var;
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_command
 {
 	char	*com;
 	char	*args;
 	int		out_file_num;
-	char 	**outputfiles;
+	char	**outputfiles;
 	int		in_file_num;
 	char	**inputfiles;
 	int		out_file_app_num;
 	char	**output_files_append;
 	int		expected_words_num;
-	char 	**read_from_shell;
+	char	**read_from_shell;
 }				t_command;
 
 typedef struct s_shellinfo
@@ -63,8 +63,8 @@ typedef struct s_shellinfo
 }				t_shellinfo;
 
 char		**create_tab(t_command com, t_shellinfo shell);
-char *ft_get_pwd(void);
-char *read_check_and_trim(t_shellinfo shell);
+char		*ft_get_pwd(void);
+char		*read_check_and_trim(t_shellinfo shell);
 int			execute_cmd(t_command com, t_shellinfo shell);
 int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
@@ -74,10 +74,10 @@ int			is_builtin(char *str);
 int			is_a_real_builtin(char *str);
 t_command	get_cmd(char *command);
 void		parse_cmd(char *command, t_command *com_struct);
-void	update_env(t_env *env_to_update, char *arg);
+void		update_env(t_env *env_to_update, char *arg);
 void		ft_free_cmd(t_command *com);
 char		**get_paths(t_shellinfo shell);
-char		*find_cmd_path(t_shellinfo shell,char *cmd);
+char		*find_cmd_path(t_shellinfo shell, char *cmd);
 void		ft_skip_quotes(char *str, int *i, int skip_double_q);
 char		**ft_mini_split(char *s, char c);
 void		*mini_leak(char **ptr, int words);
@@ -87,7 +87,7 @@ int			is_it_between_quotes(char *str, int pos);
 void		ft_delete_quotes(char *com);
 int			is_it_between_simple_quotes(char *str, int pos);
 int			ft_mini_count(char *s, char c);
-int			handle_single_cmd(char* cmd, char **env);
+int			handle_single_cmd(char *cmd, char **env);
 int			ft_cd(char **dir);
 int			ft_echo(char **arg);
 int			ft_env(t_env *env, char **arg);
@@ -104,11 +104,11 @@ char		*get_value(char *s);
 int			ft_unset(t_env **env_list, char **list_to_delete);
 void		delete_env(t_env **env_list, char *to_delete);
 int			is_new_env(char *s);
-void		handle_ctrl_c();
-void		handle_ctrl_d();
+void		handle_ctrl_c(void);
+void		handle_ctrl_d(void);
 int			exists(char *s, t_env *env, t_env **new_env);
 int			is_valid_ident(char *s, int *ret);
-void		handle_ctrl_backslash();
+void		handle_ctrl_backslash(void);
 int			ft_strcompare(char *str1, char *str2);
 char		*getenv_value_from_list(t_shellinfo shell, char *env);
 char		*substitute_env_var(t_shellinfo shell, char *com);
@@ -118,41 +118,39 @@ void		ft_sort(t_env *list);
 int			without_arg(t_env *env);
 char		*to_lowercase(char *s1);
 void		case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[]);
-void		substitute_and_delete(t_shellinfo shell,char **tab);
-void		case_of_positive_cpid(pid_t cpid, t_shellinfo shell, int new_pipe[]);
+void		substitute_and_delete(t_shellinfo shell, char **tab);
+void		case_of_positive_cpid(pid_t cpid,
+				t_shellinfo shell, int new_pipe[]);
 int			find_and_execute(t_shellinfo shell, char **arg);
 char		**convert_list_to_tab(t_env *env);
 int			check_for_files(t_command com);
 int			caculate_char_to_add(char **str, char *com);
 void		dollar_between_quotes(char **str, char *com, char *buff);
-int			executer(t_command com_struct,  t_shellinfo shell, int i, char **commands);
+int			executer(t_command com_struct, t_shellinfo shell,
+				int i, char **commands);
 void		old_pipe_set(t_shellinfo *shell);
 void		ft_exit(t_shellinfo shell, int stat);
 void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
 void		tab_init(char **str, int size);
-void 		init_com_struct(t_shellinfo *shell, char **commands);
-void 		sum_quotes(int *quotes_num, int *double_quotes_num, char *str);
-void 		remove_quotes(char *str, int *pos_tab);
+void		init_com_struct(t_shellinfo *shell, char **commands);
+void		sum_quotes(int *quotes_num, int *double_quotes_num, char *str);
+void		remove_quotes(char *str, int *pos_tab);
 int			space_calcul(char *str);
-int 		tab_next_index(char **tab);
+int			tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
-void 		exit_minishell(char **arg, t_shellinfo shell);
-void 		free_str(char *s1, char *s2, char *s3, char *s4);
-void 		is_status_command(t_command *com_struct);
-void		parse_single_input_redirect(char *command, int *position
-			, t_command *com_struct);
-void		parse_double_input_redirect(char *command
-			, int *position, t_command *com_struct);
-void		parse_single_output_redirect(char *command, int *position
-			, t_command *com_struct);
-void		parse_double_output_redirect(char *command, int *position
-			, t_command *com_struct);
+void		exit_minishell(char **arg, t_shellinfo shell);
+void		free_str(char *s1, char *s2, char *s3, char *s4);
+void		is_status_command(t_command *com_struct);
+void		parse_single_input_redirect(char *command, int *position,
+				t_command *com_struct);
+void		parse_double_input_redirect(char *command,
+				int *position, t_command *com_struct);
+void		parse_single_output_redirect(char *command, int *position,
+				t_command *com_struct);
+void		parse_double_output_redirect(char *command, int *position,
+				t_command *com_struct);
 void		cmd_init(char *command, t_command *com_struct);
-
-
-
-
 
 #endif
