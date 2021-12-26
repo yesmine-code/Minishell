@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int		ft_count(char const *s, char c)
+static int	ft_count(char const *s, char c)
 {
 	int		i;
 	int		words;
@@ -28,7 +28,7 @@ static int		ft_count(char const *s, char c)
 	return (words);
 }
 
-static int		ft_wordlen(char const *s, char c)
+static int	ft_wordlen(char const *s, char c)
 {
 	int		i;
 	int		len;
@@ -43,7 +43,7 @@ static int		ft_wordlen(char const *s, char c)
 	return (len);
 }
 
-static void		*leak(char **ptr, int words)
+static void	*leak(char **ptr, int words)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ static void		*leak(char **ptr, int words)
 	return (NULL);
 }
 
-static char		**fill(char const *s, int words, char c, char **ptr)
+static char	**fill(char const *s, int words, char c, char **ptr)
 {
 	int		i;
 	int		j;
@@ -69,7 +69,8 @@ static char		**fill(char const *s, int words, char c, char **ptr)
 		while (*s == c)
 			s++;
 		len = ft_wordlen(s, c);
-		if (!(ptr[i] = (char *)malloc(sizeof(char) * (len + 1))))
+		ptr[i] = (char *)malloc(sizeof(char) * (len + 1));
+		if (ptr[i] == NULL)
 			return (leak(ptr, i));
 		j = 0;
 		while (j < len)
@@ -80,7 +81,7 @@ static char		**fill(char const *s, int words, char c, char **ptr)
 	return (ptr);
 }
 
-char			**ft_split(char	const *s, char c)
+char	**ft_split(char	const *s, char c)
 {
 	char	**ptr;
 	int		words;
@@ -88,7 +89,8 @@ char			**ft_split(char	const *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_count(s, c);
-	if (!(ptr = (char **)malloc(sizeof(char *) * (words + 1))))
+	ptr = (char **)malloc(sizeof(char *) * (words + 1));
+	if (ptr == NULL)
 		return (NULL);
 	ptr = fill(s, words, c, ptr);
 	return (ptr);
