@@ -14,8 +14,8 @@
 
 int	ft_mini_count(char *s, char c)
 {
-	int		i;
-	int		words;
+	int	i;
+	int	words;
 
 	words = 0;
 	i = 0;
@@ -31,7 +31,7 @@ int	ft_mini_count(char *s, char c)
 
 int	ft_mini_wordlen(char *s, char c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -60,9 +60,9 @@ void	*mini_leak(char **ptr, int words)
 
 char	**mini_fill(char *s, int words, char c, char **ptr)
 {
-	int		i;
-	int		j;
-	int		len;
+	int	i;
+	int	j;
+	int	len;
 
 	i = -1;
 	while (++i < words)
