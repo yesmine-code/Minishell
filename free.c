@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void ft_free_old_pipe(t_shellinfo shell)
+void	ft_free_old_pipe(t_shellinfo shell)
 {
 	if (shell.old_pipe[0] != NULL)
 		free(shell.old_pipe[0]);
@@ -22,9 +22,9 @@ void ft_free_old_pipe(t_shellinfo shell)
 	shell.old_pipe[1] = NULL;
 }
 
-void free_env_list(t_env *env_list)
+void	free_env_list(t_env *env_list)
 {
-	t_env *next;
+	t_env	*next;
 
 	while (env_list != NULL)
 	{
@@ -40,9 +40,9 @@ void free_env_list(t_env *env_list)
 	}
 }
 
-void ft_free_tab(char **str)
+void	ft_free_tab(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str != NULL)
@@ -56,7 +56,7 @@ void ft_free_tab(char **str)
 	}
 }
 
-void ft_free_cmd(t_command *com)
+void	ft_free_cmd(t_command *com)
 {
 	if (com->com != NULL)
 		free(com->com);
@@ -68,7 +68,7 @@ void ft_free_cmd(t_command *com)
 	ft_free_tab(com->outputfiles);
 }
 
-void free_str(char *s1, char *s2, char *s3, char *s4)
+void	free_str(char *s1, char *s2, char *s3, char *s4)
 {
 	if (s1 != NULL)
 		free(s1);

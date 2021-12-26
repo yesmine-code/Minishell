@@ -12,64 +12,10 @@
 
 #include "minishell.h"
 
-int	ft_infile(t_command com, int dupit)
+int	ft_outfile_append(t_command com, int dupit)
 {
-	int i;
-	int fd;
-
-	i = 0;
-	if (com.inputfiles != NULL)
-	{
-		while(com.inputfiles[i] != NULL)
-		{
-			fd = open(com.inputfiles[i], O_RDONLY);
-			if ( fd < 0)
-			{
-				perror("minishell");
-				return (fd);
-			}
-			if (dupit == 1)
-			{
-				dup2(fd , STDIN_FILENO);
-				close(fd);
-			}
-			i++;
-		}
-	}
-	return (0);
-}
-
-int ft_outfile(t_command com, int dupit)
-{
-	int i;
-	int fd;
-
-	i = 0;
-	if (com.outputfiles != NULL)
-	{
-		while (com.outputfiles[i] != NULL)
-		{
-			fd = open(com.outputfiles[i], O_RDWR | O_TRUNC | O_CREAT , 0644);
-			if ( fd < 0)
-			{
-				perror("minishell");
-				return (fd);
-			}
-			if (dupit == 1)
-			{
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-			i++;
-		}
-	}
-	return (0);
-}
-
-int ft_outfile_append(t_command com, int dupit)
-{
-	int i;
-	int fd;
+	int	i;
+	int	fd;
 
 	i = 0;
 	fd = 0;
@@ -77,11 +23,12 @@ int ft_outfile_append(t_command com, int dupit)
 	{
 		while (com.output_files_append[i] != NULL)
 		{
-			fd = open(com.output_files_append[i], O_RDWR | O_CREAT | O_APPEND , 0644);
-			if ( fd < 0)
+			fd = open(com.output_files_append[i],
+					O_RDWR | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
 			{
 				perror("minishell");
-				return fd;
+				return (fd);
 			}
 			if (dupit == 1)
 			{
@@ -93,9 +40,10 @@ int ft_outfile_append(t_command com, int dupit)
 	}
 	return (0);
 }
+
 void	heredoc_helper(char *str, int dupit)
 {
-	char *tmp;
+	char	*tmp;
 	int		fds[2];
 
 	fds[0] = 0;
@@ -112,12 +60,21 @@ void	heredoc_helper(char *str, int dupit)
 	}
 }
 
-void ft_read_from_shell(t_command com, int dupit)
+void	get_line(char **str, char **line)
 {
-	int i;
-	char *line;
-	char *tmp;
-	char *str;
+	char	*tmp;
+
+	tmp = ft_strjoin(*str, *line);
+	free(*str);
+	*str = ft_strjoin(tmp, "\n");
+	free(tmp);
+}
+
+void	ft_read_from_shell(t_command com, int dupit)
+{
+	int		i;
+	char	*line;
+	char	*str;
 
 	i = 0;
 	str = ft_strdup("");
@@ -127,19 +84,14 @@ void ft_read_from_shell(t_command com, int dupit)
 		{
 			line = readline("heredoc>");
 			if (line == NULL)
-				break;// ctrl d
+				break ;
 			if (ft_strcompare(line, com.read_from_shell[i]) == 1)
 				i++;
 			else
-			{
-				tmp = ft_strjoin(str, line);
-				free(str);
-				str = ft_strjoin(tmp, "\n");
-				free(tmp);
-			}
+				get_line(&str, &line);
 			free(line);
 		}
-		heredoc_helper(str, dupit);	
+		heredoc_helper(str, dupit);
 	}
 	free(str);
 }
