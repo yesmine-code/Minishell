@@ -12,10 +12,10 @@
 
 #include "include/minishell.h"
 
-int get_status(t_shellinfo shell, char *s)
+int	get_status(t_shellinfo shell, char *s)
 {
-	int i;
-	int stat;
+	int	i;
+	int	stat;
 
 	i = 0;
 	stat = 0;
@@ -33,9 +33,9 @@ int get_status(t_shellinfo shell, char *s)
 	return (stat);
 }
 
-void exit_minishell(char **arg, t_shellinfo shell)
+void	exit_minishell(char **arg, t_shellinfo shell)
 {
-	int stat;
+	int	stat;
 
 	stat = 0;
 	if (arg[1] == NULL)
@@ -57,9 +57,8 @@ void exit_minishell(char **arg, t_shellinfo shell)
 	}
 }
 
-void ft_exit(t_shellinfo shell, int stat)
+void	ft_exit(t_shellinfo shell, int stat)
 {
 	free_env_list(shell.env);
 	exit(stat);
 }
-
