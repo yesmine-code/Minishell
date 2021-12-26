@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 17:34:36 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/26 21:21:38 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/26 22:45:10 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,14 @@ int	is_new_env(char *s)
 	i++;
 	}
 	return (0);
+}
+
+int	tab_next_index(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i] != NULL)
+		i++;
+	return (i);
 }
