@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-int is_it_between_simple_quotes(char *str, int pos)
+int	is_it_between_simple_quotes(char *str, int pos)
 {
-
-	int i;
-	int result;
+	int	i;
+	int	result;
 
 	i = 0;
 	result = 0;
@@ -31,11 +30,11 @@ int is_it_between_simple_quotes(char *str, int pos)
 	return (0);
 }
 
-int is_it_between_quotes(char *str, int pos)
+int	is_it_between_quotes(char *str, int pos)
 {
-	int i;
-	int result;
-	int result1;
+	int	i;
+	int	result;
+	int	result1;
 
 	i = 0;
 	result = 0;

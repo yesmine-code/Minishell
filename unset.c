@@ -14,7 +14,7 @@
 
 int is_exist(char *to_delte, t_env *list_env)
 {
-    t_env *tmp;
+    t_env   *tmp;
 
     tmp = list_env;
     while (tmp != NULL)
@@ -37,7 +37,8 @@ int is_valid_identifier(char *to_delete)
     {
         if (to_delete[i] == '_')
             i++;
-        else if (to_delete[i] == '=' || (i == 0 && ft_isdigit(to_delete[i]) == 1) || ft_isalnum(to_delete[i]) == 0)
+        else if (to_delete[i] == '=' || (i == 0
+                && ft_isdigit(to_delete[i]) == 1) || ft_isalnum(to_delete[i]) == 0)
             return (0);
         i++;
     }
@@ -72,10 +73,10 @@ int ft_unset(t_env **env_list, char **list_to_delete)
     return (ret);
 }
 
-void delete_env(t_env **env_list, char *to_delete)
+void    delete_env(t_env **env_list, char *to_delete)
 {
-    t_env *tmp;
-    t_env *previous;
+    t_env   *tmp;
+    t_env   *previous;
 
     tmp = *env_list;
     previous = NULL;
