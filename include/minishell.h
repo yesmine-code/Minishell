@@ -131,15 +131,15 @@ void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
 void		tab_init(char **str, int size);
 void 		init_com_struct(t_shellinfo *shell, char **commands);
-void sum_quotes(int *quotes_num, int *double_quotes_num, char *str);
-void remove_quotes(char *str, int *pos_tab);
+void 		sum_quotes(int *quotes_num, int *double_quotes_num, char *str);
+void 		remove_quotes(char *str, int *pos_tab);
 int			space_calcul(char *str);
 int 		tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
 void 		exit_minishell(char **arg, t_shellinfo shell);
-void free_str(char *s1, char *s2, char *s3, char *s4);
-void is_status_command(t_command *com_struct);
+void 		free_str(char *s1, char *s2, char *s3, char *s4);
+void 		is_status_command(t_command *com_struct);
 
 
 

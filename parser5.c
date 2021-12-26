@@ -6,13 +6,13 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 20:09:41 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/25 23:11:03 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/26 13:43:15 by ybesbes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int caculate_char_to_add(char **str, char *com)
+int	caculate_char_to_add(char **str, char *com)
 {
     int i;
     int char_to_add;
@@ -25,22 +25,22 @@ int caculate_char_to_add(char **str, char *com)
             char_to_add = char_to_add + ft_strlen(str[i]);
         i++;
     }
-    return (char_to_add);
+    return	(char_to_add);
 }
 
-int tab_next_index(char **tab)
+int	tab_next_index(char **tab)
 {
-    int i;
+    int	i;
 
     i = 0;
     while (tab[i] != NULL)
         i++;
-    return (i);
+    return	(i);
 }
 
-void tab_init(char **str, int size)
+void	tab_init(char **str, int size)
 {
-    int i;
+    int	i;
 
     i = 0;
     while (i < size)
@@ -50,12 +50,12 @@ void tab_init(char **str, int size)
     }
 }
 
-void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
+void	getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
 {
-    char *env;
-    int j;
-    unsigned int i;
-    int tmp;
+    char		*env;
+    int			j;
+    unsigned int	i;
+    int			tmp;
 
     j = 0;
     i = 0;
@@ -84,24 +84,25 @@ void getenv_doll(int *char_to_extract, char *com, t_shellinfo shell, char **str)
             i++;
     }
 }
-char *substitute_env_var(t_shellinfo shell, char *com)
+
+char	*substitute_env_var(t_shellinfo shell, char *com)
 {
-    char **str;
-    int char_to_extract;
-    int char_to_add;
-    char *buff;
+    char	**str;
+    int		char_to_extract;
+    int		char_to_add;
+    char	*buff;
 
     char_to_extract = 0;
     char_to_add = 0;
     str = malloc(sizeof(char *) * (char_numb(com, '$', 0, 0) + 1));
     if (str == NULL)
-        return NULL;
+        return (NULL);
     tab_init(str, char_numb(com, '$', 0, 0) + 1);
     getenv_doll(&char_to_extract, com, shell, str);
     char_to_add = caculate_char_to_add(str, com);
     buff = malloc(sizeof(char) * (ft_strlen(com) - char_to_extract + char_to_add + 1));
     if (buff == NULL)
-        return NULL;
+        return (NULL);
     dollar_between_quotes(str, com, buff);
     ft_free_tab(str);
     return (buff);

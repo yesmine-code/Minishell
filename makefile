@@ -15,7 +15,7 @@ NAME	 	= minishell
 SRCS		= main.c check.c pipe.c pwd.c free.c mini_split.c cd.c echo.c env.c \
 				putfile.c export.c unset.c signal.c export_utils.c pipe_utils.c \
 				parse_utils.c exit.c builtin_utils.c parser.c parser2.c parser3.c \
-				parser4.c parser5.c parser6.c 
+				parser4.c parser5.c parser6.c parce_cmd.c parce_cmd2.c
 
 INCLUDES	=	include
 
