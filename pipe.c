@@ -12,9 +12,22 @@
 
 #include "minishell.h"
 
-int ft_envsize(t_env *env)
+void	old_pipe_set(t_shellinfo *shell)
 {
-	int i;
+	shell->old_pipe[0] = malloc(sizeof(int));
+	if (shell->old_pipe[0] == NULL)
+		ft_exit(*shell, 0);
+	ft_memset(shell->old_pipe[0], 0, sizeof(int));
+	shell->old_pipe[1] = malloc(sizeof(int));
+	if (shell->old_pipe[1] == NULL)
+		ft_exit(*shell, 0);
+	ft_memset(shell->old_pipe[1], 0, sizeof(int));
+	shell->previous = 0;
+}
+
+int	ft_envsize(t_env *env)
+{
+	int	i;
 
 	i = 0;
 	while (env && env->var)
@@ -22,14 +35,14 @@ int ft_envsize(t_env *env)
 		i++;
 		env = env->next;
 	}
-	return i;
+	return (i);
 }
 
-char **convert_list_to_tab(t_env *env)
+char	**convert_list_to_tab(t_env *env)
 {
-	char **tab;
-	int tablen;
-	int i;
+	char	**tab;
+	int		tablen;
+	int		i;
 
 	i = 0;
 	tablen = ft_envsize(env);
@@ -44,15 +57,14 @@ char **convert_list_to_tab(t_env *env)
 	return (tab);
 }
 
-int execute_cmd(t_command com, t_shellinfo shell)
+int	execute_cmd(t_command com, t_shellinfo shell)
 {
-	char **arg;
-	int ret;
+	char	**arg;
+	int		ret;
 
 	ret = 0;
 	ret = check_for_files(com);
 	arg = create_tab(com, shell);
-
 	if (ft_strcompare(arg[0], "exit") == 1)
 		exit_minishell(arg, shell);
 	else if (ft_strcompare(arg[0], "pwd") == 1)
@@ -70,13 +82,13 @@ int execute_cmd(t_command com, t_shellinfo shell)
 	else
 		ret = find_and_execute(shell, arg);
 	ft_free_tab(arg);
-	return ret;
+	return (ret);
 }
 
-pid_t pipe_cmd(t_command com, t_shellinfo shell)
+pid_t	pipe_cmd(t_command com, t_shellinfo shell)
 {
-	int new_pipe[2];
-	pid_t cpid;
+	int		new_pipe[2];
+	pid_t	cpid;
 
 	ft_memset(new_pipe, 0x00, sizeof(new_pipe));
 	if (shell.coming)
@@ -91,13 +103,13 @@ pid_t pipe_cmd(t_command com, t_shellinfo shell)
 		g_shell_status = -1;
 		exit(EXIT_FAILURE);
 	}
-	else if (cpid == 0) // child
+	else if (cpid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		case_of_0_cpid(com, shell, new_pipe);
 	}
-	else // parent
+	else
 		case_of_positive_cpid(cpid, shell, new_pipe);
-	return cpid;
+	return (cpid);
 }

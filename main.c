@@ -12,15 +12,16 @@
 
 #include "include/minishell.h"
 
-pid_t executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
+pid_t	executer(t_command com_struct, t_shellinfo shell
+			, int i, char **commands)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
 	if (is_a_real_builtin(com_struct.com) == 0)
 	{
 		shell.execute = 1;
-		return pipe_cmd(com_struct, shell);
+		return (pipe_cmd(com_struct, shell));
 	}
 	else if (i == 0 && commands[i + 1] == NULL)
 	{
@@ -30,62 +31,58 @@ pid_t executer(t_command com_struct, t_shellinfo shell, int i, char **commands)
 	else
 	{
 		shell.execute = 0;
-		return pipe_cmd(com_struct, shell);
+		return (pipe_cmd(com_struct, shell));
 	}
 	return (ret);
 }
 
-void old_pipe_set(t_shellinfo *shell)
+void	wait_for_childs(int i, int pids)
 {
-	shell->old_pipe[0] = malloc(sizeof(int));
-	if (shell->old_pipe[0] == NULL)
-		ft_exit(*shell, 0);
-	ft_memset(shell->old_pipe[0], 0, sizeof(int));
-	shell->old_pipe[1] = malloc(sizeof(int));
-	if (shell->old_pipe[1] == NULL)
-		ft_exit(*shell, 0);
-	ft_memset(shell->old_pipe[1], 0, sizeof(int));
-	shell->previous = 0;
-}
-
-void init_com_struct(t_shellinfo *shell, char **commands)
-{
-	t_command com_struct;
-	struct termios term;
-	int i;
-	pid_t pids;
-
-	i = 0;
-	tcgetattr(fileno(stdin), &term);
-	while (commands && commands[i] != NULL)
-	{
-		shell->coming = (commands[i + 1] == NULL) ? 0 : 1;
-		com_struct = get_cmd(commands[i]);
-		pids = executer(com_struct, *shell, i, commands);
-		i++;
-		shell->previous = 1;
-		ft_free_cmd(&com_struct);
-	}
 	while (i > 0)
 	{
 		waitpid(pids, &g_shell_status, 0);
 		pids--;
 		i--;
 	}
+}
+
+void	init_com_struct(t_shellinfo *shell, char **commands)
+{
+	t_command		com_struct;
+	struct termios	term;
+	int				i;
+	pid_t			pids;
+
+	i = 0;
+	tcgetattr(fileno(stdin), &term);
+	while (commands && commands[i] != NULL)
+	{
+		if (commands[i + 1] == NULL)
+			shell->coming = 0;
+		else
+			shell->coming = 1;
+		com_struct = get_cmd(commands[i]);
+		pids = executer(com_struct, *shell, i, commands);
+		i++;
+		shell->previous = 1;
+		ft_free_cmd(&com_struct);
+	}
+	wait_for_childs(i, pids);
 	tcsetattr(fileno(stdin), TCSAFLUSH, &term);
 }
-void minishell_loop(char **env)
+
+void	minishell_loop(char **env)
 {
-	char **commands;
-	t_shellinfo shell;
-	char *tmp;
+	char		**commands;
+	t_shellinfo	shell;
+	char		*tmp;
 
 	init_env(&shell, env);
 	while (1)
 	{
 		tmp = read_check_and_trim(shell);
 		if (tmp == NULL)
-			continue;
+			continue ;
 		commands = ft_mini_split(tmp, '|');
 		free(tmp);
 		old_pipe_set(&shell);
@@ -95,7 +92,7 @@ void minishell_loop(char **env)
 	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	if (ac > 1)
 	{
