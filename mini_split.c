@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		ft_mini_count(char *s, char c)
+int	ft_mini_count(char *s, char c)
 {
 	int		i;
 	int		words;
@@ -29,7 +29,7 @@ int		ft_mini_count(char *s, char c)
 	return (words);
 }
 
-int		ft_mini_wordlen(char *s, char c)
+int	ft_mini_wordlen(char *s, char c)
 {
 	int		i;
 
@@ -37,15 +37,14 @@ int		ft_mini_wordlen(char *s, char c)
 	while (s[i] != '\0')
 	{
 		ft_skip_quotes(s, &i, 1);
-		if (s[i] == c )
+		if (s[i] == c)
 			break ;
 		i++;
-
 	}
 	return (i);
 }
 
-void		*mini_leak(char **ptr, int words)
+void	*mini_leak(char **ptr, int words)
 {
 	int	i;
 
@@ -59,7 +58,7 @@ void		*mini_leak(char **ptr, int words)
 	return (NULL);
 }
 
- char		**mini_fill(char  *s, int words, char c, char **ptr)
+char	**mini_fill(char *s, int words, char c, char **ptr)
 {
 	int		i;
 	int		j;
@@ -71,7 +70,8 @@ void		*mini_leak(char **ptr, int words)
 		while (*s == c)
 			s++;
 		len = ft_mini_wordlen(s, c);
-		if (!(ptr[i] = (char *)malloc(sizeof(char) * (len + 1))))
+		ptr[i] = (char *)malloc(sizeof(char) * (len + 1));
+		if (ptr[i] == NULL)
 			return (mini_leak(ptr, i));
 		j = 0;
 		while (j < len)
@@ -82,7 +82,7 @@ void		*mini_leak(char **ptr, int words)
 	return (ptr);
 }
 
-char			**ft_mini_split(char *s, char c)
+char	**ft_mini_split(char *s, char c)
 {
 	char	**ptr;
 	int		words;
@@ -90,7 +90,8 @@ char			**ft_mini_split(char *s, char c)
 	if (!s)
 		return (NULL);
 	words = ft_mini_count(s, c);
-	if (!(ptr = (char **)malloc(sizeof(char *) * (words + 1))))
+	ptr = (char **)malloc(sizeof(char *) * (words + 1));
+	if (ptr == NULL)
 		return (NULL);
 	ptr = mini_fill(s, words, c, ptr);
 	return (ptr);

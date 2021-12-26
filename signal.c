@@ -12,50 +12,49 @@
 
 #include "minishell.h"
 
-void    ctrl_c_handler(int sig, siginfo_t *info, void *context)
+void	ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
-    (void)context;
-    (void)sig;
-    printf("\n");
-    if (info->si_pid != 0)
-    {
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-    }
-    g_shell_status = 130;
-
+	(void)context;
+	(void)sig;
+	printf("\n");
+	if (info->si_pid != 0)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	g_shell_status = 130;
 }
 
-void    handle_ctrl_c()
+void	handle_ctrl_c(void)
 {
-    struct sigaction    sa;
+	struct sigaction	sa;
 
-    ft_memset(&sa, 0, sizeof(sa));
-    sa.sa_sigaction = ctrl_c_handler;
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGINT, &sa, NULL);
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_sigaction = ctrl_c_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGINT, &sa, NULL);
 }
 
-void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
+void	ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
 {
-    (void)context;
-    (void)sig;
-    if (info->si_pid == 0)
-    {
-        printf("Quit\n");
-        g_shell_status = 131;
-    }
-    else
-        printf("\b\b  \b\b");
+	(void)context;
+	(void)sig;
+	if (info->si_pid == 0)
+	{
+		printf("Quit\n");
+		g_shell_status = 131;
+	}
+	else
+		printf("\b\b  \b\b");
 }
 
-void    handle_ctrl_backslash()
+void	handle_ctrl_backslash(void)
 {
-    struct sigaction    sa;
+	struct sigaction	sa;
 
-    ft_memset(&sa, 0, sizeof(sa));
-    sa.sa_sigaction = ctrl_backslash_handler;
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGQUIT, &sa, NULL);
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_sigaction = ctrl_backslash_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGQUIT, &sa, NULL);
 }

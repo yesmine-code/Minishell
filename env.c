@@ -6,15 +6,15 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/25 20:02:33 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/26 17:35:43 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int env_with_arg(char *s)
+int	env_with_arg(char *s)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (s == NULL)
@@ -28,7 +28,7 @@ int env_with_arg(char *s)
 	return (0);
 }
 
-int ft_env(t_env *env, char **arg)
+int	ft_env(t_env *env, char **arg)
 {
 	if (env == NULL)
 		return (1);
@@ -48,14 +48,15 @@ int ft_env(t_env *env, char **arg)
 	return (0);
 }
 
-void add_env(t_env **env, char *str)
+void	add_env(t_env **env, char *str)
 {
-	t_env *tmp;
-	t_env *new;
+	t_env	*tmp;
+	t_env	*new;
 
 	tmp = *env;
-	if (!(new = malloc(sizeof(t_env))))
-		return;
+	new = malloc(sizeof(t_env));
+	if (new == NULL)
+		return ;
 	if (*env == NULL)
 	{
 		*env = new;
@@ -76,9 +77,9 @@ void add_env(t_env **env, char *str)
 	}
 }
 
-void init_env(t_shellinfo *shell, char **env)
+void	init_env(t_shellinfo *shell, char **env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = NULL;
 	while (*env)
@@ -87,44 +88,4 @@ void init_env(t_shellinfo *shell, char **env)
 		env++;
 	}
 	shell->env = tmp;
-}
-
-char *get_value(char *s)
-{
-	int i;
-	int count;
-	char *tmp;
-
-	i = 0;
-	count = 0;
-	if (s != NULL)
-	{
-		while (s[i])
-		{
-			count++;
-			if (s[i] == '=')
-			{
-				tmp = ft_substr(s, i + 1, ft_strlen(s) - count);
-				return (tmp);
-			}
-			i++;
-		}
-	}
-	return (ft_strdup(s));
-}
-
-char *get_name_env(char *s)
-{
-	int i;
-
-	i = 0;
-	if (s == NULL)
-		return (ft_strdup(""));
-	while (s[i])
-	{
-		if (s[i] == '=')
-			return (ft_substr(s, 0, i));
-		i++;
-	}
-	return (ft_strdup(s));
 }

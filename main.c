@@ -6,11 +6,13 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:46:30 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/24 22:36:43 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/26 18:02:50 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+int		g_shell_status;
 
 pid_t	executer(t_command com_struct, t_shellinfo shell
 			, int i, char **commands)
