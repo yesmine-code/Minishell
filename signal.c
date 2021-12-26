@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-int g_shell_status;
-
-void ctrl_c_handler(int sig, siginfo_t *info, void *context)
+void    ctrl_c_handler(int sig, siginfo_t *info, void *context)
 {
     (void)context;
     (void)sig;
@@ -29,9 +27,9 @@ void ctrl_c_handler(int sig, siginfo_t *info, void *context)
 
 }
 
-void handle_ctrl_c()
+void    handle_ctrl_c()
 {
-    struct sigaction sa;
+    struct sigaction    sa;
 
     ft_memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = ctrl_c_handler;
@@ -52,9 +50,9 @@ void ctrl_backslash_handler(int sig, siginfo_t *info, void *context)
         printf("\b\b  \b\b");
 }
 
-void handle_ctrl_backslash()
+void    handle_ctrl_backslash()
 {
-    struct sigaction sa;
+    struct sigaction    sa;
 
     ft_memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = ctrl_backslash_handler;

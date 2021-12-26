@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-char *ft_get_pwd(void)
+
+char	*ft_get_pwd(void)
 {
-	char *str;
-	char buf[1000];
+	char	*str;
+	char	buf[1000];
 
 	str = getcwd(buf, 1000);
 	return (str);
 }
 
-int ft_pwd(void)
+int	ft_pwd(void)
 {
-	char *str;
-	char buf[1000];
+	char	*str;
+	char	buf[1000];
 
 	str = getcwd(buf, 1000);
 	ft_putstr_fd(str, 1);

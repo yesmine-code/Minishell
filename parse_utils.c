@@ -12,7 +12,7 @@
 
 #include "include/minishell.h"
 
-void copy_to(char *str, char *dest, int *dest_start)
+void    copy_to(char *str, char *dest, int *dest_start)
 {
     int k;
 
@@ -24,7 +24,7 @@ void copy_to(char *str, char *dest, int *dest_start)
     }
 }
 
-void dollar_between_quotes(char **str, char *com, char *buff)
+void    dollar_between_quotes(char **str, char *com, char *buff)
 {
     int i;
     int j;
@@ -35,7 +35,8 @@ void dollar_between_quotes(char **str, char *com, char *buff)
     tmp = 0;
     while (com[i] != '\0')
     {
-        if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0 && ft_isspace(com[i + 1]) != 1 && com[i + 1] != '\0')
+        if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0
+            && ft_isspace(com[i + 1]) != 1 && com[i + 1] != '\0')
         {
             i++;
             if (com[i] == '?')
