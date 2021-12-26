@@ -12,7 +12,7 @@
 
 #include "include/minishell.h"
 
-int is_builtin(char *str)
+int	is_builtin(char *str)
 {
 	if (ft_strcompare(str, "cd") == 1)
 		return (1);
@@ -29,7 +29,7 @@ int is_builtin(char *str)
 	return (0);
 }
 
-int is_a_real_builtin(char *str)
+int	is_a_real_builtin(char *str)
 {
 	if (ft_strcompare(str, "cd") == 1)
 		return (1);
@@ -42,9 +42,10 @@ int is_a_real_builtin(char *str)
 	return (0);
 }
 
-int ft_strcompare(char *str1, char *str2)
+int	ft_strcompare(char *str1, char *str2)
 {
-	if (ft_strncmp(str1, str2, ft_strlen(str1)) == 0 && ft_strlen(str1) == ft_strlen(str2))
+	if (ft_strncmp(str1, str2, ft_strlen(str1)) == 0
+		&& ft_strlen(str1) == ft_strlen(str2))
 		return (1);
 	return (0);
 }
