@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/25 11:42:20 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/26 21:16:53 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int			is_builtin(char *str);
 int			is_a_real_builtin(char *str);
 t_command	get_cmd(char *command);
 void		parse_cmd(char *command, t_command *com_struct);
+void	update_env(t_env *env_to_update, char *arg);
 void		ft_free_cmd(t_command *com);
 char		**get_paths(t_shellinfo shell);
 char		*find_cmd_path(t_shellinfo shell,char *cmd);
