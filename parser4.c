@@ -47,8 +47,12 @@ int	is_it_between_quotes(char *str, int pos)
 			while ((str[i] != '\"' || str[i - 1] == '\\') && str[i] != '\0')
 				i++;
 		}
-		if (str[i] == '\'')
+		if (str[i] == '\'' && (i == 0 || str[i - 1] != '\\'))
+		{
 			result++;
+			while ((str[i] != '\'' || str[i - 1] == '\\') && str[i] != '\0')
+				i++;
+		}
 		i++;
 	}
 	if (result % 2 != 0 || result1 % 2 != 0)

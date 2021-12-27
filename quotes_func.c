@@ -66,7 +66,7 @@ void	check_single_quotes(char *com, int *pos_tab, int *i, int *j)
 	pos_tab[*j] = *i;
 	*j += 1;
 	*i += 1;
-	while (com[*i] != '\0' && com[*i] != '\'')
+	while (com[*i] != '\0' && (com[*i] != '\'' || com[*i - 1] == '\\'))
 		*i += 1;
 	pos_tab[*j] = *i;
 	*j += 1;
@@ -87,7 +87,7 @@ void	ft_delete_quotes(char *com)
 		{
 			check_double_quotes(com, pos_tab, &i, &j);
 		}
-		if (com[i] == '\'')
+		if (com[i] == '\'' && (i == 0 || com[i - 1] != '\\'))
 		{
 			check_single_quotes(com, pos_tab, &i, &j);
 		}

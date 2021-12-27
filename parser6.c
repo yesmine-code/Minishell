@@ -35,6 +35,7 @@ void	is_single_quotes(t_command com, int *i, int *j, char **tab)
 	while (com.args[*i] != '\0' && com.args[*i] != '\'')
 		*i += 1;
 	tab[*j] = ft_substr(com.args, tmp, *i - tmp + 1);
+	printf("%s\n", tab[*j]);
 	*j += 1;
 	*i += 1;
 }
@@ -44,7 +45,7 @@ void	is_char(t_command com, int *i, int *j, char **tab)
 	int	tmp;
 
 	tmp = *i;
-	while ((ft_isspace(com.args[*i]) == 0 && com.args[*i] != '\0')
+	while ((com.args[*i] != '\0' && ft_isspace(com.args[*i]) == 0)
 		|| is_it_between_quotes(com.args, *i) == 1)
 		*i += 1;
 	tab[*j] = ft_substr(com.args, tmp, *i - tmp);
