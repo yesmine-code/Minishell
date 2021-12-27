@@ -23,8 +23,7 @@ void	substitute_and_delete(t_shellinfo shell, char **tab)
 		c_tmp = substitute_env_var(shell, tab[i]);
 		if (tab[i] != NULL)
 			free(tab[i]);
-		tab[i] = ft_strdup(c_tmp);
-		free(c_tmp);
+		tab[i] = c_tmp;
 		ft_delete_quotes(tab[i]);
 	i++;
 	}
@@ -52,7 +51,7 @@ void	case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 		close(new_pipe[1]);
 	}
 	if (shell.execute && ft_strlen(com.com) > 0)
-		exit(execute_cmd(com, shell));
+		exit(execute_cmd(com, shell, NULL));
 	exit(EXIT_SUCCESS);
 }
 

@@ -66,8 +66,6 @@ void	ft_free_cmd(t_command *com)
 	ft_free_tab(com->output_files_append);
 	ft_free_tab(com->read_from_shell);
 	ft_free_tab(com->outputfiles);
-	if (com != NULL)
-		free(com);
 }
 
 void	free_str(char *s1, char *s2, char *s3, char *s4)

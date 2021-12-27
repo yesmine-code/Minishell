@@ -12,7 +12,7 @@
 
 #include "include/minishell.h"
 
-int	get_status(t_shellinfo shell, char *s, char **commands)
+int	get_status(char **arg, t_shellinfo shell, char *s, char **commands)
 {
 	int	i;
 	int	stat;
@@ -25,7 +25,7 @@ int	get_status(t_shellinfo shell, char *s, char **commands)
 		{
 			printf("exit\n");
 			printf("exit: %s:  numeric argument required\n", s);
-			ft_exit(shell, g_shell_status, commands);
+			ft_exit(arg, shell, g_shell_status, commands);
 		}
 		i++;
 	}
@@ -33,7 +33,7 @@ int	get_status(t_shellinfo shell, char *s, char **commands)
 	return (stat);
 }
 
-void	exit_minishell(char **arg, t_shellinfo shell, char **commands)
+void	exit_minishell(t_command com, char **arg, t_shellinfo shell, char **commands)
 {
 	int	stat;
 
@@ -41,24 +41,28 @@ void	exit_minishell(char **arg, t_shellinfo shell, char **commands)
 	if (arg[1] == NULL)
 	{
 		printf("exit\n");
-		ft_exit(shell, g_shell_status, commands);
+		ft_free_cmd(&com);
+		ft_exit(arg, shell, g_shell_status, commands);
 	}
 	else if (arg[2] != NULL)
 	{
 		printf("exit\n");
 		printf("exit: too many arguments\n");
-		ft_exit(shell, g_shell_status, commands);
+		ft_free_cmd(&com);
+		ft_exit(arg, shell, g_shell_status, commands);
 	}
 	else
 	{
-		stat = get_status(shell, arg[1], commands);
+		stat = get_status(arg, shell, arg[1], commands);
 		printf("exit\n");
-		ft_exit(shell, stat, commands);
+		ft_free_cmd(&com);
+		ft_exit(arg, shell, stat, commands);
 	}
 }
 
-void	ft_exit(t_shellinfo shell, int stat, char **commands)
+void	ft_exit(char **arg, t_shellinfo shell, int stat, char **commands)
 {
+	ft_free_tab(arg);
 	ft_free_tab(commands);
 	ft_free_old_pipe(shell);
 	free_env_list(shell.env);
