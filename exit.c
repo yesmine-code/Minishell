@@ -33,7 +33,8 @@ int	get_status(char **arg, t_shellinfo shell, char *s, char **commands)
 	return (stat);
 }
 
-void	exit_minishell(t_command com, char **arg, t_shellinfo shell, char **commands)
+void	exit_minishell(t_command com, char **arg,
+		t_shellinfo shell, char **commands)
 {
 	int	stat;
 

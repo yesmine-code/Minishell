@@ -140,7 +140,8 @@ int			space_calcul(char *str);
 int			tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
-void		exit_minishell(t_command com, char **arg, t_shellinfo shell, char **commands);
+void		exit_minishell(t_command com, char **arg,
+				t_shellinfo shell, char **commands);
 void		free_str(char *s1, char *s2, char *s3, char *s4);
 void		is_status_command(t_command *com_struct);
 void		parse_single_input_redirect(char *command, int *position,
