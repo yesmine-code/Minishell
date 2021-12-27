@@ -82,6 +82,8 @@ void	minishell_loop(char **env)
 	init_env(&shell, env);
 	while (1)
 	{
+		shell.old_pipe[0] = NULL;
+		shell.old_pipe[1] = NULL;
 		tmp = read_check_and_trim(shell);
 		if (tmp == NULL)
 			continue ;
