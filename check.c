@@ -82,7 +82,7 @@ char	*read_check_and_trim(t_shellinfo shell)
 	if (str == NULL)
 	{
 		printf("\n");
-		ft_exit(shell, 0);
+		ft_exit(shell, 0, NULL);
 	}
 	tmp = ft_strtrim(str, " \t\r\f\v\n");
 	free(str);

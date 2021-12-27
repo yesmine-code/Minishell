@@ -27,7 +27,7 @@ pid_t	executer(t_command com_struct, t_shellinfo shell
 	}
 	else if (i == 0 && commands[i + 1] == NULL)
 	{
-		ret = execute_cmd(com_struct, shell);
+		ret = execute_cmd(com_struct, shell, commands);
 		g_shell_status = ret;
 	}
 	else
@@ -87,7 +87,7 @@ void	minishell_loop(char **env)
 			continue ;
 		commands = ft_mini_split(tmp, '|');
 		free(tmp);
-		old_pipe_set(&shell);
+		old_pipe_set(&shell, commands);
 		init_com_struct(&shell, commands);
 		ft_free_tab(commands);
 		ft_free_old_pipe(shell);

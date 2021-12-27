@@ -65,7 +65,7 @@ typedef struct s_shellinfo
 char		**create_tab(t_command com, t_shellinfo shell);
 char		*ft_get_pwd(void);
 char		*read_check_and_trim(t_shellinfo shell);
-int			execute_cmd(t_command com, t_shellinfo shell);
+int			execute_cmd(t_command com, t_shellinfo shell, char **commands);
 int			char_numb(char *str, char c, int two, int skip_double_q);
 int			check_syntax_errors(char *str);
 pid_t		pipe_cmd(t_command com, t_shellinfo shell);
@@ -128,8 +128,8 @@ int			caculate_char_to_add(char **str, char *com);
 void		dollar_between_quotes(char **str, char *com, char *buff);
 int			executer(t_command com_struct, t_shellinfo shell,
 				int i, char **commands);
-void		old_pipe_set(t_shellinfo *shell);
-void		ft_exit(t_shellinfo shell, int stat);
+void		old_pipe_set(t_shellinfo *shell, char **commands);
+void		ft_exit(t_shellinfo shell, int stat, char **commands);
 void		free_env_list(t_env *env_list);
 void		ft_free_old_pipe(t_shellinfo shell);
 void		tab_init(char **str, int size);
@@ -140,7 +140,7 @@ int			space_calcul(char *str);
 int			tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
-void		exit_minishell(char **arg, t_shellinfo shell);
+void		exit_minishell(char **arg, t_shellinfo shell, char **commands);
 void		free_str(char *s1, char *s2, char *s3, char *s4);
 void		is_status_command(t_command *com_struct);
 void		parse_single_input_redirect(char *command, int *position,

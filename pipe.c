@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-void	old_pipe_set(t_shellinfo *shell)
+void	old_pipe_set(t_shellinfo *shell, char **commands)
 {
 	shell->old_pipe[0] = malloc(sizeof(int));
 	if (shell->old_pipe[0] == NULL)
-		ft_exit(*shell, 0);
+		ft_exit(*shell, 0, commands);
 	ft_memset(shell->old_pipe[0], 0, sizeof(int));
 	shell->old_pipe[1] = malloc(sizeof(int));
 	if (shell->old_pipe[1] == NULL)
-		ft_exit(*shell, 0);
+		ft_exit(*shell, 0, commands);
 	ft_memset(shell->old_pipe[1], 0, sizeof(int));
 	shell->previous = 0;
 }
@@ -57,7 +57,7 @@ char	**convert_list_to_tab(t_env *env)
 	return (tab);
 }
 
-int	execute_cmd(t_command com, t_shellinfo shell)
+int	execute_cmd(t_command com, t_shellinfo shell, char **commands)
 {
 	char	**arg;
 	int		ret;
@@ -66,7 +66,7 @@ int	execute_cmd(t_command com, t_shellinfo shell)
 	ret = check_for_files(com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "exit") == 1)
-		exit_minishell(arg, shell);
+		exit_minishell(arg, shell, commands);
 	else if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
 	else if (ft_strcompare(arg[0], "cd") == 1)

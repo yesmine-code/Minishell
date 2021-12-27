@@ -23,7 +23,8 @@ void	substitute_and_delete(t_shellinfo shell, char **tab)
 		c_tmp = substitute_env_var(shell, tab[i]);
 		if (tab[i] != NULL)
 			free(tab[i]);
-		tab[i] = c_tmp;
+		tab[i] = ft_strdup(c_tmp);
+		free(c_tmp);
 		ft_delete_quotes(tab[i]);
 	i++;
 	}
