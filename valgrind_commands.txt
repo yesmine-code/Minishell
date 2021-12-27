@@ -1,0 +1,8 @@
+log file
+valgrind --leak-check=full --show-reachable=yes --error-limit=no --gen-suppressions=all --log-file=./suppress.log ./minishell 
+
+supression file
+cat ./suppress.log | ./parse_valgrind_suppressions.sh > minishel.supp
+
+command
+valgrind --leak-check=full --show-reachable=yes --error-limit=no --suppressions=./minishell.supp ./minishell
