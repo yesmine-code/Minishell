@@ -30,6 +30,16 @@ int	is_it_between_simple_quotes(char *str, int pos)
 	return (0);
 }
 
+void	double_qtes_enum(char *str, int *i, int *result1)
+{
+	if (str[*i] == '\"' && (*i == 0 || str[*i - 1] != '\\'))
+	{
+		*result1 = *result1 + 1;
+		while ((str[*i] != '\"' || str[*i - 1] == '\\') && str[*i] != '\0')
+			*i = *i + 1;
+	}
+}
+
 int	is_it_between_quotes(char *str, int pos)
 {
 	int	i;
@@ -41,12 +51,7 @@ int	is_it_between_quotes(char *str, int pos)
 	result1 = 0;
 	while (i < pos)
 	{
-		if (str[i] == '\"' && (i == 0 || str[i - 1] != '\\'))
-		{
-			result1++;
-			while ((str[i] != '\"' || str[i - 1] == '\\') && str[i] != '\0')
-				i++;
-		}
+		double_qtes_enum(str, &i, &result1);
 		if (str[i] == '\'' && (i == 0 || str[i - 1] != '\\'))
 		{
 			result++;
