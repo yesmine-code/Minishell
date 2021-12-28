@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 22:37:26 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/20 18:24:05 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/28 11:06:31 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*get_path(char *arg)
 {
 	char	*path;
 
-	if (ft_strncmp(arg, "~/", 2) == 0)
+	if (ft_strcompare(arg, "~/") == 1)
 		path = ft_substr(arg, 2, (ft_strlen(arg) - 2));
 	else
 		path = ft_strdup(arg);
@@ -68,7 +68,8 @@ int	ft_cd(char **arg)
 		printf("cd: too many arguments\n");
 		return (1);
 	}
-	if (arg[1] == NULL || (ft_strcompare(arg[1], "~") == 1))
+	if (arg[1] == NULL || (ft_strcompare(arg[1], "~") == 1)
+		|| (ft_strcompare(arg[1], "~/") == 1))
 		return (ret = home_path());
 	path = get_path(arg[1]);
 	ret = change_path(path);
