@@ -6,13 +6,13 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 14:59:29 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/16 15:47:35 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/28 11:46:34 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-int	get_status(char **arg, t_shellinfo shell, char *s, char **commands)
+int	get_status(char *s)
 {
 	int	i;
 	int	stat;
@@ -25,7 +25,7 @@ int	get_status(char **arg, t_shellinfo shell, char *s, char **commands)
 		{
 			printf("exit\n");
 			printf("exit: %s:  numeric argument required\n", s);
-			ft_exit(arg, shell, g_shell_status, commands);
+			return (2);
 		}
 		i++;
 	}
@@ -54,7 +54,7 @@ void	exit_minishell(t_command com, char **arg,
 	}
 	else
 	{
-		stat = get_status(arg, shell, arg[1], commands);
+		stat = get_status(arg[1]);
 		printf("exit\n");
 		ft_free_cmd(&com);
 		ft_exit(arg, shell, stat, commands);
