@@ -35,7 +35,6 @@ void	is_single_quotes(t_command com, int *i, int *j, char **tab)
 	while (com.args[*i] != '\0' && com.args[*i] != '\'')
 		*i += 1;
 	tab[*j] = ft_substr(com.args, tmp, *i - tmp + 1);
-	printf("%s\n", tab[*j]);
 	*j += 1;
 	*i += 1;
 }
