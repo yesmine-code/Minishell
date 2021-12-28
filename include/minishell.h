@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/26 21:16:53 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/28 12:01:19 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_shellinfo
 }				t_shellinfo;
 
 char		**create_tab(t_command com, t_shellinfo shell);
-char		*ft_get_pwd(void);
 char		*read_check_and_trim(t_shellinfo shell);
 int			execute_cmd(t_command com, t_shellinfo shell, char **commands);
 int			char_numb(char *str, char c, int two, int skip_double_q);
