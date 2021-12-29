@@ -24,7 +24,7 @@ void	sum_quotes(int *quotes_num, int *double_quotes_num, char *str)
 			*double_quotes_num = *double_quotes_num + 1;
 			i++;
 			while (str[i] != '\0' && (str[i] != '\"' || str[i - 1] == '\\'))
-			i++;
+				i++;
 			*double_quotes_num = *double_quotes_num + 1;
 		}
 		if (str[i] == '\'' && (i == 0 || str[i - 1] != '\\'))
@@ -35,7 +35,7 @@ void	sum_quotes(int *quotes_num, int *double_quotes_num, char *str)
 				i++;
 			*quotes_num = *quotes_num + 1;
 		}
-	i++;
+		i++;
 	}
 }
 

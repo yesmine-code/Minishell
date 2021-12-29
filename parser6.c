@@ -12,40 +12,13 @@
 
 #include "include/minishell.h"
 
-void	is_double_quotes(t_command com, int *i, int *j, char **tab)
-{
-	int	tmp;
-
-	tmp = *i;
-	*i += 1;
-	while (com.args[*i] != '\0' && (com.args[*i] != '\"'
-			|| com.args[*i - 1] == '\\'))
-		*i += 1;
-	tab[*j] = ft_substr(com.args, tmp, *i - tmp + 1);
-	*j += 1;
-	*i += 1;
-}
-
-void	is_single_quotes(t_command com, int *i, int *j, char **tab)
-{
-	int	tmp;
-
-	tmp = *i;
-	*i += 1;
-	while (com.args[*i] != '\0' && com.args[*i] != '\'')
-		*i += 1;
-	tab[*j] = ft_substr(com.args, tmp, *i - tmp + 1);
-	*j += 1;
-	*i += 1;
-}
-
 void	is_char(t_command com, int *i, int *j, char **tab)
 {
 	int	tmp;
 
 	tmp = *i;
-	while ((com.args[*i] != '\0' && ft_isspace(com.args[*i]) == 0)
-		|| is_it_between_quotes(com.args, *i) == 1)
+	while (com.args[*i] != '\0' && (ft_isspace(com.args[*i]) == 0
+			|| is_it_between_quotes(com.args, *i) == 1))
 		*i += 1;
 	tab[*j] = ft_substr(com.args, tmp, *i - tmp);
 	*j += 1;
@@ -64,11 +37,7 @@ char	**create_tab(t_command com, t_shellinfo shell)
 		return (NULL);
 	while (com.args[i] != '\0')
 	{
-		if (com.args[i] == '\"' && (i == 0 || com.args[i - 1] != '\\'))
-			is_double_quotes(com, &i, &j, tab);
-		else if (com.args[i] == '\'')
-			is_single_quotes(com, &i, &j, tab);
-		else if (ft_isspace(com.args[i]) == 0)
+		if (ft_isspace(com.args[i]) == 0)
 			is_char(com, &i, &j, tab);
 		else
 			i++;

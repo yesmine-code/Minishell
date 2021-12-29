@@ -25,7 +25,7 @@ void	substitute_and_delete(t_shellinfo shell, char **tab)
 			free(tab[i]);
 		tab[i] = c_tmp;
 		ft_delete_quotes(tab[i]);
-	i++;
+		i++;
 	}
 }
 
