@@ -117,7 +117,6 @@ void		ft_sort(t_env *list);
 int			without_arg(t_env *env);
 char		*to_lowercase(char *s1);
 void		case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[]);
-void		substitute_and_delete(t_shellinfo shell, char **tab);
 void		case_of_positive_cpid(pid_t cpid,
 				t_shellinfo shell, int new_pipe[]);
 int			find_and_execute(t_shellinfo shell, char **arg);
@@ -152,5 +151,6 @@ void		parse_single_output_redirect(char *command, int *position,
 void		parse_double_output_redirect(char *command, int *position,
 				t_command *com_struct);
 void		cmd_init(char *command, t_command *com_struct);
+void		ft_delete_qt(char **tab);
 
 #endif

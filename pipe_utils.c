@@ -12,18 +12,13 @@
 
 #include "include/minishell.h"
 
-void	substitute_and_delete(t_shellinfo shell, char **tab)
+void	ft_delete_qt(char **tab)
 {
-	char	*c_tmp;
 	int		i;
 
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		c_tmp = substitute_env_var(shell, tab[i]);
-		if (tab[i] != NULL)
-			free(tab[i]);
-		tab[i] = c_tmp;
 		ft_delete_quotes(tab[i]);
 		i++;
 	}
