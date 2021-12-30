@@ -70,11 +70,12 @@ void	get_line(char **str, char **line)
 	free(tmp);
 }
 
-void	ft_read_from_shell(t_command com, int dupit)
+void	ft_read_from_shell(t_shellinfo shell, t_command com, int dupit)
 {
 	int		i;
 	char	*line;
 	char	*str;
+	char	*tmp;
 
 	i = 0;
 	str = ft_strdup("");
@@ -85,11 +86,13 @@ void	ft_read_from_shell(t_command com, int dupit)
 			line = readline("heredoc>");
 			if (line == NULL)
 				break ;
-			if (ft_strcompare(line, com.read_from_shell[i]) == 1)
+			tmp = substitute_env_var(shell, line);
+			free(line);
+			if (ft_strcompare(tmp, com.read_from_shell[i]) == 1)
 				i++;
 			else
-				get_line(&str, &line);
-			free(line);
+				get_line(&str, &tmp);
+			free(tmp);
 		}
 		heredoc_helper(str, dupit);
 	}

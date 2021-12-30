@@ -51,3 +51,39 @@ char	**create_tab(t_command com, t_shellinfo shell)
 	free(tmp);
 	return (tab);
 }
+
+int	com_belong_in_paths(char **paths, char *com)
+{
+	int		i;
+	char	*tmp;
+
+	i = (int)ft_strlen(com);
+	while (i > 0 && com[i] != '/')
+		i--;
+	if (i == 0)
+		return (0);
+	tmp = ft_substr(com, 0, i);
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		if (ft_strcompare(paths[i], tmp) == 1)
+		{
+			free(tmp);
+			return (1);
+		}
+		i++;
+	}
+	free(tmp);
+	return (0);
+}
+
+char	*join_with_slash(char **path_tab, char *cmd, int *i)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	tmp2 = ft_strjoin(path_tab[*i], "/");
+	tmp = ft_strjoin(tmp2, cmd);
+	free(tmp2);
+	return (tmp);
+}

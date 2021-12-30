@@ -94,7 +94,7 @@ int			ft_infile(t_command com, int dupIt);
 void		init_env(t_shellinfo *shell, char **env);
 int			ft_outfile(t_command com, int dupIt);
 int			ft_outfile_append(t_command com, int dupIt);
-void		ft_read_from_shell(t_command com, int dupIt);
+void		ft_read_from_shell(t_shellinfo shell, t_command com, int dupIt);
 int			execute_input_output(t_command com);
 char		*get_name_env(char *s);
 int			ft_export(t_env *env, char **arg);
@@ -121,7 +121,7 @@ void		case_of_positive_cpid(pid_t cpid,
 				t_shellinfo shell, int new_pipe[]);
 int			find_and_execute(t_shellinfo shell, char **arg);
 char		**convert_list_to_tab(t_env *env);
-int			check_for_files(t_command com);
+int			check_for_files(t_shellinfo shell, t_command com);
 int			caculate_char_to_add(char **str, char *com);
 void		dollar_between_quotes(char **str, char *com, char *buff);
 int			executer(t_command com_struct, t_shellinfo shell,
@@ -152,5 +152,7 @@ void		parse_double_output_redirect(char *command, int *position,
 				t_command *com_struct);
 void		cmd_init(char *command, t_command *com_struct);
 void		ft_delete_qt(char **tab);
+int			com_belong_in_paths(char **paths, char *com);
+char		*join_with_slash(char **path_tab, char *cmd, int *i);
 
 #endif

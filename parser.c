@@ -39,17 +39,17 @@ char	*find_cmd_path(t_shellinfo shell, char *cmd)
 	char	**path_tab;
 	int		i;
 	char	*tmp;
-	char	*tmp2;
 
 	i = 0;
-	if (access(cmd, F_OK) == 0)
-		return (ft_strdup(cmd));
 	path_tab = get_paths(shell);
+	if (access(cmd, F_OK) == 0 && com_belong_in_paths(path_tab, cmd) == 1)
+	{
+		ft_free_tab(path_tab);
+		return (ft_strdup(cmd));
+	}
 	while (path_tab[i] != NULL)
 	{
-		tmp2 = ft_strjoin(path_tab[i], "/");
-		tmp = ft_strjoin(tmp2, cmd);
-		free(tmp2);
+		tmp = join_with_slash(path_tab, cmd, &i);
 		if (access(tmp, F_OK) == 0)
 		{
 			ft_free_tab(path_tab);

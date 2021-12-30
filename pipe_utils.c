@@ -26,7 +26,7 @@ void	ft_delete_qt(char **tab)
 
 void	case_of_0_cpid(t_command com, t_shellinfo shell, int new_pipe[])
 {
-	ft_read_from_shell(com, 1);
+	ft_read_from_shell(shell, com, 1);
 	if (ft_infile(com, 1) < 0)
 		exit(EXIT_FAILURE);
 	if (shell.previous == 1)
@@ -65,11 +65,11 @@ void	case_of_positive_cpid(pid_t cpid, t_shellinfo shell, int new_pipe[])
 	}
 }
 
-int	check_for_files(t_command com)
+int	check_for_files(t_shellinfo shell, t_command com)
 {
 	if (is_a_real_builtin(com.com) == 1)
 	{
-		ft_read_from_shell(com, 0);
+		ft_read_from_shell(shell, com, 0);
 		if (ft_infile(com, 0) < 0 || ft_outfile(com, 0) < 0
 			|| ft_outfile_append(com, 0) < 0)
 			return (1);
