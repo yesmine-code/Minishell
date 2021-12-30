@@ -92,6 +92,7 @@ void	ft_read_from_shell(t_shellinfo shell, t_command com, int dupit)
 				i++;
 			else
 				get_line(&str, &tmp);
+			free(tmp);
 		}
 		heredoc_helper(str, dupit);
 	}
