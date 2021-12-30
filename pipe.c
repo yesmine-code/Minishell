@@ -63,7 +63,7 @@ int	execute_cmd(t_command com, t_shellinfo shell, char **commands)
 	int		ret;
 
 	ret = 0;
-	ret = check_for_files(com);
+	ret = check_for_files(shell, com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "exit") == 1)
 		exit_minishell(com, arg, shell, commands);
