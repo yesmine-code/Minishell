@@ -96,7 +96,7 @@ pid_t	pipe_cmd(t_command com, t_shellinfo shell)
 		if (pipe(new_pipe) < 0)
 			exit(EXIT_FAILURE);
 	}
-	if(ft_strcompare(com.com, "./minishell") == 1)
+	if (ft_strcompare(com.com, "./minishell") == 1)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
