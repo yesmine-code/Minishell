@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/30 10:44:36 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/30 22:31:13 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ pid_t	pipe_cmd(t_command com, t_shellinfo shell)
 	if (ft_strcompare(com.com, "./minishell") == 1)
 	{
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
 	}
+	if (com.read_from_shell != NULL)
+		signal(SIGQUIT, SIG_IGN);
 	cpid = fork();
 	if (cpid < 0)
 	{
@@ -111,7 +112,7 @@ pid_t	pipe_cmd(t_command com, t_shellinfo shell)
 	else if (cpid == 0)
 	{		
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		//signal(SIGQUIT, SIG_DFL);
 		if (com.read_from_shell != NULL)	
 		{	
 			signal(SIGQUIT, SIG_IGN);
