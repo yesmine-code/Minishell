@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <errno.h>
+# include <sys/stat.h>
 # include <termios.h>
 
 extern int	g_shell_status;
@@ -152,7 +153,8 @@ void		parse_double_output_redirect(char *command, int *position,
 				t_command *com_struct);
 void		cmd_init(char *command, t_command *com_struct);
 void		ft_delete_qt(char **tab);
-int			com_belong_in_paths(char **paths, char *com);
 char		*join_with_slash(char **path_tab, char *cmd, int *i);
+int			is_file_and_executable(char *cmd);
+int			slash_exist(char *com);
 
 #endif

@@ -52,29 +52,16 @@ char	**create_tab(t_command com, t_shellinfo shell)
 	return (tab);
 }
 
-int	com_belong_in_paths(char **paths, char *com)
+int	slash_exist(char *com)
 {
 	int		i;
-	char	*tmp;
 
 	i = (int)ft_strlen(com);
 	while (i > 0 && com[i] != '/')
 		i--;
 	if (i == 0)
 		return (0);
-	tmp = ft_substr(com, 0, i);
-	i = 0;
-	while (paths[i] != NULL)
-	{
-		if (ft_strcompare(paths[i], tmp) == 1)
-		{
-			free(tmp);
-			return (1);
-		}
-		i++;
-	}
-	free(tmp);
-	return (0);
+	return (1);
 }
 
 char	*join_with_slash(char **path_tab, char *cmd, int *i)
@@ -86,4 +73,15 @@ char	*join_with_slash(char **path_tab, char *cmd, int *i)
 	tmp = ft_strjoin(tmp2, cmd);
 	free(tmp2);
 	return (tmp);
+}
+
+int	is_file_and_executable(char *cmd)
+{
+	struct stat	stt;
+
+	if (access(cmd, F_OK | X_OK) == 0 && slash_exist(cmd) == 1
+		&& (stat(cmd, &stt) == 0) && (S_IXUSR & stt.st_mode)
+		&& (S_ISREG(stt.st_mode) == 1))
+		return (1);
+	return (0);
 }

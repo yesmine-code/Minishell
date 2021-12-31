@@ -42,7 +42,7 @@ char	*find_cmd_path(t_shellinfo shell, char *cmd)
 
 	i = 0;
 	path_tab = get_paths(shell);
-	if (access(cmd, F_OK) == 0 && com_belong_in_paths(path_tab, cmd) == 1)
+	if (is_file_and_executable(cmd) == 1)
 	{
 		ft_free_tab(path_tab);
 		return (ft_strdup(cmd));
