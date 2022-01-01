@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:04:27 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/26 17:35:43 by mrahmani         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:23:30 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ int	ft_env(t_env *env, char **arg)
 {
 	if (env == NULL)
 		return (1);
+	if (is_exist("PATH", env) == 0)
+	{
+		printf("env: No such file or directory\n");
+		return (127);
+	}
 	if (env_with_arg(arg[1]) == 0 && arg[1] != NULL)
 	{
 		printf("env: '%s': No such file or directory\n", arg[1]);
@@ -44,6 +49,8 @@ int	ft_env(t_env *env, char **arg)
 			printf("%s\n", env->var);
 			env = env->next;
 		}
+		if (arg[1] != NULL)
+			printf("%s\n", arg[1]);
 	}
 	return (0);
 }

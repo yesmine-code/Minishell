@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2022/01/01 12:49:49 by mrahmani         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:21:02 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,6 @@ int			is_file_and_executable(char *cmd);
 int			slash_exist(char *com);
 void		exit_with_error(void);
 void		reset_signal(void);
+int			is_exist(char *to_delte, t_env *list_env);
 
 #endif
