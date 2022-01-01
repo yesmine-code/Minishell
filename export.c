@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 10:21:10 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/26 21:24:01 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/31 22:52:06 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	is_valid_env(char *s)
 			i++;
 		else if (ft_isalnum(s[i]) == 0 || (i == 0 && ft_isdigit(s[i]) == 1))
 			return (0);
-	i++;
+		else
+			i++;
 	}
 	return (1);
 }

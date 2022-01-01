@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 10:09:57 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/30 22:31:13 by mrahmani         ###   ########.fr       */
+/*   Updated: 2022/01/01 11:51:29 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	execute_cmd(t_command com, t_shellinfo shell, char **commands)
 	ret = check_for_files(shell, com);
 	arg = create_tab(com, shell);
 	if (ft_strcompare(arg[0], "exit") == 1)
-		exit_minishell(com, arg, shell, commands);
+		ret = exit_minishell(com, arg, shell, commands);
 	else if (ft_strcompare(arg[0], "pwd") == 1)
 		ret = ft_pwd();
 	else if (ft_strcompare(arg[0], "cd") == 1)
@@ -97,26 +97,15 @@ pid_t	pipe_cmd(t_command com, t_shellinfo shell)
 			exit(EXIT_FAILURE);
 	}
 	if (ft_strcompare(com.com, "./minishell") == 1)
-	{
-		signal(SIGINT, SIG_IGN);
-	}
-	if (com.read_from_shell != NULL)
+		reset_signal();
+	if (com.expected_words_num != 0)
 		signal(SIGQUIT, SIG_IGN);
 	cpid = fork();
 	if (cpid < 0)
-	{
-		perror("creating fork failed");
-		g_shell_status = -1;
-		exit(EXIT_FAILURE);
-	}
+		exit_with_error();
 	else if (cpid == 0)
 	{		
 		signal(SIGINT, SIG_DFL);
-		//signal(SIGQUIT, SIG_DFL);
-		if (com.read_from_shell != NULL)	
-		{	
-			signal(SIGQUIT, SIG_IGN);
-		}
 		case_of_0_cpid(com, shell, new_pipe);
 	}
 	else

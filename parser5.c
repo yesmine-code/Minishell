@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 20:09:41 by mrahmani          #+#    #+#             */
-/*   Updated: 2021/12/30 11:57:36 by mrahmani         ###   ########.fr       */
+/*   Updated: 2021/12/31 22:18:58 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	*get_status_value(unsigned int *i)
 	return (ft_itoa(status));
 }
 
-void	getenv_doll(int *char_to_extract, char *com,
-		t_shellinfo shell, char **str)
+void	getenv_doll(int *to_extract, char *com, t_shellinfo shell, char **s)
 {
 	unsigned int	i;
 	char			*env;
@@ -66,16 +65,16 @@ void	getenv_doll(int *char_to_extract, char *com,
 	while (i < ft_strlen(com))
 	{
 		if (com[i] == '$' && com[i + 1] != '\0' && com[i + 1] == '?')
-			str[j++] = get_status_value(&i);
+			s[j++] = get_status_value(&i);
 		else if (com[i] == '$' && is_it_between_simple_quotes(com, i) == 0)
 		{
 			i++;
 			tmp = i;
-			while ((ft_isalnum(com[i]) == 1 || com[i] == '_') && com[i] != '"' && com[i] != '\0')
+			while (com[i] != '\0' && (ft_isalnum(com[i]) == 1 || com[i] == '_'))
 				i++;
 			env = ft_substr(com, tmp, i - tmp);
-			*char_to_extract = *char_to_extract + ft_strlen(env) + 1;
-			str[j++] = getenv_value_from_list(shell, env);
+			*to_extract = *to_extract + ft_strlen(env) + 1;
+			s[j++] = getenv_value_from_list(shell, env);
 			free_str(env, NULL, NULL, NULL);
 		}
 		else

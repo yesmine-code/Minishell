@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:48:04 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/28 12:01:19 by mrahmani         ###   ########.fr       */
+/*   Updated: 2022/01/01 12:49:49 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int			space_calcul(char *str);
 int			tab_next_index(char **tab);
 void		ft_delete_backslash(char *com);
 void		ft_remove_char(char *str, int pos);
-void		exit_minishell(t_command com, char **arg,
+int			exit_minishell(t_command com, char **arg,
 				t_shellinfo shell, char **commands);
 void		free_str(char *s1, char *s2, char *s3, char *s4);
 void		is_status_command(t_command *com_struct);
@@ -156,5 +156,7 @@ void		ft_delete_qt(char **tab);
 char		*join_with_slash(char **path_tab, char *cmd, int *i);
 int			is_file_and_executable(char *cmd);
 int			slash_exist(char *com);
+void		exit_with_error(void);
+void		reset_signal(void);
 
 #endif

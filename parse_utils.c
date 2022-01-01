@@ -6,7 +6,7 @@
 /*   By: mrahmani <mrahmani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 13:03:48 by ybesbes           #+#    #+#             */
-/*   Updated: 2021/12/26 22:54:45 by ybesbes          ###   ########.fr       */
+/*   Updated: 2021/12/31 22:28:07 by mrahmani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,17 @@ void	dollar_between_quotes(char **str, char *com, char *buff)
 			buff[j++] = com[i++];
 	}
 	buff[j] = '\0';
+}
+
+void	exit_with_error(void)
+{
+	perror("creating fork failed");
+	g_shell_status = -1;
+	exit(EXIT_FAILURE);
+}
+
+void	reset_signal(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
